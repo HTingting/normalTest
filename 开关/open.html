@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {display:none;}
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+    .deduct_wrapper{
+        display:flex;
+        justify-content: space-around;
+    }
+    .deduct_wrapper .title{
+        font-size: 16px;
+    }
+    .deduct_wrapper .title_tips{
+        font-size: 12px;
+    }
+    .btn_area p{
+        font-size: 12px;
+    }
+
+</style>
+<body>
+    <div class="deduct_wrapper">
+        <div class="title_area">
+            <p class="title">赠送现金</p>
+            <p class="title_tips">与券不可使用</p>
+        </div>
+        <div class="btn_area">
+            <label class="switch">
+                <input type="checkbox" id="cash_btn">
+                <div class="slider round"></div>
+            </label>
+            <p>可抵扣1元</p>
+        </div>
+
+    </div>
+</body>
+<script src="./../购物车/js/jquery-1.11.1.min.js"></script>
+<script>
+    var useResUrl = '/wap/cart-use-channel-deduction.html';
+    var cancelUseResUrl = '/wap/cart-cancel-channel-deduction.html';
+    $("#cash_btn").change(function() {
+        //如果当前选中，则为取消
+        if($(this).is(':checked')){
+            alert('选中');
+            //1.如果打开，则设置优惠券不可选
+            $("#select").attr("disabled",true);
+            //2.请求使用抵扣金的接口
+            var resParams = {
+                shop_id: '',
+                deduction: '',
+                mode: ''
+            };
+            cashBtnOperate(true,useResUrl,resParams);
+        }else{
+            alert('取消');
+            //1.如果关闭，则设置优惠券为可选
+            $("#select").attr("disabled",false);
+            //2.请求取消使用抵扣金接口
+            var resParams = {
+                shop_id : '',
+            };
+            cashBtnOperate(false,cancelUseResUrl,resParams);
+        }
+
+
+    });
+
+    function cashBtnOperate(isOpen,resUrl,resParams) {
+        $.ajax({
+            url: resUrl,
+            type: 'post',
+            data: resParams,
+            success: function (data) {
+
+            },
+            error: function (error) {
+                //如果请求打开失败，不打开抵扣按钮
+                if(isOpen){
+                    $('#cash_btn').attr("checked",false);
+                    $("#select").attr("disabled",false);
+                }else{
+                    $('#cash_btn').attr("checked",true);
+                    $("#select").attr("disabled",true);
+                }
+
+            }
+        });
+    }
+</script>
+</html>

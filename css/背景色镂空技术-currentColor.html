@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>背景色镂空技术之颜色可控图标效果实现实例页面</title>
+</head>
+<style>
+    .icon{
+        display:inline-block;
+        width:16px;height:20px;
+        background-image:url("https://www.zhangxinxu.com/study/201307/sprite_icons.png");
+        background-color:currentColor;
+    }
+    .icon1{
+        background-position:0 0;
+    }
+    .icon2{
+        background-position:-20px 0;
+    }
+    .icon3{
+        background-position:-40px 0;
+    }
+    .icon4{
+        background-position: -60px 0;
+    }
+    .link{
+        margin-right:15px;
+        color:black;
+    }
+    .link:hover{
+        color:red;
+    }
+</style>
+<body>
+<div>
+    更改颜色：<input id="colorInput" type="color" value="#34538b" autocomplete="off">
+    <p>
+        <a href="##" class="link"><i class="icon icon1"></i>返回</a>
+        <a href="##" class="link"><i class="icon icon2"></i>刷新</a>
+        <a href="##" class="link"><i class="icon icon3"></i>收藏</a>
+        <a href="##" class="link"><i class="icon icon4"></i>张开图片</a>
+    </p>
+</div>
+</body>
+</html>

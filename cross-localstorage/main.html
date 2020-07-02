@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div style="width:200px; float:left; margin-right:200px;border:solid 1px #333;">
+    <div id="color">Frame Color</div>
+</div>
+<div>
+    <iframe id="child" src="http://www.abc.com/child.html"></iframe>
+</div>
+<script type="text/javascript">
+    // 主页面监听message事件,初始化自身颜色
+    // 主页面监听message事件,处理自身变色
+    window.addEventListener('message', function(e) {
+        console.log('listen.....');
+        var color = e.data;
+        document.getElementById('color').style.backgroundColor = color;
+    }, false);
+</script>
+</body>
+</html>

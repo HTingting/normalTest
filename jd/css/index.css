@@ -1,0 +1,246 @@
+/*头部样式*/
+/*1.公共提示*/
+.carousel-wrapper{
+    width: 100%;
+    position:relative;
+    box-sizing: border-box;
+    height: 45px;
+}
+.carousel-wrapper .carousel{
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    list-style: none;
+}
+/*需要不同样式变化的*/
+.style-a .carousel li{
+    background: black;
+    color: #fff;
+}
+.carousel li{
+    float:left;
+    position:absolute;
+    z-index: 1;
+    padding:0;
+    margin: 0;
+    height: 100%;
+    list-style: none;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.m-carousel-item .m-carousel-item-col{
+    float:left;
+    width: 25%;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
+    box-sizing: border-box;
+}
+/*第一个*/
+.carousel .m-carousel-item .m-carousel-item-col:nth-child(1) {
+    width: 8%;
+}
+.carousel .m-carousel-item .m-carousel-item-col:nth-child(2) {
+    width: 10%;
+}
+.carousel .m-carousel-item .m-carousel-item-col:nth-child(3) {
+    width: 57%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size:14px;
+}
+.carousel .m-carousel-item .m-carousel-item-col:nth-child(4){
+    width: 25%;
+    background-color: #F63515;
+    font-size: 14px;
+    color: #fff;
+    letter-spacing: 0;
+}
+/*2.搜索栏*/
+
+/*首页样式*/
+    /*1.*/
+    /*2.六宫格，有个1px线的问题*/
+    .floor{
+        background:#f6f6f6;
+        font-size: 0;
+        width: 100%;
+        overflow: hidden;
+    }
+    .floor-tit-img {
+        height: 1.75rem;
+    }
+    .tit-img{
+        height: 100%;
+        margin: auto;
+        overflow: hidden;
+    }
+    .floor-title{
+        position: relative;
+    }
+    .floor-tit-img .tit-img img{
+        display: block;
+        position: absolute;
+        left:0;
+        top:0;
+        bottom:0;
+        right:0;
+        text-align:center;
+        margin: 0 auto;
+        min-width: 1px;
+        width: auto;
+        max-height: 100%;
+    }
+    .floor-the-container {
+        position: relative;
+        margin-left: .5rem;
+        margin-right: .5rem;
+        margin-bottom: .5rem;
+        font-size: 0;
+    }
+    .floor .bdr-bottom {
+        border-bottom: 1px solid #f5f5f5;
+    }
+    .floor-container{
+        overflow: hidden;
+    }
+    .floor .floor-container:last-child{
+        border-bottom: none;
+    }
+    .floor-container:last-child{
+        border-bottom-left-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+
+    .floor-graphic-item{
+        width: 100%;
+        background: #fff;
+        font-size: 100%;
+        overflow: hidden;
+    }
+    .real-show {
+        padding: .325rem 0 .25rem;
+    }
+    /*border 1px 移动端的设置*/
+    .floor-graphic-item .bdr-r {
+        border-right: 1px solid #f5f5f5;
+    }
+    .bdr-r:after{
+        height: 100%;
+        content: '';
+        width: 1px;
+        border-right: 1px solid transparent;
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: scaleX(.5);
+        z-index:10;
+    }
+    .graphic-text{
+        padding:0 0 0 .45rem;
+    }
+    .graphic-col02-bg .graphic-img02 {
+        padding: 0 .7rem;
+        clear: both;
+    }
+    .graphic-tit{
+        color: #333;
+        font-weight: 700;
+        font-size:0.8rem;
+        display: inline-block;
+        max-width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        letter-spacing: .58px;
+    }
+    .graphic-wz{
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        display: box;
+        line-clamp: 1;
+        box-orient: vertical;
+        color: #686868;
+        font-size: .6rem;
+        line-height: .825rem;
+        height: .75rem;
+    }
+    .graphic-col02-bg{
+        width:50%;
+        float: left;
+        height: 6rem;
+        box-sizing: border-box;
+    }
+    .graphic-col02-bg .graphic-img02 img{
+        width: 3rem;
+        height: 3rem;
+        float: left;
+        margin: .275rem .35rem 0;
+    }
+    .graphic-col04-bg{
+        position: relative;
+        width: 25%;
+        float: left;
+        box-sizing: border-box;
+    }
+    .graphic-col04-bg .graphic-img {
+        width: 3rem;
+        height: 3rem;
+        margin: .275rem .2rem 0;
+    }
+    .graphic-col04-bg .real-show, .graphic-col04-sm .real-show {
+        padding: .325rem 0 .25rem .5rem;
+    }
+    .graphic-img img{
+        width: 100%;
+        height: 100%;
+        overflow:hidden;
+        text-align: center;
+    }
+
+/*底部样式*/
+#commonNav{
+    position:fixed;
+    margin:0;
+    padding:0;
+    left:0;
+    bottom:0;
+    width:100%;
+    box-sizing: border-box;
+    font-size:16px;
+    background:#fff;
+    padding-bottom:10px;
+    z-index:31;
+}
+#commonNav>a{
+    width: 20%;
+    position: relative;
+    height: 2.8rem;
+    box-sizing: border-box;
+    float: left;
+    text-align: center;
+}
+#commonNav .icon-center{
+    position:absolute;
+    bottom: 2px;
+    background-color: transparent;
+    z-index: 1;
+    font-size: 16px;
+    width: .0625em;
+    height: .0625em;
+}
+#commonNav .icon-center img{
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 3.6em;
+}

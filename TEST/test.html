@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    .right_arrow {
+        height: 20rpx;
+        line-height: 20rpx;
+        position: relative;
+        padding: 18rpx;
+        z-index: 4;
+    }
+
+    .sec_arrow {
+        margin-left: -28rpx;
+        z-index: 0;
+    }
+
+    /*箭头的三角形   */
+
+    .right_arrow:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 0;
+        height: 0;
+        border: 15rpx solid;
+        margin-top: -15rpx;
+        border-color: transparent transparent transparent rgba(255, 140, 0, 1);
+    }
+
+    /*背景色三角形*/
+
+    .right_arrow:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 4rpx;
+        width: 0;
+        height: 0;
+        border: 15rpx solid;
+        margin-top: -15rpx;
+        border-color: transparent transparent transparent rgba(255, 255, 255, 1);
+    }
+</style>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+
+</body>
+</html>

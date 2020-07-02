@@ -1,0 +1,111 @@
+ if (!memberCouponCheckTime || memberCouponCheckTime > (1564215238 - 3600)) {
+
+                    axios.post(Http.couponUrl+'?ssotoken='+this.ssotoken).then(res=>{
+                        console.log(res);
+                        localStorage.setItem("MemberCouponCheckTime_4932712", 1564215238)
+                        if(res.batch_no > 0){
+                            localStorage.setItem("MemberCouponData_4932712", JSON.stringify(res))
+                            let msg = ''
+                            switch (res.batch_no) {
+                                case 1:
+                                    msg = "您的第一批回馈大礼包赠券到账啦";
+                                    break;
+                                case 2:
+                                    msg = "您的第二批回馈大礼包赠券到账啦";
+                                    break;
+                                case 3:
+                                    msg = "您的第三批回馈大礼包赠券到账啦";
+                                    break;
+                                default:
+                                    msg = "您的回馈大礼包赠券到账啦";
+                                    break;
+                            }
+                            if (res.batch_no == 1) {
+                                //显示领券pop
+                                this.couponShow = true
+                            } else {
+                                Dialog.confirm({
+                                    title: '温馨提示',
+                                    message: msg,
+                                    options:{
+                                        cancelButtonText:'不在提示',
+                                        confirmButtonText:'立即查看'
+                                    }
+                                }).then(() => {
+                                    //点击确认
+                                    fetch.post(Http.noMoreTipUrl,{}).then(res=>{
+                                        console.log(res)
+                                    }).catch(err=>{
+                                        console.log(err)
+                                    })
+                                    window.location.href = config.couponUrl
+                                }).catch(() => {
+                                    // on cancel
+                                    fetch.post(Http.noMoreTipUrl,{}).then(res=>{
+                                        console.log(res)
+                                    }).catch(err=>{
+                                        console.log(err)
+                                    })
+                                    localStorage.removeItem("MemberCouponData_4932712");
+                                });
+                            }
+                        }
+                    }).catch(err=>{
+                        console.log(err)
+                    })
+                } else {
+                    memberCouponData = localStorage.getItem("MemberCouponData_4932712");
+                    if (memberCouponData) {
+                        res = JSON.parse(memberCouponData);
+                        noMoreTipsCoupon = localStorage.getItem("NoMoreTipsCoupon_4932712_" + res.batch_no);
+                        let msg = ''
+                        if (!noMoreTipsCoupon) {
+                            if (res.batch_no > 0) {
+                                switch (res.batch_no) {
+                                    case 1:
+                                        msg = "您的第一批回馈大礼包赠券到账啦";
+                                        break;
+                                    case 2:
+                                        msg = "您的第二批回馈大礼包赠券到账啦";
+                                        break;
+                                    case 3:
+                                        msg = "您的第三批回馈大礼包赠券到账啦";
+                                        break;
+                                    default:
+                                        msg = "您的回馈大礼包赠券到账啦";
+                                        break;
+                                }
+                                if (res.batch_no == 1) {
+                                    this.couponShow = true
+                                } else {
+                                    Dialog.confirm({
+                                        title: '温馨提示',
+                                        message: msg,
+                                        options:{
+                                            cancelButtonText:'不在提示',
+                                            confirmButtonText:'立即查看'
+                                        }
+                                    }).then(() => {
+                                        //点击确认
+                                        fetch.post(Http.noMoreTipUrl,{}).then(res=>{
+                                            console.log(res)
+                                        }).catch(err=>{
+                                            console.log(err)
+                                        })
+                                        window.location.href = config.couponUrl
+                                    }).catch(() => {
+                                        // on cancel
+                                        fetch.post(Http.noMoreUrl,{}).then(res=>{
+                                            console.log(res)
+                                        }).catch(err=>{
+                                            console.log(err)
+                                        })
+                                        localStorage.removeItem("MemberCouponData_4932712");
+                                    });
+                                }
+                            }
+                        } else {
+                            localStorage.removeItem("MemberCouponData_4932712")
+                        }
+                    }
+                }

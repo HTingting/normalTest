@@ -1,0 +1,221 @@
+html, body{
+    width: 100%;
+    height: auto;
+    background: #F3F4F5;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.header-top{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 0.72rem;
+    line-height: 0.72rem;
+    background: #FDFCEC;
+    text-align: center;
+}
+.header-top span{
+    background: url("../images/ic-page.png") no-repeat;
+    background-size: 0.26rem 0.26rem;
+    padding-left: 0.32rem;
+    color: #F86E21;
+    background-position: left 50%;
+}
+.detail-list-main.reward{
+    margin-top: 0.92rem;
+}
+header{
+    height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    background: #fff;
+    color: #666;
+    font-size: 0.32rem;
+    line-height: 0.44rem;
+}
+header>span{
+    width: 1px;
+    height: 0.44rem;
+    background: #D9D9D9;
+}
+header>div{
+    position: relative;
+}
+header>div em{
+    font-style: normal;
+}
+header>div>span{
+    position: absolute;
+    top: 50%;
+    margin-top: -0.025rem;
+    width: 0px;
+    height: 0px;
+    border-width: 0.1rem;
+    border-color: #E4E4E4 transparent transparent;
+    border-style: solid;
+    display: inline-block;
+    margin-left: 5px;
+}
+.order-select{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 1rem;
+    text-align: center;
+    font-size: 0.32rem;
+    line-height: 0.44rem;
+    z-index: 99;
+    background: rgba(0, 0, 0, .5);
+    display: none;
+}
+.order-select ul{
+    background: #fff;
+}
+.order-select li{
+    padding: 0.22rem 0;
+    color: #666;
+    cursor: pointer;
+}
+.order-select .active{
+    color: #FF6602;
+}
+
+.detail-list-main{
+    margin: 0.2rem 0.3rem 0 0.3rem;
+}
+.detail-list li{
+    background: #fff;
+    padding: 0.24rem;
+    border-radius: 0.12rem;
+    margin-top: 0.2rem;
+}
+.detail-list .order-head{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.16rem;
+    border-bottom: 1px solid #D9D9D9;
+}
+.order-title h5{
+    font-size: 0.32rem;
+    color: #333;
+    line-height: 0.44rem;
+}
+.order-title span{
+    font-size: 0.24rem;
+    color: #999;
+    line-height: 0.34rem;
+}
+.order-head em{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 0.28rem;
+    line-height: 0.4rem;
+}
+.order-head .add-num{
+    color: #FF6602;
+}
+.order-head .less-num{
+    color: #333;
+}
+.detail-list .order-detail{
+    font-size: 0.3rem;
+    color: #666;
+    line-height: 0.42rem;
+    margin-top: 0.26rem;
+}
+
+.display-none{
+    display:none;
+} 
+.detail-list-main .footer{
+    width: 6.9rem;
+    height: 0.98rem;
+    line-height:0.98rem;
+    text-align:center;
+    position: relative;
+    color:#CCCCCC;
+    font-size:0.26rem;
+}
+
+.detail-list-main .footer:before{
+    content:'';
+    display: inline-block;
+    width:0.8rem;
+    height: 1px;
+    transform: scaleY(0.5);
+    -webkit-transform: scaleY(0.5);
+    background: #DDDDDD;
+    position: relative;
+    right: 0.22rem;
+    top: -0.08rem;
+}
+
+.detail-list-main .footer:after{
+    content:'';
+    display: inline-block;
+    width:0.8rem;
+    height: 1px;
+    transform: scaleY(0.5);
+    -webkit-transform: scaleY(0.5);
+    background: #DDDDDD;
+    position: relative;
+    left: 0.22rem;
+    top: -0.08rem;
+}
+
+
+/* 分页加载种 -样式 start*/
+.loading_p {
+    height: 0.6rem;
+    position: relative;
+}
+.loading_p span{
+    display: inline-block;
+    font-size: 0.24rem;
+    position: absolute;
+    left: 39%;
+    top:-1%;
+    -webkit-transform:translateY(-50%);
+    transform:translateY(-50%);
+}
+.loading_span{
+    left: 49% !important;
+    top:50% !important;
+    color:#666;
+}
+.bt_loading{
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    margin: 6px;
+    border: 2px solid #666;
+    border-bottom-color: transparent;
+    vertical-align: middle;
+    -webkit-animation: rotate 0.75s linear infinite;
+    animation: rotate 0.75s linear infinite;
+}
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    50% {
+        -webkit-transform: rotate(180deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+  /* 分页加载种 -样式 end*/

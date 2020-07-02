@@ -1,0 +1,299 @@
+html {
+  font-size: 100%;
+  height: 100%;
+}
+body {
+  width: 7.5rem;
+  height: 100%;
+  position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto;
+  padding: 0;
+  background: #F3F4F5;
+}
+.main {
+  height: 100%;
+}
+@font-face {
+  font-family: DINEngschrift;
+  src: url('./DINEngschrift.otf');
+}
+.prize-pool {
+  height: 100%;
+}
+.prize-pool-img img {
+  width: 100%;
+  height: 3.04rem;
+}
+.pool-content {
+  position: absolute;
+  top: 0.98rem;
+  left: 0.3rem;
+  right: 0.3rem;
+  bottom: 0.1rem;
+  background: #fff;
+  border-radius: 0.12rem;
+  padding-top: 0.88rem;
+  overflow: hidden;
+}
+.pool-content .pool-nav {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-shrink: 0;
+  flex-grow: 0;
+  height: 0.88rem;
+  align-self: flex-start;
+  justify-self: flex-start;
+  font-size: 0.4rem;
+  color: #333;
+  width: 100%;
+  background-color: #ebedf2;
+}
+.pool-content .pool-nav .tabview-select {
+  background-color: #fff;
+  border-top-right-radius: 0.12rem;
+  border-top-left-radius: 0.12rem;
+  width: 50%;
+  position: absolute;
+  height: 100%;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-transform: translateX(0);
+  transform: translateX(0);
+}
+.pool-content .pool-nav .tabview-select:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  background-image: url(../images/pool-tab-img.png);
+  background-size: 100%;
+  height: 0.88rem;
+  width: 0.44rem;
+  right: -0.44rem;
+}
+.pool-content .pool-nav .tabview-select span {
+  display: inline-block;
+  width: 21px;
+  position: absolute;
+  height: 3px;
+  border-radius: 1.5px;
+  background-color: #FF6602;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  bottom: 5%;
+}
+.pool-content .pool-nav .select-tab {
+  -webkit-transform: translateX(100%);
+  transform: translateX(100%);
+}
+.pool-content .pool-nav .select-tab:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  background-image: url(../images/pool-tab-img.png);
+  background-size: 100%;
+  height: 0.88rem;
+  width: 0.44rem;
+  left: -0.44rem;
+  transform: rotateY(180deg);
+}
+.pool-content .pool-nav .tabview-tab {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+  text-align: center;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  line-height: 0.88rem;
+}
+.pool-content .pool-nav .tabview-tab .tab-title {
+  position: relative;
+  font-size: 0.32rem;
+  color: #333;
+  font-weight: 600;
+}
+.pool-content .pool-nav .tabview-tab .active {
+  color: #FF6602;
+}
+.pool-content .content {
+  position: relative;
+  height: 100%;
+}
+.pool-content .tab-content {
+  position: absolute;
+}
+.pool-content .tab-content .content-ul {
+  padding: 0.36rem 0.3rem 0.42rem 0.3rem;
+}
+.pool-content .tab-content .content-ul li {
+  width: 6.28rem;
+  min-height: 2.5rem;
+  background: #F8F8F8;
+  box-sizing: border-box;
+  padding: 0.48rem 0.26rem 0;
+  margin-bottom: 0.2rem;
+}
+.pool-content .tab-content .content-ul li .item-text {
+  font-size: 0.28rem;
+  color: #666;
+  font-weight: 500;
+  line-height: 0.4rem;
+  margin-bottom: 0.2rem;
+}
+.pool-content .tab-content .content-ul li .item-num {
+  font-size: 0.7rem;
+  line-height: 0.84rem;
+  margin-bottom: 0.22rem;
+  font-family: DINEngschrift;
+}
+.pool-content .tab-content .content-ul li .item-desc {
+  font-size: 0.2rem;
+  height: 0.72rem;
+  line-height: 0.28rem;
+  color: #999;
+}
+.pool-content .tab-content .second-ul li {
+  background: #fff;
+  border-bottom: 0.02rem solid #eee;
+  min-height: 1rem;
+  padding-top: 0.36rem;
+  margin-bottom: 0rem;
+}
+.pool-content .tab-content .second-ul li .item-num {
+  line-height: 0.72rem;
+  font-size: 0.6rem;
+  margin-bottom: 0.38rem;
+}
+.pool-content .tab-content .pool-btn {
+  text-align: center;
+  width: 3rem;
+  height: 0.88rem;
+  background: #FF6602;
+  border-radius: 0.44rem;
+  line-height: 0.88rem;
+  margin: 0 auto 0.3rem;
+}
+.pool-content .tab-content .pool-btn a {
+  display: block;
+  font-size: 0.32rem;
+  color: #fff;
+}
+.pool-content .tab-content .protocal-enter {
+  padding-left: 0.32rem;
+}
+.pool-content .tab-content .protocal-enter .protocal-text {
+  height: 0.4rem;
+  width: 2.3rem;
+  border-bottom: 1px solid #FF6602;
+  font-size: 0.28rem;
+  color: #FF6602;
+}
+.pool-content .tab-content .protocal-enter .protocal-text img {
+  width: 0.28rem;
+  height: 0.28rem;
+  vertical-align: middle;
+}
+.pool-content .tab-content .protocal-enter:hover {
+  cursor: pointer;
+}
+.pool-content .tab-content .protocal-enter .protocal-desc {
+  font-size: 0.24rem;
+  color: #333;
+  line-height: 0.34rem;
+  margin-top: 0.14rem;
+  margin-bottom: 0.6rem;
+}
+.pool-content .tab-content:last-child {
+  display: none;
+}
+.mask {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: block;
+}
+.mask .protocal-panel {
+  width: 6.9rem;
+  height: 7.28rem;
+  border-radius: 0.12rem;
+  margin: 2rem auto;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 0 0.34rem;
+}
+.mask .protocal-panel .protocal-header {
+  padding-top: 0.42rem;
+  margin-bottom: 0.26rem;
+  text-align: center;
+  height: 0.44rem;
+  line-height: 0.44rem;
+  position: relative;
+}
+.mask .protocal-panel .protocal-header .header-text {
+  font-size: 0.32rem;
+  color: #333;
+  line-height: 0.44rem;
+  font-weight: 600;
+}
+.mask .protocal-panel .protocal-header .header-text .close-icon {
+  height: 0.3rem;
+  width: 0.28rem;
+  position: absolute;
+  right: 5%;
+  bottom: 10%;
+}
+.mask .protocal-panel .protocal-cont {
+  height: 4.96rem;
+  overflow-y: scroll;
+  font-size: 0.28rem;
+  color: #999;
+  line-height: 0.4rem;
+  text-indent: 2em;
+  margin-bottom: 0.16rem;
+}
+.mask .protocal-panel .protocal-cont::-webkit-scrollbar {
+  display: none;
+}
+.mask .protocal-panel .protocal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mask .protocal-panel .protocal-footer label {
+  font-size: 0.24rem;
+  font-weight: 400;
+  color: #ff6602;
+  line-height: 0.34rem;
+}
+.mask .protocal-panel .protocal-footer label .check-icon {
+  background: url('../images/img-un-checked.png') no-repeat;
+  -webkit-background-size: contain;
+  background-size: contain;
+  padding-left: 0.45rem;
+}
+.mask .protocal-panel .protocal-footer label .checked {
+  background: url('../images/img-checked.png') no-repeat;
+  -webkit-background-size: contain;
+  background-size: contain;
+  padding-left: 0.45rem;
+}
+.mask .protocal-panel .protocal-footer .ensure-btn {
+  width: 2.4rem;
+  height: 0.88rem;
+  background: #D8D8D8;
+  font-size: 0.32rem;
+  color: #fff;
+  border-radius: 0.44rem;
+  text-align: center;
+  line-height: 0.88rem;
+}
+.mask .protocal-panel .protocal-footer .active {
+  background: #FF6602;
+}
+/*# sourceMappingURL=prize-pool.css.map */

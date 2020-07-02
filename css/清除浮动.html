@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>清楚浮动</title>
+</head>
+<style>
+    .box{
+        padding-top:10px;
+        background: red;
+    }
+    .clear-block::after{
+        content:'';
+        clear:both;
+        display:block;
+    }
+    .clear-table::after{
+        content:'';
+        clear:both;
+        display:table;
+    }
+    .clear-list-item::after{
+        content:'';
+        clear:both;
+        display:list-item;
+    }
+
+    .box>img{
+        float:left;
+    }
+    .operation{
+        margin-top:20px;
+        border: 1px solid #000;
+    }
+</style>
+<body>
+    <div class="demo">
+        <div class="clear box" id="box">
+            <img src="https://demo.cssworld.cn/images/common/l/1.jpg" alt="">
+        </div>
+    </div>
+    <div class="operation">
+        <h6>请选择清楚浮动的方法</h6>
+        <pre>
+            .clear:after {
+                content: '';
+                display: <select id="select">
+                    <option value="">请选择</option>
+                    <option value="block">block</option>
+                    <option value="table">table</option>
+                    <option value="list-item">list-item</option>
+                </select>;
+                clear: both;
+            }
+        </pre>
+    </div>
+</body>
+<script>
+    var elsSelect = document.getElementById('select'),
+        eleBox = document.getElementById('box');
+    if(elsSelect && eleBox){
+        elsSelect.onchange = function(){
+                if(this.value){
+                    eleBox.className = 'box clear-'+this.value;
+                }else{
+                    eleBox.style.display = 'box';
+                }
+            }
+    }
+</script>
+</html>

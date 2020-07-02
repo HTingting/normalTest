@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>按钮元素“包裹性”示意实例页面</title>
+</head>
+<style>
+    .demo{
+        width: 240px;
+        margin: 20px auto;
+    }
+    .box{
+        text-align: center;
+        background: #b70000;
+        color:#fff;
+    }
+    .box>p{
+        text-align:left;
+        display: inline-block; /*important*/
+    }
+</style>
+<body>
+    <div class="demo">
+        <div class="box">
+            <p id="conMore" class="content">更多文字</p>
+        </div>
+        <p><input type="button" value="更多文字" id="more"></p>
+    </div>
+</body>
+<script>
+    var eleBtn = document.getElementById('more'),
+        eleContent = document.getElementById('conMore');
+
+    eleBtn.onclick = function(){
+        eleContent.innerHTML += eleContent.innerHTML
+    }
+</script>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG-fill2</title>
+</head>
+<body>
+    <!--
+        stroke-dasharray属性的参数，是一组用逗号分割的数字组成的数列。注意，
+        和path不一样，这里的数字必须用逗号分割（空格会被忽略）。每一组数字，第一个用来表示填色区域的长度，第二个用来表示非填色区域的长度。
+    -->
+    <svg width="200" height="150" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <path d="M 10 75 Q 50 10 100 75 T 190 75" stroke="black"
+              stroke-linecap="round" stroke-dasharray="5,10,5" fill="none"/>
+        <path d="M 10 75 L 190 75" stroke="red"
+              stroke-linecap="round" stroke-width="1" stroke-dasharray="5,5" fill="none"/>
+    </svg>
+</body>
+</html>

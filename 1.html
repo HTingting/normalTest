@@ -1,0 +1,250 @@
+<template>
+    <div class="page-promotion"  @click="serScrollTop($event)">
+        <template>
+            <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+                <component v-for="(item,kIndex) in compData" :is="item.format_c_name" :configData="item" :key="kIndex"></component>
+            </van-pull-refresh>
+        </template>
+    </div>
+</template>
+
+<script>
+    import Vue from 'vue'
+    // 定义外部接口可配置
+    import Http from 'api/ApiConfig'
+    import {webcallapp,isPhone} from 'utils/webcallapp'
+
+    import { gatewayPost } from "utils/gateway"
+    import { encrypt } from "utils/jiami"
+    import {getCookie,setCookie, delCookie} from "utils/cookie"
+
+    export default {
+        name: 'promotion',
+        components: {
+            MBanner:resolve=>require(['components/m-banner/banner'],resolve),
+            MMenuigroup:resolve=>require(['components/m_menu_i_group/m_menu_i_group'],resolve),
+            MJoinr:resolve=>require(['components/m_join_r/m_join_r'],resolve),
+            MUsualr:resolve=>require(['components/m_usual_r/m_usual_r'],resolve),
+            MSeckillc:resolve=>require(['components/m_sec_kill_c/m_sec_kill_c'],resolve),
+            MPuregoodsList:resolve=>require(['components/m_pure_goods/m_pure_goods'],resolve),
+            MGoodsimgctg:resolve=>require(['components/m_goods_img/m_goods_img_ctg'],resolve),
+            MGoodstabctg:resolve=>require(['components/m_goods_tab_ctg/m_goods_tab_ctg'],resolve),
+            MBigprox:resolve=>require(['components/m_big_prox/m_big_prox'],resolve),
+            MThreesqu:resolve => require(['components/m_three_grid/m_three_grid'],resolve),
+            MXbanner:resolve => require(['components/m_x_banner/m_x_banner'],resolve)
+        },
+        data(){
+            return {
+                originalData:[],
+                compData:[],
+                theme:{},
+                routerParams:{},
+                userId:'',
+                isLoading:false,
+                isAndroid: true
+            }
+        },
+        created(){
+            let _this = this;
+            //获取路由参数
+            _this.routerParams = _this.$route.query
+            this.userId = _this.routerParams.userId
+            _this.getUserInfo()
+            //确认版本
+            _this.isAndroid = isPhone() == 1 ? true : false
+        },
+        mounted(){
+            //调取二级页面协议
+            let _this = this
+            setTimeout(function(){
+                webcallapp({data:{actionType: 'jumpSecondPage',data:{'open': 1}}})
+            },200)
+        },
+        methods:{
+            serScrollTop(event) {
+                setCookie('promotionScrollTop', window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop);
+            },
+            onRefresh(){
+                let _this = this;
+                _this.loadingText = '加载中…'
+                _this.getIndexConfig();
+                //重新请求购物车
+                if(_this.isAndroid){
+                    _this.getUserGoods()
+                    //重新调取一个协议
+                    webcallapp({data:{actionType: 'refresh',data:{}}})
+                    webcallapp({data:{actionType: 'jumpSecondPage',data:{'open': 1}}})
+                }
+            },
+            /**
+             * 获取app类型
+             * @returns {number}
+             */
+            checkApp(){
+                var UA = window.navigator.userAgent
+                if(UA.indexOf("XMall/")> -1){
+                    return 2;//橙
+                }else if(UA.indexOf("iAuto360/") > -1 || UA.indexOf("WappBrowser")> -1){
+                    return 3;//蓝
+                }else{
+                    return 1;
+                }
+            },
+            /**
+             * 获取
+             */
+            getIndexConfig(){
+                let _this = this
+                //获取用户id
+                let userId = _this.userId ? _this.userId : (Vue.prototype.userInfo ? Vue.prototype.userInfo.userId : '')
+                //获取app
+                let appType = _this.checkApp()
+
+                let params = {
+                    function: Http.indexConfigApi,
+                    app_type:appType,
+                    page_ctg_id:2,
+                    user_id:userId
+                }
+
+                gatewayPost(encrypt(params)).then(res => {
+                    if(res.code == 1){
+                        _this.loadingText = '加载完毕'
+                        _this.originalData = res.result
+                        _this.formatConfigData()
+                        _this.formatComName()
+                        _this.theme = res.result.theme
+                        //前端埋点
+                        _this.buryPoint(_this.theme)
+
+                        //重新调用秒杀组件
+                        _this.setTitle()
+                        _this.isLoading = false
+                    }else{
+                        _this.isLoading = false
+                        _this.loadingText = '加载失败'
+                    }
+                }).catch(err => {
+                    _this.isLoading = false
+                    _this.loadingText = '加载失败'
+                })
+            },
+
+            buryPoint(theme){
+                let userId = Vue.prototype.userInfo ? Vue.prototype.userInfo.userId : ''
+                let pagename = theme.page_name
+                let pagegroup = theme.cond.length ? theme.cond.condition_name : ''
+                let obj = {user_id: userId,pagename:pagename,pagegroup:pagegroup,curModel:'special',targetId:'special'}
+                setTimeout(function(){
+                    specialBuryPoint(obj)
+                },200);
+            },
+
+            /**
+             * 格式话组件params值
+             */
+            formatConfigData(){
+                this.compData = []
+                let indexConfig = this.originalData.item
+                for (let i = 0 ;i < indexConfig.length ; i++ ) {
+                    var paramsJson = JSON.parse(indexConfig[i].params)
+                    paramsJson.s_order = indexConfig[i].s_order
+                    this.compData.push(paramsJson)
+                }
+            },
+
+            /**
+             * 格式话组件名称，如 m_good_list => MGoodlist
+             */
+            formatComName(){
+                for(let i = 0 ; i< this.compData.length; i++) {
+                    if(this.compData[i]){
+                        var c_code = this.compData[i].c_code
+                        var code = c_code.split('_')
+                        code[0] = code[0].toUpperCase()
+                        code[1] = code[1].charAt(0).toUpperCase() + code[1].slice(1)
+                        let new_code = code.join('')
+                        this.$set(this.compData[i],'format_c_name',new_code)
+                    }
+                }
+            },
+
+            /**
+             * 设置页面title
+             */
+            setTitle() {
+                let _this = this
+                var setTitle = {
+                    "actionType": "setTitle",
+                    "data": {
+                        "title" : _this.theme.page_name
+                    }
+                }
+                if(isPhone() == 1){
+                    // 安卓
+                    if (window.local != undefined) {
+                        window.local.getActionInfo(JSON.stringify(setTitle))
+                    }
+                }else{
+                    // 苹果
+                    if (window.webkit != undefined) {
+                        window.webkit.messageHandlers.local_ios.postMessage(setTitle);
+                    }
+                }
+            },
+
+            /**
+             * 获取购物车商品数量
+             */
+            getUserGoods(){
+                let _this = this
+                let userId =  _this.userId ? _this.userId : (Vue.prototype.userInfo ? Vue.prototype.userInfo.userId : '')
+                if(userId){
+                    let params = {
+                        function: Http.getGoodsNum,
+                        user_id: userId
+                    };
+                    gatewayPost(encrypt(params)).then(res=>{
+                        if(res.code == 200){
+                            //调取移动端购物车商品数量协议
+                            let cartNum = parseInt(res.data.cartnum) > 99 ? '99+' : res.data.cartnum
+                            webcallapp({data:{actionType: 'getShoppingCartNum',data:{'goodsNum': cartNum}}})
+                        }
+                    }).catch(err=>{
+                        console.log(err)
+                    });
+                }
+            },
+
+            /**
+             * 获取用户信息
+             */
+            getUserInfo(){
+                let _this = this
+                if(!Vue.prototype.userInfo || !_this.userId){
+                    webcallapp({data:{actionType: 'getUserInfo',data:{}},success:function (res) {
+                            Vue.prototype.userInfo = JSON.parse(res).data
+                        }})
+                }else{
+                    setTimeout(function(){
+                        webcallapp({data:{actionType: 'getUserInfo',data:{}},success:function (res) {
+                                Vue.prototype.userInfo = JSON.parse(res).data
+                            }})
+                    },1000*60*2)
+                }
+
+                setTimeout(function(){
+                    _this.getIndexConfig()
+                    //调取购物车协议
+                    if(_this.isAndroid){
+                        _this.getUserGoods()
+                    }
+
+                },200)
+            }
+        }
+    }
+</script>
+
+<style scoped lang="stylus" rel="stylesheet/stylus">
+</style>

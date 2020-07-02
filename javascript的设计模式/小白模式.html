@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>小白模式</title>
+</head>
+<body>
+
+</body>
+<script type="">
+    var checkname = function(){
+    alert(1);
+    }
+    var checkEmail = function(){
+    alert(2);
+    }
+    var checkAge = function(){
+    alert(3);
+    }
+    //缺点：定义了三个全局变量，容易被覆盖。。。
+
+    //对象收编变量1
+    var checkObject = {
+    checkname: function(){
+    console.log('验证名字')；
+    };
+    checkEmail: function(){
+    console.log('验证email');
+    };
+    checkAge: function(){
+    console.log('验证age');
+    }
+    }
+    //对象收编变量2
+    var checkObject = function(){};
+    checkObject.checkname = function(){
+    console.log('验证name')；
+    };
+    checkObject.checkEmail = function(){
+    console.log('验证email')；
+    };
+    checkObject.checkAge = function(){
+    console.log('验证age')；
+    };
+    //缺点：只能自己使用，不能别人重用或者复制对象。如果用new关键字创建对象
+
+    //真假对象
+    var checkObject = function (){
+    return {
+    checkname: function(){
+
+    },
+    checkEmail: function(){
+
+    },
+    checkAge: function(){
+
+    }
+    }
+    }
+    var a = checkObject();  // 或者 var a = new checkObject();
+    a.checkname();
+    //好处：把几个函数当作一个对象返回出去，那么每次别人调用这个函数都返回了一个新的对象这样别人使用就互不影响。
+    //坏处：创建的对象a跟checkObject之间没有任何关系
+
+    //真贱对象2
+    var checkObject = function(){
+    this.checkname = function(){};
+    this.checkEmail = function(){};
+    this.checkAge = function(){};
+    }
+    var a = new checkObject();
+    a.checkname();
+    //好处：如果和别人都对对象实例化，那么每个人都会有一套属于自己的方法
+    //坏处： 每次通过new关键字创建新对象的时候，新创建的对象都会对类的this上的属性进行复制。所以每一个新的对象都会有一套自己的方法。然而这么坐有时候时很奢侈的。
+
+    //原型链的写法
+    var checkObject = function(){};
+    checkObject.prototype.checkname = function(){ alert (1)};
+    checkObject.prototype.checkEmail = function(){ alert (2)};
+    checkObject.prototype.checkAge = function(){alert(3)};
+    //好处：创建对象实例的时候，创建出来的对象所拥有的方法就只有一个，因为他们都要依赖prototype原型依此寻找。而找到的方法就只有同一个。因为他们都绑定再checkObject对象上
+
+    //另外的写法
+    var checkObject = function(){};
+    checkObject.prototype = {
+        checkname: function(){},
+        checkEmail: function(){},
+        checkAge: function(){}
+    };
+    //使用：
+    var a = new checkObject();
+    a.checkname();
+    a.checkEmail();
+    a.checkAge();
+    //坏处： 对象a书写了3遍，这是可以避免的。那就要再你声明的每一个方法末尾处都将当前对象返回。
+    var checkObject = function(){};
+    checkObject.prototype = {
+        checkname: function(){
+            return this;
+        },
+        checkEmail: function(){
+            return this;
+        },
+        checkAge: function(){
+            return this;
+        }
+    };
+    //使用：
+    var a = new checkObject();
+    a.checkname().checkEmail().checkAge();
+</script>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG-图案</title>
+</head>
+<body>
+    <!--
+        1.在我看来patterns（图案）是SVG中用到的最让人混淆的填充类型之一。它的功能非常强大，
+        所以我认为他们值得讨论一下并且我们应至少对他们有最基本的了解。跟渐变一样，<pattern>需要放在SVG文档的<defs>内部。
+
+        2.在pattern元素内部你可以包含任何之前包含过的其它基本形状，并且每个形状都可以使用之前学习过的任何样式样式化，包括渐变和半透明。
+          这里我们在pattern中绘制两个矩形（两个矩形互相重叠，一个矩形是另一个矩形大小的二倍，且用于填充整个pattern）和一个圆
+    -->
+    <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+            <linearGradient id="Gradient1">
+                <stop offset="5%" stop-color="white"/>
+                <stop offset="95%" stop-color="blue"/>
+            </linearGradient>
+            <linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="5%" stop-color="red"/>
+                <stop offset="95%" stop-color="orange"/>
+            </linearGradient>
+
+            <pattern id="Pattern" x="0" y="0" width=".25" height=".25">
+                <rect x="0" y="0" width="50" height="50" fill="skyblue"/>
+                <rect x="0" y="0" width="25" height="25" fill="url(#Gradient2)"/>
+                <circle cx="25" cy="25" r="20" fill="url(#Gradient1)" fill-opacity="0.5"/>
+            </pattern>
+        </defs>
+
+        <rect fill="url(#Pattern)" stroke="black" x="0" y="0" width="200" height="200"/>
+    </svg>
+</body>
+</html>

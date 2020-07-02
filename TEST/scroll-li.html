@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击滚动居中</title>
+</head>
+<style>
+    .nav ul{
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        white-space: nowrap;
+        overflow-x: scroll;
+        font-size: 50px;
+    }
+    .nav ul::-webkit-scrollbar {
+        display: none;
+    }
+    li{
+        cursor: pointer;
+        margin-left: 6px;
+        list-style: none;
+        padding: 0 10px;
+    }
+    .add2line{
+        color: #3385ff;
+        border-bottom: 1px solid #3385ff;
+    }
+</style>
+<body>
+    <div class="nav">
+        <ul id="navUl">
+            <li class="add2line">测试1</li>
+            <li>测试测试2</li>
+            <li>测试测试3</li>
+            <li>测试测试4</li>
+            <li>测试测试测试5</li>
+            <li>测试6</li>
+            <li>测试测试7</li>
+            <li>测试测试测试8</li>
+        </ul>
+    </div>
+</body>
+<script src="./jquery-1.11.1.min.js"></script>
+<script>
+    /*~(function () {
+        const deviceWidth = 750;
+        const windowsWidth = document.documentElement.clientWidth || document.body.clientWidth;
+        if (windowsWidth > deviceWidth) {
+            return;
+        }
+        document.documentElement.style.fontSize = (windowsWidth / deviceWidth) * 100 + "px";
+        console.log(document.documentElement.style.fontSize);
+    })();*/
+    /**
+     * 思路：
+     * 1.点击的当前元素添加add2line这个类名，其他的移除。
+     * 2.点击的当前元素判断是否在最中间，而且后面是否有元素？如果有，居中，如果没有，就固定？
+     *
+     * 居中后的距离应该满足：
+     * leftWidth + itemWidth/ 2 = winWidth/2
+     * 商品原来的与左边的距离
+     * originLeftWidth
+     *
+     * 那么元素相对移动的距离为
+     * (originLeftWidth - leftWidth)
+     */
+     var winWidth = document.documentElement.clientWidth;
+     console.log(winWidth);
+     $('#navUl li').click(function(e){
+         $(this).addClass('add2line');
+         $(this).siblings().removeClass('add2line');
+         //1.获取当前元素宽度
+         var itemWidth = e.target.offsetWidth;
+         //2.获取当前元素与左边的距离
+         var originLeftWidth = e.target.offsetLeft;
+         //3.应该设置的与左边的的距离
+         var showLeftWidth = winWidth / 2 - itemWidth / 2;
+         //4.当前元素应该移动的距离
+         var showMove = originLeftWidth - showLeftWidth;
+         console.log(showMove);
+         //设置ul的scrollLeft
+         document.getElementById('navUl').scrollLeft = showMove;
+     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

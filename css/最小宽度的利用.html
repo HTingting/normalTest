@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .demo{
+        width: 240px;
+        margin: 20px auto;
+        background:#fff;
+    }
+    .ao,.tu{
+        width:0;
+        display:inline-block;
+        font-size: 14px;
+        line-height: 18px;
+        margin: 35px;
+        color:#fff;
+    }
+    .ao::before{
+        content:'我Love你';
+        outline: 2px solid #b70000;
+    }
+    .tu::before{
+        content:'LOVE 我 LOVE';
+        outline: 2px solid #b70000;
+    }
+    .tu{
+        direction: rtl;
+    }
+</style>
+<body>
+    <div class="demo">
+        <span class="ao">
+
+        </span>
+        <span class="tu">
+
+        </span>
+    </div>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>复制功能</title>
+</head>
+<body>
+    <p style="display: inline-block;">运单编号：
+        <span id="fzzz">复制sljflsjflsjflsjfls</span>
+        <a
+            style="padding: 3px 8px;border: 1px solid #f0ad4e;border-radius: 3px;font-size: 12px;color: #f0ad4e;"
+            href="javascript:;" id="copyCode">复制</a>
+    </p>
+</body>
+<script src="https://test-bbc-other.iauto360.cn/frontpage/Double11/js/clipboard.min.js"></script>
+<script>
+
+    var content = document.getElementById('fzzz').innerText;
+    var clipboard = new Clipboard('#copyCode', {
+        text: function() {
+            return content;
+        }
+    });
+    clipboard.on('success', function(e) {
+        alert('复制成功');
+    });
+
+    clipboard.on('error', function(e) {
+        alert('复制失败');
+    });
+</script>
+</html>

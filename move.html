@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<style type="text/css">
+    .content{
+        float : left;
+        height: 245px;
+        width : 400px;
+    }
+    .content p{
+        background: #eee;
+        border:1px #000 solid;
+        height: 30px;
+        width: 100%;
+    }
+    .right{
+        float: left;
+        margin-left: 10px;
+        height: 245px;
+        width: 100px;
+        padding: 5px;
+        margin-top: 84px;
+    }
+    .right div{
+        width: 85px;
+        height: 50px;
+        margin: 7px;
+        text-align: center;
+        background: #00BCD4;
+        border-radius: 4px;
+        cursor: pointer;
+        line-height: 3;
+    }
+</style>
+<body>
+
+<div class="content">
+    <p data="false">001</p>
+    <p data="false">002</p>
+    <p data="false">003</p>
+    <p data="false">004</p>
+    <p data="false">005</p>
+    <p data="false">006</p>
+    <p data="false">007</p>
+    <p data="false">008</p>
+    <p data="false">009</p>
+</div>
+
+<div  class="right">
+    <div onclick="goup()">上移到顶部</div>
+    <div onclick="up()">上移</div>
+    <div onclick="down()">下移</div>
+    <div onclick="godown()">下移到尾部</div>
+</div>
+
+</body>
+
+<script>
+    var  domp=$('p');
+    $(document).ready(function(){
+        $("p").on("click",function(){
+            var ok=$(this).attr('data');
+            for (var i = 0; i < domp.length; i++) {
+                if(domp[i]!=this){
+                    $(domp[i]).attr('data','false');
+                    $(domp[i]).css("background-color","#eee");
+                }
+            }
+            if(ok=="true"){
+                $(this).attr('data',"false");
+                $(this).css("background-color","#eee");
+            }else{
+                $(this).attr('data',"true");
+                $(this).css("background-color","pink");
+            }
+        });
+    })
+    /**
+     *  连续向上
+     */
+    function goup(){
+
+        $.each(domp,function(i,t){
+            var fl=$(t).attr('data');
+            if(fl=="true"){
+                if($(t).prev().size()>0){
+                    $(t).parent().children("p:first-child").before(t);
+                }
+            }
+        })
+    }
+    /**
+     *  向上移动
+     */
+    function up(){
+        console.log(domp.children())
+        $.each(domp,function(i,t){
+            var fl=$(t).attr('data');
+            if(fl=="true"){
+                if($(t).prev().size()>0){
+                    $(t).prev().before(t);
+                }
+            }
+        })
+    }
+    /**
+     *   向下移动
+     **/
+    function down(){
+        $.each(domp,function(i,t){
+            var fl=$(t).attr('data');
+            if(fl=="true"){
+                if($(t).next().size()>0){
+                    $(t).next().after(t);
+                }
+            }
+        })
+    }
+    /**
+     *   连续向下移动
+     **/
+    function godown(){
+        $.each(domp,function(i,t){
+            var fl=$(t).attr('data');
+            if(fl=="true"){
+                if($(t).next().size()>0){
+                    $(t).parent().children("p:last-child").after(t);
+                }
+            }
+        })
+    }
+</script>
+</html>

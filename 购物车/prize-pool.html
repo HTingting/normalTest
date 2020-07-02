@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>平台奖池</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="format-detection" content="telephone=no" />
+    <link charset="UTF-8" rel="stylesheet" href="css/reset.min.css">
+    <link charset="UTF-8" rel="stylesheet" href="css/member_package.css?01">
+    <link rel="stylesheet" href="css/prize-pool.css">
+    <script>
+        //->REM
+        ~function () {
+            var desW = 750,
+                winW = document.documentElement.clientWidth || document.body.clientWidth;
+            if (winW > desW) {
+                return;
+            }
+            document.documentElement.style.fontSize = winW / desW * 100 + 'px';
+        }();
+
+        var $_GET = (function(){
+            var url = window.document.location.href.toString();
+            var u = url.split("?");
+            if(typeof(u[1]) == "string"){
+                u = u[1].split("&");
+                var get = {};
+                for(var i in u){
+                    var j = u[i].split("=");
+                    get[j[0]] = j[1];
+                }
+                return get;
+            } else {
+                return {};
+            }
+        })();
+    </script>
+</head>
+<body>
+<div id="main" class="main">
+    <div class="prize-pool">
+        <!--背景-->
+        <div class="prize-pool-img">
+            <img src="./images/orange-bg.png" alt="" class="orange-bgs">
+        </div>
+        <!--内容-->
+        <div class="pool-content">
+            <div class="pool-nav">
+                <div class="tabview-select">
+                    <span></span>
+                </div>
+                <div class="tabview-tab">
+                    <span class="tab-title active">平台奖池</span>
+                </div>
+                <div class="tabview-tab">
+                    <span class="tab-title">额外补贴</span>
+                </div>
+            </div>
+            <div class="content">
+                <div class="tab-content">
+                    <ul class="content-ul">
+                        <li>
+                            <p class="item-text">本月奖池（元）</p>
+                            <p class="item-num">480,982,345.56</p>
+                        </li>
+                        <li>
+                            <p class="item-text">本月奖池（元）</p>
+                            <p class="item-num">480,982,345.56</p>
+                        </li>
+                        <li>
+                            <p class="item-text">本月奖池（元）</p>
+                            <p class="item-num">480,982,345.56</p>
+                            <p class="item-desc">根据每人活跃智慧值情况发放，发放数额以每月实际发放为准！</p>
+                        </li>
+                    </ul>
+                    <div class="pool-btn">
+                        <a href="">查看我的奖励</a>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <ul class="content-ul second-ul">
+                        <li>
+                            <p class="item-text">本月奖池1（元）</p>
+                            <p class="item-num">480,982,345.56</p>
+                        </li>
+                        <li>
+                            <p class="item-text">本月奖池2（元）</p>
+                            <p class="item-num">480,982,345.56</p>
+                        </li>
+                        <li>
+                            <p class="item-text">本月奖池3（元）</p>
+                            <p class="item-num">480,982,345.56</p>
+                            <p class="item-desc">根据每人活跃智慧值情况发放，发放数额以每月实际发放为准！</p>
+                        </li>
+                    </ul>
+
+                    <!--协议签署入口-->
+                    <!--
+                    tip: 1.若该用户当前的智慧值>=3000，则显示该协议签署入口
+                         2.用户之前签署过该项协议则无需再签署，且也不显示此入口
+                    -->
+                    <div class="protocal-enter">
+                        <p class="protocal-text"><span>请签署领取协议<img src="./images/double-arrow.png" alt=""></span></p>
+                        <p class="protocal-desc">未签署协议视为不满足发放条件！</p>
+                    </div>
+
+                    <div class="pool-btn">
+                        <a href="">查看我的奖励</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--遮罩层-->
+    <div class="mask">
+        <div class="protocal-panel">
+            <div class="protocal-header">
+                <div class="header-text">用户协议 <img src="./images/close-icon.png" alt="" class="close-icon"></div>
+            </div>
+            <div class="protocal-cont">
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+                我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容我是协议内容
+            </div>
+            <div class="protocal-footer">
+                <label class="check-label">
+                    <span class="check-icon">我已阅读此协议</span>
+                </label>
+                <div class="ensure-btn">确定 <span id="time-text">(10s)</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--调试工具-->
+<script src="https://cdn.bootcss.com/vConsole/3.2.0/vconsole.min.js"></script>
+<script>
+// 初始化
+var vConsole = new VConsole();
+</script>
+
+<script charset="UTF-8" type="text/javascript" src="js/fastclick.min.js"></script>
+<script charset="UTF-8" type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script charset="UTF-8" type="text/javascript" src="js/toast.js"></script>
+
+<script>
+    /*解决移动端点击300ms延迟*/
+    FastClick.attach(document.body);
+
+    $(function(){
+        /*tab-view click*/
+        $('.tabview-tab').each(function(index){
+            $(this).click(function(){
+                //header animation
+                if(!$('.tabview-select').hasClass('select-tab')){
+                    $('.tabview-select').addClass('select-tab');
+                }else{
+                    $('.tabview-select').removeClass('select-tab');
+                }
+                //content show
+                $('.tab-content').eq(index).fadeIn(500).siblings().fadeOut(500);
+                $('.tab-title').each(function(){
+                    $(this).removeClass('active');
+                });
+                $('.tab-title').eq(index).addClass('active');
+            });
+        });
+
+        /*checkbox click*/
+        $('.check-label').click(function(){
+            console.log($('.check-box').prop('checked'))
+            if(!$('.check-icon').hasClass('checked')){
+                $('.check-icon').addClass('checked');
+            }else{
+                $('.check-icon').removeClass('checked');
+            }
+        });
+
+        /*mask的显示与隐藏*/
+        $('.close-icon').click(function(){
+            $('.mask').hide();
+        });
+
+        /*点击协议链接*/
+        $('.protocal-text').click(function(){
+            $('.mask').show();
+        });
+
+        /*倒计时*/
+        var _seconds = 10;
+        var _timer = setInterval(function(){
+            _seconds--;
+            if(_seconds == 0){
+                $('#time-text').html('');
+                //1.需强制倒数10s（暂定10s）才可签署此协议
+
+                //2.需要勾选上签订协议才可以
+
+                //3.网关请求
+                $('.ensure-btn').addClass('active');
+                clearInterval(_timer);
+            }else{
+                $('#time-text').html('( '+_seconds+'s ）');
+            }
+        },1000);
+
+
+    })
+</script>
+</body>
+</html>

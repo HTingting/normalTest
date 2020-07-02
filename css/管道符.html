@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管道符</title>
+</head>
+<style>
+    .demo{
+        margin:auto;
+    }
+    a + a:before{
+        content:'';
+        font-size:0;
+        padding:10px 3px 1px;
+        margin-left: 6px;
+        border-left:1px solid gray;
+    }
+    .demo>.footer-line{
+        width: 350px;
+        text-align: center;
+        position:relative;
+        margin:auto;
+    }
+    .footer-line:before,.footer-line:after{
+        content: '';
+        padding:0 50px;
+        position:absolute;
+        border-bottom:1px solid #ccc;
+    }
+    .footer-line:before{
+        left:0;
+        top:10px;
+    }
+    .footer-line:after{
+        right:0;
+        top:10px;
+    }
+</style>
+<body>
+    <div class="demo">
+        <a href="">登录</a><a href="">注册</a>
+        <p class="footer-line">我是有底线的</p>
+    </div>
+</body>
+</html>

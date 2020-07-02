@@ -1,0 +1,105 @@
+/* 浮动类 */
+.clearfix::after {
+    content: ".";
+    clear: both;
+    display: block;
+    overflow: hidden;
+    font-size: 0;
+    height: 0;
+}
+
+.clearfix {
+    zoom: 1;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+
+/* tips遮罩层 */
+.share_tip {
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999000;
+    padding-top: 1rem;
+    display: none;
+  }
+.share_tip .share_bg {
+    width: 5.62rem;
+    height: 5.01rem;
+    background: url('../images/dir.png') no-repeat;
+    background-size: 100% 100%;
+    margin: 0 auto;
+    position: relative;
+}
+.iknow {
+    width: 2rem;
+    height: 1rem;
+    background: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 1.7rem;
+}
+
+
+/* input类 */
+input{
+    outline: none;
+    border: 0;
+}
+input::placeholder{
+    font-family:PingFangSC-Medium;
+    color:#999999;
+}
+
+input[disabled],input:disabled,input.disabled{  
+    color: #999;  
+    /* -webkit-text-fill-color:#ccc;   */
+    background: #fff;
+    -webkit-opacity:1;  
+    opacity: 1;  
+} 
+
+/* 边框类 */
+.bbn{
+    border-bottom: none !important;
+}
+
+/* margin类 */
+.mb0{
+    margin-bottom: 0 !important;
+}
+
+/* 文本类 */
+.fw-600{
+    font-weight: 600 !important;
+}
+.fz-026{
+    font-size: 0.26rem !important;
+}
+.tal{
+    text-align:left !important;
+}
+.tar{
+    text-align:right !important;
+}
+
+/* 盒子类 */
+.dib{
+    display: inline-block !important;
+}
+.di{
+    display: inline !important;
+}
+.db{
+    display: block !important;
+}
+.dbn{
+    display: none !important;
+}

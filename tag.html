@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <{header app=topwap}>
+    <link rel="stylesheet" type="text/css" href="images/style.css" />
+    <link rel="stylesheet" href="images/qingfeng.css">
+    <{script src="setTitle.js" app="topwap"}>
+    <script src="images/swiper-4.2.2.min.js"></script>
+    <script src="images/qingfeng.js"></script>
+    <script src="images/gotop.js"></script>
+    <style type="text/css">
+        /*导航*/
+        .qf_ad{padding:.3rem;text-align:center;background:#fff;margin-bottom:.2rem;}
+        .qf_ad .ad-item{float:left;width:25%;text-align:center;}
+        .qf_ad .ad-item .pic{/*height:1.76rem;*/width: 100%;line-height:1.76rem;}
+        .qf_ad .ad-item img{width:3.125rem;height:3.125rem;}
+        .qf_ad .ad-item .info{margin-top:0.194rem;}
+        .qf_ad .ad-item .info h3{font-size:0.706rem;font-weight:normal;}
+    </style>
+</head>
+
+<!--首页头部-->
+<body class="has-footer wap-body">
+<{require file="block/header.html"}>
+<!--首页顶部轮播-->
+<section class="container">
+    <{widgets id="wap_top_slider"}>
+    <!--首页导航icon-->
+    <{widgets id="nav-cat"}>
+    <!--首页导航-->
+    <{widgets id="wap_nav_label"}>
+
+    <!--楼层-->
+    <{widgets id="wap_floor"}>
+    <!-- 商品类型 -->
+    <{widgets id="wap_goods_type"}>
+    <!-- 猜你喜欢商品 -->
+    <{widgets id="wap_like_goods_item"}>
+    <!-- 推荐商品 -->
+    <div class="goods-floor">
+        <{widgets id="w8"}>
+    </div>
+    <{main app=topwap}>
+</section>
+<{require file="block/footer.html"}>
+
+<script>
+    $(function(){
+        var widgetsFloorThree = $('.three').children()[2];
+        var minHeight = widgetsFloorThree.clientHeight;
+        $('#cust-first').css('height',(parseInt(minHeight)+40));
+    });
+</script>
+
+<script>
+    stylePrice('coupon',true);
+    $('.get-coupons').on('tap',function(){
+        var coupon_id = $(this).data('id');
+        var shop_id = $(this).data('shopid');
+        $.post('<{url action=topwap_ctl_shop_coupon@receiveConpon}>',{'coupon_id':coupon_id,'shop_id':shop_id},function(rs){
+            if( rs.error ){
+                shopex.alert(rs.message);
+            }else{
+                shopex.toast(rs.message);
+            }
+        })
+    })
+</script>
+<{if \userAuth::check() && func::isXmall()}>
+<script>
+    $(document).ready(function() {
+        $('form').attr('autocomplete', 'off');
+        $('.goods-pic').css("background",'#fff');
+        var ch = document.documentElement.clientHeight + 600;
+        for(var i=0;i<$('.imgload').length;i++){
+            $('.imgload').eq(i).attr('data-top',getPositionTop($('.imgload').eq(i)[0]));
+        }
+        $('.imgload').last().attr('data-sta',0);
+        $(window).scroll(function() {
+            if(	$('.imgload').last().attr('data-sta') == 1){
+                return;
+            }
+
+            for(var i=0;i<$('.imgload').length;i++){
+                if($('.imgload').eq(i).attr('data-loadstatus') == "0"  && Number($('.imgload').eq(i).attr('data-top')) - $(this).scrollTop() <= ch){
+                    // console.log('图片加载中')
+                    $('.imgload').eq(i).attr('src',$('.imgload').eq(i).attr("data-imgurl"));
+                    $('.imgload').eq(i).attr('data-loadstatus','1');
+                }
+            }
+
+            if($('.imgload').last().attr('data-loadstatus') == 1){
+                $('.imgload').last().attr('data-sta',1);
+            }
+        });
+        function getPositionTop(node) {
+            var top = node.offsetTop;
+            var parent = node.offsetParent;
+            while(parent != null) {
+                top += parent.offsetTop;
+                parent = parent.offsetParent;
+            }
+            return top;
+        }
+
+    });
+</script>
+<{/if}>
+</body>
+</html>

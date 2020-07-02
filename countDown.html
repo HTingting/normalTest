@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>倒计时</title>
+</head>
+<body>
+    <div id="countdown">
+
+    </div>
+</body>
+<script>
+    var serviceCurrTime = '1566134318';
+    var endTime = '1566137918';
+    var t = endTime - serviceCurrTime;
+    let timer = setInterval(function(){
+        t--;
+        console.log(t)
+        if(t>0){
+            let day = Math.floor(t/86400000);
+            let hour=Math.floor((t/3600000)%24);
+            let min=Math.floor((t/60000)%60);
+            let sec=Math.floor((t/1000)%60);
+            hour = hour < 10 ? "0" + hour : hour;
+            min = min < 10 ? "0" + min : min;
+            sec = sec < 10 ? "0" + sec : sec;
+            let format = '';
+            if(day > 0){
+                format =  `<span>${parseInt(hour)+parseInt(day*24)}</span>:<span>${min}</span>:<span>${sec}</span>`;
+            }
+            if(day <= 0 && hour > 0 ){
+                format = `<span>${hour}</span>:<span>${min}</span>:<span>${sec}</span>`;
+            }
+            if(day <= 0 && hour <= 0){
+                format =`<span>00</span>:<span>${min}</span><span>${sec}</span>`;
+            }
+            document.getElementById('countdown').innerHTML = format;
+        }else{
+            clearInterval(timer);
+        }
+    },1000)
+</script>
+</html>

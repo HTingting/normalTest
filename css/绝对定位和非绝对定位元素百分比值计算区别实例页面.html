@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绝对定位和非绝对定位元素百分比值计算区别实例页面</title>
+</head>
+<style>
+    .demo{
+        max-width:300px;
+        margin:auto;
+    }
+    .box{
+        height:160px;
+        padding:30px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        background: red;
+        margin:30px;
+    }
+    .child{
+        height:100%;
+        background: yellow;
+    }
+    .real{
+        position:relative;
+    }
+    .real>.child{
+        position:absolute;
+        width:100%;
+    }
+</style>
+<body>
+<div class="demo">
+    <div class="box">
+        <div class="child"></div>
+    </div>
+    <div class="box real">
+        <div class="child"></div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>margin子元素设置margin-top导致头图掉下来</title>
+</head>
+<style>
+    .demo{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        text-align: center;
+    }
+    .container{
+        max-width: 1920px;
+        height: 384px;
+        margin:auto;
+        background: url(https://demo.cssworld.cn/images/4/cover-5-1.jpg) no-repeat center;
+        overflow: hidden;
+    }
+    h2{
+        margin-top:50px;
+        font-size:28px;
+        text-align: center;
+        color:#fff;
+    }
+</style>
+<body>
+    <div class="demo">
+        <div class="container">
+            <h2>css的世界</h2>
+        </div>
+    </div>
+</body>
+</html>

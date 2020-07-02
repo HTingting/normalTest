@@ -1,0 +1,319 @@
+html{
+  font-size:100%;
+  height:100%;
+}
+body{
+  width:7.5rem;
+  height: 100%;
+  position:relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto;
+  padding: 0;
+  background: #F3F4F5;
+}
+.main{
+  height: 100%
+}
+
+@font-face {
+  font-family: DINEngschrift;
+  src: url('./DINEngschrift.otf');
+}
+
+.prize-pool{
+  height: 100%;
+}
+
+
+//图片
+.prize-pool-img{
+  img{
+    width:100%;
+    height: 3.04rem;
+  }
+}
+//内容
+.pool-content{
+  position:absolute;
+  top: .98rem;
+  left: .3rem;
+  right: .3rem;
+  bottom: 0.1rem;
+  background: #fff;
+  border-radius: .12rem;
+  padding-top: 0.88rem;
+  overflow:hidden;
+
+  //导航
+  .pool-nav{
+    position: absolute;
+    top:0;
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
+    height: 0.88rem;
+    align-self: flex-start;
+    justify-self: flex-start;
+    font-size: .4rem;
+    color: #333;
+    width: 100%;
+    background-color: #ebedf2;
+    .tabview-select{
+      background-color: #fff;
+      border-top-right-radius: 0.12rem;
+      border-top-left-radius: 0.12rem;
+      width: 50%;
+      position: absolute;
+      height: 100%;
+      -webkit-transition: all .3s ease;
+      transition: all .3s ease;
+      -webkit-transform: translateX(0);
+      transform: translateX(0);
+      &:before{
+        content: "";
+        position: absolute;
+        bottom: 0;
+        background-image: url(../images/pool-tab-img.png);
+        background-size: 100%;
+        height: 0.88rem;
+        width: 0.44rem;
+        right: -0.44rem;
+      }
+      span{
+        display: inline-block;
+        width: 21px;
+        position: absolute;
+        height: 3px;
+        border-radius: 1.5px;
+        background-color: #FF6602;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        transform: translateX(-50%);
+        bottom: 5%;
+      }
+    }
+    .select-tab{
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
+      &:after{
+        content: "";
+        position: absolute;
+        bottom: 0;
+        background-image: url(../images/pool-tab-img.png);
+        background-size: 100%;
+        height: 0.88rem;
+        width: 0.44rem;
+        left: -0.44rem;
+        transform: rotateY(180deg);
+      }
+    }
+    .tabview-tab{
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      flex: 1;
+      text-align: center;
+      -webkit-transition: all .3s ease;
+      transition: all .3s ease;
+      line-height:0.88rem;
+      .tab-title{
+        position:relative;
+        font-size:0.32rem;
+        color:#333;
+        font-weight:600;
+      }
+      .active{
+        color:#FF6602;
+      }
+    }
+  }
+  //内容
+  .content{
+    position:relative;
+    height:100%;
+  }
+  .tab-content{
+    position:absolute;
+    .content-ul{
+      padding:0.36rem .3rem .42rem .3rem;
+      li{
+        width:6.28rem;
+        min-height:2.5rem;
+        background: #F8F8F8;
+        box-sizing: border-box;
+        padding: 0.48rem 0.26rem 0;
+        margin-bottom: 0.2rem;
+        .item-text{
+          font-size:0.28rem;
+          color:#666;
+          font-weight: 500;
+          line-height: 0.4rem;
+          margin-bottom: .2rem;
+        }
+        .item-num{
+          font-size: 0.7rem;
+          line-height: 0.84rem;
+          margin-bottom:0.22rem;
+          font-family: DINEngschrift;
+        }
+        .item-desc{
+          font-size:0.2rem;
+          height:0.72rem;
+          line-height: 0.28rem;
+          color:#999;
+        }
+      }
+    }
+    .second-ul {
+      li{
+        background: #fff;
+        border-bottom:0.02rem solid #eee;
+        min-height:1rem;
+        padding-top:0.36rem;
+        margin-bottom:0rem;
+        .item-num{
+          line-height: 0.72rem;
+          font-size:0.6rem;
+          margin-bottom:0.38rem;
+        }
+      }
+    }
+    //按钮
+    .pool-btn{
+       text-align:center;
+       width: 3rem;
+       height:0.88rem;
+       background: #FF6602;
+       border-radius: 0.44rem;
+       line-height:0.88rem;
+       margin:0 auto .3rem;
+       a{
+         display: block;
+         font-size:0.32rem;
+         color:#fff;
+       }
+    }
+    //签署协议入口
+    .protocal-enter{
+      padding-left: 0.32rem;
+      .protocal-text{
+        height: 0.4rem;
+        width: 2.30rem;
+        border-bottom: 1px solid #FF6602;
+        font-size: 0.28rem;
+        color:#FF6602;
+        img{
+          width: 0.28rem;
+          height: 0.28rem;
+          vertical-align: middle;
+        }
+      }
+      &:hover{
+        cursor: pointer;
+      }
+      .protocal-desc{
+        font-size: 0.24rem;
+        color: #333;
+        line-height:0.34rem;
+        margin-top:0.14rem;
+        margin-bottom:0.6rem;
+      }
+    }
+  }
+  .tab-content:last-child{
+    display: none;
+  }
+}
+
+//遮罩
+.mask{
+  width:100%;
+  position:fixed;
+  top:0;
+  left:0;
+  bottom:0;
+  background:rgba(0,0,0,0.8);
+  display:block;
+  .protocal-panel{
+    width: 6.9rem;
+    height:7.28rem;
+    border-radius: 0.12rem;
+    margin:2rem auto;
+    background:#fff;
+    box-sizing: border-box;
+    padding: 0 0.34rem;
+    .protocal-header{
+      padding-top:0.42rem;
+      margin-bottom: 0.26rem;
+      text-align: center;
+      height:0.44rem;
+      line-height: 0.44rem;
+      position:relative;
+      .header-text{
+        font-size:0.32rem;
+        color: #333;
+        line-height: 0.44rem;
+        font-weight: 600;
+        .close-icon{
+          height:0.3rem;
+          width:0.28rem;
+          position:absolute;
+          right:5%;
+          bottom:10%;
+        }
+      }
+    }
+    .protocal-cont{
+      height: 4.96rem;
+      overflow-y: scroll;
+      font-size: 0.28rem;
+      color: #999;
+      line-height: 0.4rem;
+      text-indent: 2em;
+      margin-bottom: 0.16rem;
+    }
+    .protocal-cont::-webkit-scrollbar {
+      display: none;
+    }
+    .protocal-footer{
+        display: flex;
+        justify-content: space-between;
+        align-items:center;
+        label{
+          font-size:0.24rem;
+          font-weight:400;
+          color:rgba(255,102,2,1);
+          line-height:0.34rem;
+
+          //设置背景图
+          .check-icon{
+            background:url('../images/img-un-checked.png') no-repeat;
+            -webkit-background-size: contain;
+            background-size: contain;
+            padding-left: 0.45rem;
+          }
+
+          .checked{
+            background: url('../images/img-checked.png') no-repeat;
+            -webkit-background-size: contain;
+            background-size: contain;
+            padding-left: 0.45rem;
+          }
+
+        }
+        .ensure-btn{
+          width: 2.4rem;
+          height: 0.88rem;
+          background:#D8D8D8;
+          font-size:0.32rem;
+          color:#fff;
+          border-radius:0.44rem;
+          text-align: center;
+          line-height: 0.88rem;
+        }
+        .active{
+          background:#FF6602;
+        }
+    }
+  }
+}
