@@ -5,16 +5,20 @@
     <title>Title</title>
 </head>
 <style>
-    html,body,svg { height:100%; margin: 0; padding: 0; display:block; }
+    html,body{ height:100%; margin: 0; padding: 0; display:block; }
+    svg{
+        width:500px;height:500px;display: block;padding:20px;
+    }
 </style>
 <body>
 <svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
     <path fill="none" stroke="lightgrey"
-          d="M20,50 C20,-50 180,150 180,50 C180-50 20,150 20,50 z" />
+          d="M10 10 H 90 V 90 H 10 L 10 10" />
 
-    <circle r="5" fill="red">
+    <!---->
+    <circle r="1" fill="red">
         <animateMotion dur="10s" repeatCount="indefinite"
-                       path="M20,50 C20,-50 180,150 180,50 C180-50 20,150 20,50 z" />
+                       path="M10 10 H 90 V 90 H 10 L 10 10" />
     </circle>
 </svg>
 </body>

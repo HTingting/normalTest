@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="600" viewBox="0 0 200 80" version="1.1">
+        <!--感觉这里就是定义而已。下面才是要引用的。
+            定义也是如此：
+                SVG 允许我们定义以后需要重复使用的图形元素。
+                建议把所有需要再次使用的引用元素定义在defs元素里面。
+                这样做可以增加SVG内容的易读性和可访问性。 在defs元素中定义的图形元素不会直接呈现。
+                你可以在你的视口的任意地方利用 <use>元素呈现这些元素。-->
+        <defs>
+            <mask id="myMask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="80">
+                <rect x="0" y="0" width="100" height="80" fill="yellow"/>
+            </mask>
+
+            <text id="Text" x="100" y="48" font-size="26" font-weight="bold" text-anchor="middle">
+                Black &amp; White
+            </text>
+        </defs>
+
+        <!-- Draw black rectangle in the background -->
+        <rect x="100" y="10" width="95" height="60" fill="green"/>
+
+        <!-- Draw the text string twice. First, the white text without mask.
+             Second, the black text with the mask applied-->
+        <use x="80" y="80" xlink:href="#Text" fill="pink"/>
+
+        <use x="80" y="180" xlink:href="#Text" fill="black" mask="url(#myMask)"/>
+
+        <use x="80" y="280" xlink:href="#Text" fill="yellow"/>
+    </svg>
+</body>
+</html>
