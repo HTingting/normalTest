@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>svg图形引用2‘</title>
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg">
+    <!--旋转45度，在点50,50-->
+    <!--g： group 元素组，他的好处是可以整体变换。但是他跟use元素不一样，use有x的属性；可以水平位置移动；但是g元素没有x属性。-->
+    <g transform="rotate(45 50 50)">
+        <line x1="10" y1="10" x2="85" y2="10"
+              style="stroke: #006600;"/>
+
+        <rect x="10" y="20" height="50" width="75"
+              style="stroke: #006600; fill: #006600"/>
+
+        <text x="10" y="90" style="stroke: #660000; fill: #660000">
+            Text grouped with shapes</text>
+    </g>
+</svg>
+</body>
+</html>

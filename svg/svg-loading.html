@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>svg-loading</title>
+</head>
+<body>
+    <svg width="50px" height="50px">
+        <circle
+                cx="25"
+                cy="25"
+                r="20"
+                fill="transparent"
+                stroke-width="3"
+                stroke-dasharray="31.415, 31.415"
+                stroke="#02bcfe"
+                stroke-linecap="round"
+        >
+            <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    values="0, 25 25;360, 25 25"
+                    dur="1.5s"
+                    repeatCount="indefinite"
+            />
+            <animate
+                    attributeName="stroke"
+                    values="#02bcfe;#3be6cb;#02bcfe"
+                    dur="3s"
+                    repeatCount="indefinite"
+            />
+        </circle>
+
+        <!--
+            stroke-dasharray：它是一个<length>和<percentage>数列，数与数之间用逗号或者空白隔开，指定短划线和缺口的长度。
+            stroke-linecap 属性制定了，在开放子路径被设置描边的情况下，用于开放自路径两端的形状。
+        -->
+        <circle
+                cx="25"
+                cy="25"
+                r="10"
+                fill="transparent"
+                stroke-width="3"
+                stroke-dasharray="15.7, 15.7"
+                stroke="#3be6cb"
+                stroke-linecap="round"
+        >
+            <!--
+                animateTransform:元素变动了目标元素上的一个变形属性，从而允许动画控制转换、缩放、旋转或斜切。
+                                 type:决定了那些随时间变化的值的转换的类型
+                                 values: 设置了values的值，就相当于忽略了from,to,by等属性值
+                                 attributeName: 该属性标识了在一个动画动作环节中，父元素的需要被改变的属性名。
+            -->
+            <animateTransform
+                    attributeName="transform"
+                    type="rotate"
+                    values="360, 25 25;0, 25 25"
+                    dur="1.5s"
+                    repeatCount="indefinite"
+            />
+            <!--
+                animate:动画元素放在形状元素的内部，用来定义一个元素的某个属性如何踩着时点改变。在指定持续时间里，属性从开始值变成结束值。
+            -->
+            <animate
+                    attributeName="stroke"
+                    values="#3be6cb;#02bcfe;#3be6cb"
+                    dur="3s"
+                    repeatCount="indefinite"
+            />
+        </circle>
+</svg>
+</body>
+</html>

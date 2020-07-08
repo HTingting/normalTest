@@ -79,7 +79,7 @@
 
     //图形对应的默认属性
     var shapeInfo = {
-        rect: "x:10,y:10,width:200,height:200,rx:0,ry:0",
+        rect: "x:10,y:10,width:200,height:100,rx:0,ry:0",
         circle:"cx:200,cy:100,r:50",
         ellipse:"cx:200,cy:200,rx:80,ry:30",
         line:"x1:10,y1:10,x2:100,y2:100"
@@ -105,6 +105,46 @@
         }
     });
 
+    attrForm.addEventListener('input',function(e){
+        if (e.target.tagName.toLowerCase() != 'input') return;
+        var handle = e.target;
+        selected.setAttribute(handle.name, handle.value);
+    });
+
+    lookForm.addEventListener('input',function(e){
+        if(e.target.tagName.toLowerCase() != 'input') return;
+        if(!selected) return;
+        console.warn('-----------',fill,stroke);
+        //todo 有疑问
+        selected.setAttribute('fill',fill.value);
+        selected.setAttribute('stroke', stroke.value);
+        selected.setAttribute('stroke-width',strokeWidth.value);
+        selected.setAttribute('transform', encodeTransform({
+            tx : translateX.value,
+            ty: translateY.value,
+            scale: scale.value,
+            rotate: rotate.value
+        }));
+    });
+
+    function encodeTransform(transObject) {
+        return ['translate(', transObject.tx, ',', transObject.ty, ') ',
+            'rotate(', transObject.rotate, ') ',
+            'scale(', transObject.scale, ')'].join('');
+    }
+
+    function decodeTransform(transString) {
+        var match = /translate\((\d+),(\d+)\)\srotate\((\d+)\)\sscale\((\d+)\)/.exec(transString);
+        return match ? {
+            tx: +match[1],
+            ty: +match[2],
+            rotate: +match[3],
+            scale: +match[4]
+        } : null;
+    }
+
+
+
     function createSVG(){
         var svg = document.createElementNS(SVG_NS, 'svg');
         var canvas = document.getElementById('canvas');
@@ -116,7 +156,6 @@
 
     function create(name) {
         var shape = document.createElementNS(SVG_NS, name);
-        console.log('创建不起作用----',shape,svg);
         svg.appendChild(shape);
         select(shape);
     }
@@ -130,9 +169,10 @@
 
         while(attrs.length){
             attr = attrs.shift().split(':');
-            name = attrs[0];
-            value = attr[1]; // todo 需要判断是否有，没有就取默认的
-            shape.setAttribute(name,value);
+            name = attr[0];
+            value = shape.getAttribute(name) || attr[1];
+            createHandle(shape, name, value);
+            shape.setAttribute(name, value);
         }
 
         for(name in defaultAttrs){
@@ -141,7 +181,42 @@
         }
         selected = shape;
 
-        //updateLookHandle();
+        updateLookHandle();
+    }
+
+    function createHandle(shape, name, value) {
+        var label = document.createElement('label');
+        label.textContent = name;
+
+        var handle = document.createElement('input');
+        handle.setAttribute('name', name);
+        handle.setAttribute('type', 'range');
+        handle.setAttribute('value', value);
+        handle.setAttribute('min', 0);
+        handle.setAttribute('max', 800);
+
+        attrForm.appendChild(label);
+        attrForm.appendChild(handle);
+    }
+
+    function updateLookHandle() {
+        fill.value = selected.getAttribute('fill');
+        stroke.value = selected.getAttribute('stroke');
+        var t = decodeTransform(selected.getAttribute('transform'));
+        translateX.value = t ? t.tx : 0;
+        translateY.value = t ? t.ty : 0;
+        rotate.value = t ? t.rotate : 0;
+        scale.value = t ? t.scale : 1;
+    }
+
+    function decodeTransform(transString) {
+        var match = /translate\((\d+),(\d+)\)\srotate\((\d+)\)\sscale\((\d+)\)/.exec(transString);
+        return match ? {
+            tx: +match[1],
+            ty: +match[2],
+            rotate: +match[3],
+            scale: +match[4]
+        } : null;
     }
 </script>
 </html>

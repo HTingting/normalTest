@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>天空</title>
+</head>
+<style>
+    html,body{
+        margin:0;
+        padding:0;
+        width:100%;
+        height:100%;
+        background: #001122;
+        line-height:0;
+        font-size:0;
+    }
+</style>
+<body>
+    <svg width="100%" height="100%"
+         viewBox="-400 -300 800 600"
+         preserveAspectRatio="xMidYMid slice">
+        <defs>
+            <polygon id="star" points="0 -10 2 -2 10 0 2 2 0 10 -2 2 -10 0 -2 -2" fill="white"></polygon>
+        </defs>
+        <g id="star-group"></g>
+    </svg>
+</body>
+<script>
+    var SVG_NS = "http://www.w3.org/2000/svg";
+    var XLINK_NS = "http://www.w3.org/1999/xlink";
+
+    var paper = document.querySelector('svg');
+
+    renderStar();
+
+    function use(origin){
+        //1.创建use标签
+        var _use = document.createElementNS(SVG_NS, 'use');
+        _use.setAttributeNS(XLINK_NS, 'xlink:href', '#'+origin.id);
+        return _use;
+    }
+
+    function random(min,max){
+        return min + (max - min) * Math.random();
+    }
+
+    function renderStar(){
+        var starRef = document.getElementById('star');
+        var starGroup = document.getElementById('star-group');
+        var starCount = 500;
+
+        var star;
+        while(starCount--){
+            star = use(starRef);
+            //设置opacity
+
+            //设置大小，旋转角度
+            star.setAttribute('transform','translate(' + random(-400,-400) + ',' + random(-300,300) +')');
+            starGroup.appendChild(star);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

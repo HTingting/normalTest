@@ -6,10 +6,15 @@
 </head>
 <body>
     <head>
-        <title>在网页中直接使用SVG标签</title>
+        <title></title>
     </head>
     <body>
-
+        <input type="text" id="ht" value="a good girl">
     </body>
 </body>
+<script>
+    var s = '∏￥§℅€℃￡℉№℡‰$￠∮※？??？<>[]&Ø 121212121212'
+    s = s.replace(/\[|※|&|￥|$|\?|？|<|>|'|&|∏/g, '');
+    console.warn(s);
+</script>
 </html>
