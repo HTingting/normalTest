@@ -19,10 +19,70 @@
     <svg width="100%" height="100%"
          viewBox="-400 -300 800 600"
          preserveAspectRatio="xMidYMid slice">
+        <!--定义了一个星星的可复用的图形-->
         <defs>
             <polygon id="star" points="0 -10 2 -2 10 0 2 2 0 10 -2 2 -10 0 -2 -2" fill="white"></polygon>
         </defs>
-        <g id="star-group"></g>
+        <g id="real">
+            <g id="star-group"></g>
+            <g id="light-tower" transform="translate(250,0)">
+                <!--定义需要用到的样式-->
+                <defs>
+                    <linearGradient id="tower" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0" stop-color="#999"></stop>
+                        <stop offset="1" stop-color="#333"></stop>
+                    </linearGradient>
+                    <clipPath id="light-clip">
+                        <!--三角形 + 灯源 -->
+                        <polygon points="0 0 -500 -15 -400 15" fill="rgba(255,0,0,.5)">
+                            <!--三角形的动态效果-->
+                            <animateTransform
+                                    attributeName="transform"
+                                    attributeType="XML"
+                                    type="rotate"
+                                    from="0"
+                                    to="360"
+                                    dur="10s"
+                                    repeatCount="indefinite"
+                            >
+                            </animateTransform>
+                        </polygon>
+                        <circle cx="0" cy="0" r="2"></circle>
+                    </clipPath>
+                    <!--椭圆内部渐变-->
+                    <radialGradient id="light" cx="0.5" cy="0.5" cy="0.5" r="0.5">
+                        <stop offset="0" stop-color="rgba(255,255,255,.8)"></stop>
+                        <stop offset="1" stop-color="rgba(255,255,255,0)"></stop>
+                    </radialGradient>
+                </defs>
+                <!--塔座-->
+                <polygon points="0 0 5 50 -5 50" style="fill: url(#tower)"></polygon>
+                <ellipse cx="0" cy="0" rx="300" ry="100" clip-path="url(#light-clip)" fill="url(#light)"></ellipse>
+            </g>
+            <g id="mood-group">
+                <mask id="moon-mask">、
+                    <!--mask 里面 白色可见，黑色不可见-->
+                    <circle cx="-250" cy="-100" r="100" fill="yellow"></circle>
+                    <circle cx="-200" cy="-50" r="100" fill="black"></circle>
+                </mask>
+                <circle cx="-250" cy="-100" r="100" fill="yellow" mask="url(#moon-mask)"></circle>
+                <!--这种做法是不生效的-->
+                <!--<circle cx="-200" cy="-50" r="100" fill="transparent"></circle>-->
+            </g>
+        </g>
+        <g id="reflact"  mask="url(#fading)">
+            <defs>
+                <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="rgba(255,255,255,.3)"></stop>
+                    <stop offset="0.5" stop-color="rgba(255,255,255,0)"></stop>
+                </linearGradient>
+                <mask id="fading">
+                    <rect x="-400" y="0" width="800" height="300" fill="url(#fade)"></rect>
+                </mask>
+            </defs>
+            <use xlink:href="#real" transform="scale(1,-1) translate(0,-50)"></use>
+        </g>
+
     </svg>
 </body>
 <script>
@@ -53,27 +113,11 @@
         while(starCount--){
             star = use(starRef);
             //设置opacity
-
+            star.setAttribute('opacity',random(0.1,0.4));
             //设置大小，旋转角度
-            star.setAttribute('transform','translate(' + random(-400,-400) + ',' + random(-300,300) +')');
+            star.setAttribute('transform','translate(' + random(-400,400) + ',' + random(-300,300) +'),scale(' + random(0.1,1) + ',' + random(0.1,1) + ')');
             starGroup.appendChild(star);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 </html>
