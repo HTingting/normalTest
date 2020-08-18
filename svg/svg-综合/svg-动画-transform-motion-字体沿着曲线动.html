@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>svg-animate</title>
+</head>
+<body>
+<!--
+    沿着路径跑。
+-->
+<svg width="100%" height="100%" viewBox="0 0 1000 300"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path id="path1" d="M10,80 q 100,120 120,20 q140,-50 160,0" />
+    </defs>
+
+    <use xlink:href="#path1"  fill="none" stroke="red"/>
+
+    <text  font-family="Verdana" font-size="14">
+        <textPath xlink:href="#path1" >很多马很多马
+            <animate attributeName="startOffset" from="0" to="400" begin="0s" dur="3s" repeatCount="indefinite"></animate>
+        </textPath>
+
+    </text>
+
+
+
+</svg>
+</body>
+</html>

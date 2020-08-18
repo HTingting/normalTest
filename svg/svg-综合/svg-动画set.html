@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>svg-渐变</title>
+</head>
+<body>
+<!--设置了circle在2s内，由半径25->100-->
+<svg width="500" height="800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="25" style="stroke: none; fill: #0000ff;">
+        <set attributeName="r" attributeType="XML"
+             to="100"
+             begin="2s"  />
+    </circle>
+</svg>
+</body>
+</html>

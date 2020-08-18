@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="./d3.min.js"></script>
+<body>
+
+</body>
+</html>
+<script>
+    const svg = d3.select("body").append("svg");
+    const defs = svg.append('defs');
+
+    const l2 = defs.append('linearGradient')
+        .attr('id', 'grd2')
+        .attr('gradientUnits', 'userSpaceOnUse')
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '100%')
+        .attr('y2', '100%');
+
+    l2.append('stop')
+        .attr("offset", '0%')
+        .attr("stop-color", 'hsl(120, 100%, 30%)')
+
+    l2.append('stop')
+        .attr("offset", '40%')
+        .attr("stop-color", '#ffffff')
+
+    l2.append('stop')
+        .attr("offset", '100%')
+        .attr("stop-color", 'hsl(320, 100%, 50%)')
+
+    svg.append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', 124)
+        .attr('height', 74)
+        .attr('fill', 'url(#grd2)')
+    svg.append('rect')
+        .attr('x', 126)
+        .attr('y', 0)
+        .attr('width', 124)
+        .attr('height', 74)
+        .attr('fill', 'url(#grd2)')
+    svg.append('rect')
+        .attr('x', 0)
+        .attr('y', 76)
+        .attr('width', 124)
+        .attr('height', 74)
+        .attr('fill', 'url(#grd2)')
+    svg.append('rect')
+        .attr('x', 126)
+        .attr('y', 76)
+        .attr('width', 124)
+        .attr('height', 74)
+        .attr('fill', 'url(#grd2)')
+</script>

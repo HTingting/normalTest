@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>一个简单的svg路径变化形成的动画效果</title>
+</head>
+<style>
+    html, body { margin: 0; height: 100%; background-color: #012E72; font-family: 'microsoft yahei'; overflow: hidden; }
+    .shape-svg { position: absolute; width: 100%; height: 100%; }
+    .white { padding: 10px; color: #fff; position: absolute; z-index: 2; }
+    .white:hover { text-decoration: none; }
+
+</style>
+<body>
+<svg id="shapeSVG" class="shape-svg"></svg>
+<script src="https://www.zhangxinxu.com/GitHub/demo-Snap.svg/static/snap.svg-min.js"></script>
+<script>
+    //SVG主题
+    var svg = Snap("#shapeSVG");
+
+    //确定页面中心点位置
+    var point_center = [window.innerWidth / 2 , window.innerHeight / 2];
+
+    //这里是一个5边型
+    /**
+     * 太凄惨了，知道了圆心，怎么求正五边形的各个点？
+     * Math.sin(x),Math.cos(x),Math.tan(x);——里面的值，都是指弧度的长度
+     * 1度=π/180≈0.01745弧度
+     *
+     * 直角三角形的边长求值
+     * sinA = A对边 / 长邻边
+     * cosA = A邻边 / 长邻边
+     * tanA = A对边 / A邻边
+     *
+     * 所以总结下来知道了radius;求1的x,y点
+     *
+     * 1-x = radius * sin(360/10)  = radius * sin36度 = radius * Math.sin(  PI*(36/180)  )
+     */
+        /*
+                  。2
+              。1
+              |    .   。3
+              。5
+                  。4
+    */
+
+    var radius = 200;
+
+    var p1 = [
+        point_center[0] - radius * Math.sin((54/180) * Math.PI),
+        point_center[1] - radius * Math.sin((36/180) * Math.PI)
+    ], p2 = [
+        point_center[0] + radius * Math.sin((18/180) * Math.PI),
+        point_center[1] - radius * Math.sin((72/180) * Math.PI)
+    ], p3 = [
+        point_center[0] + radius,
+        point_center[1]
+    ], p4 = [
+        point_center[0] + radius * Math.sin((18/180) * Math.PI),
+        point_center[1] + radius * Math.sin((72/180) * Math.PI)
+    ], p5 = [
+        point_center[0] - radius * Math.sin((54/180) * Math.PI),
+        point_center[1] + radius * Math.sin((36/180) * Math.PI)
+    ];
+
+    // 根据这5个点绘制
+    var polygon = svg.paper.polyline([p1.join(), p2.join(), p3.join(), p4.join(), p5.join()].join()).attr({
+        fill: "rgba(255,255,255,.85)"
+    });
+
+    // 事件与动画
+    // 我们对p3这一点做处理
+    var animate_p3 = function(val) {
+        polygon.attr({
+            points: [p1.join(), p2.join(), [point_center[0] + val, point_center[1]], p4.join(), p5.join()].join()
+        });
+    };
+    // 鼠标移入与移出
+    polygon.mouseover(function() {
+        Snap.animate(radius, 0, animate_p3, 300, mina.backout);
+    }).mouseout(function() {
+        Snap.animate(0, radius, animate_p3, 300, mina.backin);
+    });
+
+
+</script>
+</body>
+</html>

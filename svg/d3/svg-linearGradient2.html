@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="./d3.min.js"></script>
+<body>
+
+</body>
+</html>
+<script>
+    const svg = d3.select('body').append('svg');
+    const defs = svg.append('defs');
+
+    const linearGradient = defs.append('linearGradient')
+    .attr('id','linear-gradient');
+
+    linearGradient.selectAll("stop")
+        .data([
+            {offset: "0%", color: "#2c7bb6"},
+            {offset: "12.5%", color: "#00a6ca"},
+            {offset: "25%", color: "#00ccbc"},
+            {offset: "37.5%", color: "#90eb9d"},
+            {offset: "50%", color: "#ffff8c"},
+            {offset: "62.5%", color: "#f9d057"},
+            {offset: "75%", color: "#f29e2e"},
+            {offset: "87.5%", color: "#e76818"},
+            {offset: "100%", color: "#d7191c"}
+        ])
+        .enter().append("stop")
+        .attr("offset", d => d.offset)
+        .attr("stop-color", d => d.color);
+
+    svg.append('rect')
+        .attr('width',320)
+        .attr('height',20)
+        .attr('fill','url(#linear-gradient)')
+
+    //
+</script>

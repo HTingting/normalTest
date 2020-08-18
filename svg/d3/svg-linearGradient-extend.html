@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="./d3.min.js"></script>
+<body>
+
+</body>
+</html>
+<script>
+    /**
+     * 线性渐变可以继承；
+     * 很多时候使用到的线性渐变<linearGradient>时，需要用到的颜色和其实位置是不常改变的，需要改变的主要是渐变的方向和角度。
+     *
+     * 为此，我们可以使用xlink:href 的方式来继承之前已经定义好的线性渐变方法，然后通过重新覆盖x1，y1，x2，y2 的值来修改线性渐变的角度和方向。
+     */
+    const svg = d3.select('body').append('svg');
+    const defs = svg.append('defs');
+
+    const l1 = defs.append('linearGradient')
+        .attr('id','lg-1')
+        .attr('x1','0%')
+        .attr('y1','0%')
+        .attr('x2','0%')
+        .attr('y2','100%')
+
+    l1.append('stop')
+        .attr('offset','0%')
+        .attr('stop-color','#ffa474')
+
+    l1.append('stop')
+        .attr('offset','100%')
+        .attr('stop-color','#8b0000')
+
+    const l2 = defs.append('linearGradient')
+        .attr('id', 'lg-2')
+        .attr('xlink:href', '#lg-1')  // 继承#lg-1
+        .attr('x1', '0%')
+        .attr('y1', '0%')
+        .attr('x2', '100%')
+        .attr('y2', '0%')
+
+
+    svg.append('rect')
+        .attr('width',320)
+        .attr('height',50)
+        .attr('fill','url(#lg-2)')
+
+    //
+</script>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>svg-animate</title>
+</head>
+<body>
+<!--
+    设置了rect图形，设置了scale，从1,2；从1倍跳到3倍。
+-->
+<svg width="500" height="800" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="20" width="100" height="40"
+          style="stroke: #ff00ff; fill:none;" >
+        <animateTransform attributeName="transform"
+                          type="scale"
+                          from="1 1" to="2 3"
+                          begin="0s" dur="10s"
+                          repeatCount="indefinite"
+        />
+    </rect>
+    <circle cx="100" cy="100" r="1" style="stroke:#006600; fill:#00cc00"></circle>
+</svg>
+</body>
+</html>

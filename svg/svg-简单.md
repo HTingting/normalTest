@@ -1,110 +1,116 @@
-#前言
-有天网上冲浪，看到了一个大数据可视化的后台管理项目。视觉感官上特别可以。在github上面浏览一番，发现相关组件也已经出来了。太厉害了~
-我看到主流的是这个UI组件库 [Datav]https://github.com/DataV-Team/DataV  下载了源码看下，主要的UI组件都是svg来搞定的。我决定来拾起
-svg的知识。
+# 前言
 
-##什么是SVG
+有天网上冲浪，看到了一个大数据可视化的后台管理项目。视觉感官上特别可以。在 GitHub 上面浏览一番，发现相关组件也已经出来了。太厉害了~
+我看到主流的是这个 UI 组件库 [Datav]https://github.com/DataV-Team/DataV  下载了源码看下，主要的 UI 组件都是 svg 来搞定的。我决定来拾起
+svg 的知识。
+
+## 什么是 SVG
+
 1. 可缩放矢量图形 (SVG) 是一个基于 XML 语法的 2D 矢量图形格式。
-2. W3C 于20世纪90年代末开始着手 SVG 的工作，但是当 Internet Explorer 9 推出 SVG 支持时，SVG 才变得流行起来。
-现在所有主流 browsers 都支持 SVG。
+2. W3C 于 20 世纪 90 年代末开始着手 SVG 的工作，但是当 Internet Explorer 9 推出 SVG 支持时，SVG 才变得流行起来。
+   现在所有主流 browsers 都支持 SVG。
 3. 基于 XML 语法，可以使用 CSS 指定 SVG 的样式，并使用 JavaScript 进行交互。 HTML5 现在允许将 SVG tags 直接嵌入到 HTML 文档中。
 4. 作为一种矢量图像格式，SVG 图形可以无限地扩展，这使其在 responsive design 中非常有用，因为可以创建可缩放到任意屏幕大小的界面元素和图形。
-SVG 还提供了一组有用的工具，例如裁剪，遮罩，过滤器和动画。
+   SVG 还提供了一组有用的工具，例如裁剪，遮罩，过滤器和动画。
 
-##如何使用SVG
-1. 在网页中使用SVG
-    ```
-    <img src="你的svg文件路径.svg" title="Cat Image" alt="Stick Figure of a Cat" />
-    ```
-2. 在css中包含SVG
-    ```
-    div.background-cat {
-      background-image: url("你的svg文件路径.svg");
-      background-size: 100% 100%;
-    }
-    ```
-3. SVG用作应用程序
-    ```
-    <object data="cat.svg" type="image/svg+xml" title="Cat Object" alt="Stick Figure of a Cat">
-      <!-- 文本或者栅格图像用作备用选项 -->
-      <p>No SVG support! Here's a substitute:</p>
-      <img src="cat.png" title="Cat Fallback" alt="A raster rendering of a Stick Figure of a Cat"/>
-    </object>
-    ```
-4. 内联SVG
-    ```
-    <svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
-      <title>An SVG circle</title>
-      <circle cx="125" cy="125" r="100"/>
-      <text x="125" y="125" dy="0.5em" text-anchor="middle">
-      Look Ma, Same Font!</text>
-    </svg>
-    ```
-5. SVG中插入HTML
-    ```
-    <g transform="skewX(20)">
-      <switch>
-      <!-- 选择一个子元素 -->
-      <foreignObject x="1em" y="25%" width="10em" height="50%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
-        <body xmlns="http://www.w3.org/1999/xhtml">
-          <p>This is an XHTML pragraph embedded within a SVG!
-          So this text will wrap nicely around multiple lines,
-          but it will still be skewed from the SVG transform.
-          </p>
-       </body>
-      </foreignObject>
-      <text x="1em" y="25%" dy="1em">
-        This SVG text won't wrap, so it will get cut off...
-      </text>
-      </switch>
-    </g>
-    ```
-##SVG的坐标体系
-    1. 单位可以是em（默认字体大小） ex（字符x的高度） px（像素） pt（点数，1/72英寸） pc（Picas,1/6英寸） cm（厘米） mm（毫米） in（英寸） 默认左上角为原点，用width 和 height来指定大小，跟<canvas>一样
-    2. 设置width和height相当于是实际坐标，设置viewBox相当于是设置虚拟坐标
-       ```
-        <svg width="4cm" height="5cm" viewBox="0 0 64 80">
-       ```
-       这样设置后，这个<svg>内部的坐标系统就会变成左上角（0,0），宽64个单位，高80个单位。内部其他元素都是根据这个虚拟坐标来定位。
-       如果实际坐标和虚拟坐标比例不一致，此时要指定如何处理就需要设置preserveAspectRatio，它的默认值为xMidYMid meet。
-       前一个值是指定x[Mid/Min/Max] y[Mid/Min/Max]，后一个值是meet/slice。
-       Mid表示中部，Min表示前部，Max表示后部，meet表示缩放适配，slice表示切割。
-       [可以参考例子]http://oreillymedia.github.io/svg-essentials-examples/ch03/meet_slice_specifier.html
-    3. 坐标体系涉及到三个概念：viewBox,viewport，preserveAspectRatio  
-       `SVG创建的是一个世界`
-       
-       `viewport 视口，相当于显示器屏幕`
-       
-       `viewbox 视区，相当于屏幕上截取了一小块，放大到整个屏幕，就是特写效果`
-       
-       `preserveAspectRatio  规定viewbox与viewport的对齐方式和缩放方式`
-       
-    4. 如果大家想更详细了解svg的坐标体系，以及viewBox,viewport的相关信息，可以参考博客
-        >http://www.htmleaf.com/ziliaoku/qianduanjiaocheng/201506182064.html
-        
-        >https://www.w3cplus.com/html5/svg-viewport-viewbox-preserveaspectratio.html
-##SVG入门
-####SVG的图形和属性
+##如何使用 SVG
+
+1. 在网页中使用 SVG
+   ```
+   <img src="你的svg文件路径.svg" title="Cat Image" alt="Stick Figure of a Cat" />
+   ```
+2. 在 CSS 中包含 SVG
+   ```
+   div.background-cat {
+     background-image: url("你的svg文件路径.svg");
+     background-size: 100% 100%;
+   }
+   ```
+3. SVG 用作应用程序
+   ```
+   <object data="cat.svg" type="image/svg+xml" title="Cat Object" alt="Stick Figure of a Cat">
+     <!-- 文本或者栅格图像用作备用选项 -->
+     <p>No SVG support! Here's a substitute:</p>
+     <img src="cat.png" title="Cat Fallback" alt="A raster rendering of a Stick Figure of a Cat"/>
+   </object>
+   ```
+4. 内联 SVG
+   ```
+   <svg viewBox="0 0 250 250" xmlns="http://www.w3.org/2000/svg">
+     <title>An SVG circle</title>
+     <circle cx="125" cy="125" r="100"/>
+     <text x="125" y="125" dy="0.5em" text-anchor="middle">
+     Look Ma, Same Font!</text>
+   </svg>
+   ```
+5. SVG 中插入 HTML
+   ```
+   <g transform="skewX(20)">
+     <switch>
+     <!-- 选择一个子元素 -->
+     <foreignObject x="1em" y="25%" width="10em" height="50%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+       <body xmlns="http://www.w3.org/1999/xhtml">
+         <p>This is an XHTML pragraph embedded within a SVG!
+         So this text will wrap nicely around multiple lines,
+         but it will still be skewed from the SVG transform.
+         </p>
+      </body>
+     </foreignObject>
+     <text x="1em" y="25%" dy="1em">
+       This SVG text won't wrap, so it will get cut off...
+     </text>
+     </switch>
+   </g>
+   ```
+
+## SVG 的坐标体系
+1. 单位可以是 `em`（默认字体大小）、 `ex`（字符 x 的高度）、`px`（像素） 、`pt`（点数，1/72 英寸）、 `pc`（Picas,1/6 英寸）、 `cm`（厘米）、 `mm`（毫米） 、`in`（英寸） 默认左上角为原点，用 width 和 height 来指定大小，跟`<canvas>`一样。
+2. 设置 width 和 height 相当于是实际坐标，设置 viewBox 相当于是设置虚拟坐标
+   `<svg width="4cm" height="5cm" viewBox="0 0 64 80">`
+   这样设置后，这个<svg>内部的坐标系统就会变成左上角（0,0），宽 64 个单位，高 80 个单位。内部其他元素都是根据这个虚拟坐标来定位。
+   如果实际坐标和虚拟坐标比例不一致，此时要指定如何处理就需要设置 `preserveAspectRatio`，它的默认值为 `xMidYMid meet`。
+   前一个值是指定 `x[Mid/Min/Max] y[Mid/Min/Max]`，后一个值是 `meet/slice`。
+   Mid 表示中部，Min 表示前部，Max 表示后部，meet 表示缩放适配，slice 表示切割。
+   [可以参考例子]http://oreillymedia.github.io/svg-essentials-examples/ch03/meet_slice_specifier.html
+3. 坐标体系涉及到三个概念：viewBox,viewport，preserveAspectRatio。我简单理解是这样的——
+   `SVG创建的是一个世界`
+
+   `viewport 视口，相当于显示器屏幕`
+
+   `viewbox 视区，相当于屏幕上截取了一小块，放大到整个屏幕，就是特写效果`
+
+   `preserveAspectRatio  规定viewbox与viewport的对齐方式和缩放方式`
+4. 如果大家想更详细了解 svg 的坐标体系，以及 viewBox,viewport 的相关信息，可以参考博客。
+
+   > http://www.htmleaf.com/ziliaoku/qianduanjiaocheng/201506182064.html
+
+   > https://www.w3cplus.com/html5/svg-viewport-viewbox-preserveaspectratio.html
+
+## SVG 入门
+
+#### SVG 的图形和属性
+
 1. 基本图形<br/>
-    `<rect>`、`<circle>`、`<ellipse>`、`<line>`、`<polyline>`、`<polygon>`
+   `<rect>`、`<circle>`、`<ellipse>`、`<line>`、`<polyline>`、`<polygon>`
 2. 基本属性<br/>
-    `fill`、`stroke`、`stroke-width`、`transform`
-3. 基本图形具体的操作可以查看MDN官网文档，比较简单，不做过多的描述。
-   这里另外介绍一个比较建议并且每个建议都附带图片解析的基本svg网站。http://tutorials.jenkov.com/svg/rect-element.html 
-   （相对MDN比较直观，MDN比较详细，边边角角都讲了，容易让人看了跑偏~）
-####SVG基本操作API
-1. 基本操作API
-  + 创建图形<br>
-    `document.createElementNS(ns,tagName)`
-  
-  + 添加图形<br>
-   `element.appendChild(childElement)`
-  
-  + 设置/获取属性<br/>
+   `fill`、`stroke`、`stroke-width`、`transform`
+3. 基本图形具体的操作可以查看 MDN 官网文档，比较简单，不做过多的描述。
+   这里另外介绍一个都附带图片解析的基本 svg 知识点网站。http://tutorials.jenkov.com/svg/rect-element.html
+   （相对 MDN 比较直观，MDN 比较详细，边边角角都讲了，容易让人看了跑偏~。看完以上网站，如果想更加详细了解，建议还是去 MDN 里面单项去熟悉了解。）
+   ####SVG 基本操作 API
+4. 基本操作 API
+
++ 创建图形<br>
+  `document.createElementNS(ns,tagName)`
++ 添加图形<br>
+  `element.appendChild(childElement)`
++ 设置/获取属性<br/>
   `element.setAttribute(name,value)`<br/>
   `element.getAttribute(name)`
-2. 一个简单的例子（参考网上的写法）
-```
+
+1. 一个简单的例子（参考网上的写法）
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -329,10 +335,5 @@ SVG 还提供了一组有用的工具，例如裁剪，遮罩，过滤器和动�
 </html>
 ```
 
-###总结
-    这一次先介绍到这里，下一次再发出来svg更高级一点的用法。因为以上还没有涉及到曲线，渐变，Path，引用，裁切，蒙版，动画等等。我争取早日研究完，再跟大家一起分析。敬请期待哦~~~~
-
-
-
-
-
+## 总结
+       这一次先介绍到这里，下一次再发出来 svg 更高级一点的用法。因为以上还没有涉及到曲线，渐变，Path，引用，裁切，蒙版，动画等等。我争取早日研究完，再跟大家一起分析。敬请期待哦~~~~

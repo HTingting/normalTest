@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="./d3.min.js"></script>
+<body>
+
+</body>
+</html>
+<script>
+    const svg = d3.select("body").append("svg");
+    const defs = svg.append('defs')
+
+    const linearGradient = defs.append('linearGradient')
+        .attr('id', 'linear-gradient')
+
+    // 例1，设置水平颜色渐变效果，只设定x属性的值
+    linearGradient.append('stop')
+        .attr("offset", '0%')
+        .attr("stop-color", '#ffa474')
+
+    linearGradient.append('stop')
+        .attr("offset", '100%')
+        .attr("stop-color", '#8b0000')
+
+    svg.append('rect')
+        .attr('width', 320)
+        .attr('height', 20)
+        .attr('fill', 'url(#linear-gradient)')
+</script>
