@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas" width="1000" height="800"></canvas>
+</body>
+<script>
+    var canvas=document.getElementById("canvas");
+
+    var context=canvas.getContext("2d");
+
+
+
+    //【蓝色- destination】
+    context.fillStyle="rgb(63,169,245)";
+    context.fillRect(50,50,100,100);
+
+    // source-atop : 效果:只显示重叠source和不重叠的destination
+    context.globalCompositeOperation="source-atop";
+
+    //【红色- source 】
+    context.fillStyle="rgb(255,123,172)";
+    context.fillRect(60,60,100,100);
+
+</script>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="tutorial" width="300" height="300">
+
+    </canvas>
+</body>
+<script>
+    /**
+     * 这个例子显示了一些移动canvas原点的好处，如果不使用translate方法，那么所有矩形都将被绘制在相同位置（0.0）。
+     * translate方法同时让我们任意放置这些图案，而不需要在fillRect（）方法中手工调整坐标值。极好理解也方便使用。
+     */
+    function draw(){
+        var canvas = document.getElementById('tutorial');
+        if(!canvas.getContext) return;
+        var ctx = canvas.getContext('2d');
+
+        for(var i = 0 ; i < 3 ; i++){
+            for(var j = 0; j< 3; j++){
+                ctx.save();
+                ctx.fillStyle = 'rgb(' + (51 * i) + ',' + (255 - 51 * i) + ', 255)';
+                ctx.translate(10 + j * 50, 10 + i * 50);
+                ctx.fillRect(0,0, 25, 25);
+                ctx.restore();
+            }
+        }
+
+    }
+    draw();
+</script>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>下拉选择</title>
+</head>
+<body>
+<style>
+    .bdsug {
+        background: none repeat scroll 0 0 #fff;
+        border: 1px solid #ccc;
+        box-shadow: 1px 1px 3px #ededed;
+        display: none;
+        position: absolute;
+        width: 178px;
+        z-index: 1;
+        height: 300px;
+        overflow: scroll;
+    }
+    /*修改滚动条样式*/
+    .bdsug::-webkit-scrollbar{
+        width:10px;
+        height:10px;
+        /**/
+    }
+    .bdsug::-webkit-scrollbar-track{
+        background: rgb(239, 239, 239);
+        border-radius:2px;
+    }
+    .bdsug::-webkit-scrollbar-thumb{
+        background: #bfbfbf;
+        border-radius:10px;
+    }
+    .bdsug::-webkit-scrollbar-thumb:hover{
+        background: #333;
+    }
+    .bdsug::-webkit-scrollbar-corner{
+        background: #179a16;
+    }
+
+    ul>li{
+        list-style: none;
+    }
+</style>
+
+供应商:<input name="isResult" id="supplier_ids" type="hidden" />
+<input name="companyname" id="companyname" value="" />
+<div id="isShowCompanyName" ></div>
+<div  class="bdsug" style="height: auto;" id="showCompanyname"></div> <br/>
+</body>
+<script src="jquery-1.11.1.min.js"></script>
+<script>
+
+    var supplyList = {"0":"无供应商","424":"柱海供应商","423":"供应商关联多个店铺","420":"供应商关联单个店铺","419":"新增供应商01","418":"新增供应商01，新增供应商02","417":"新增供应商测试s","416":"新增供应商测试","410":"生成重复账单修复","396":"大勇供应商","389":"亚美科技","382":"混合回归","375":"蕾蕾自营_供应商0020","368":"大黄供应商","361":"蕾蕾自营_供应商111","354":"蕾蕾自营_供应商","347":"8888888供应商bbc-testB","340":"h5shoptest_供应商","339":"看看累计金额","332":"测试预付款","325":"h5shop—供应商","318":"供应商bbc-testA","311":"最新预付款","304":"供应商结算方式","297":"供应商5/21","290":"再来一个预付款的","283":"预付款--小丹丹测试","276":"澳门","269":"香港","262":"预付款结供应商","255":"累计金额结供应商","248":"半月结供应商","241":"月结供应商","234":"微信供应商","227":"子公司3","220":"子公司2","213":"亚美子公司供应商","206":"Tina的供应商","199":"小丹222","192":"小丹","185":"最新的测试供应商","178":"这是个供应商吗哈哈哈哈，名字比较长哦","171":"小丹测试供应商","164":"小丹测试供应商","157":"testbgs111","151":"testbgs","113":"供应商测试0","106":"供应商测试0","99":"供应商测试0","92":"供应商测试0","78":"供应商测试0","64":"test-文超供应商","60":"供应商test003","53":"供应商test002","46":"供应商test001","39":"供应商测试0","25":"供应商测试3","18":"供应商测试2","11":"供应商测试1"};
+
+    //异步模糊查询供应商
+    $("#companyname").keyup(function(){
+        $("#showCompanyname").empty();
+        var companyname = $("#companyname").val();
+        if(companyname){
+            var new_supplyList = {};
+            for(var b in supplyList){
+                if(supplyList[b].indexOf(companyname) != -1){
+                    new_supplyList[b] = supplyList[b];
+                }
+            }
+
+            if(new_supplyList){
+                var $ul =$("<ul></ul>");
+                for(var key in new_supplyList){
+                    var $li = $("<li></li>");
+                    $li.text(new_supplyList[key]);
+                    $li.attr('data-shopId',key);
+                    $ul.append($li);
+
+                }
+                $("#showCompanyname").append($ul).show();
+
+                $("ul li").each(function(){
+                    $(this).click(function(){
+                        $("#companyname").val($(this).text());
+                        $("#showCompanyname").hide();
+                        $("#supplier_ids").val($(this).attr('data-shopId'));
+                    });
+                });
+
+
+            }else{
+                $("#supplier_ids").val(-1);
+            }
+        }else{
+            $("#supplier_ids").val(-1);
+            $("#showCompanyname").hide();
+        }
+    }).blur(function(){
+        if($("#supplier_ids").val){
+            $(this).val(-1);
+        }
+    });
+
+    $("body").click(function(){
+        $("#showCompanyname").attr("style", "display:none");//单个属性的设置
+
+    });
+
+    /**
+     * [过滤对象]
+     * @param  obj [过滤前数据]
+     * @param  arr [过滤条件，要求为数组]
+     */
+    function filterObj(obj, arr) {
+        if (typeof (obj) !== "object" || !Array.isArray(arr)) {
+            throw new Error("参数格式不正确")
+        }
+        const result = {}
+        Object.values(obj).filter((key) => arr.includes(key)).forEach((key) => {
+            result[key] = obj[key]
+        })
+        return result
+    }
+
+</script>
+</html>

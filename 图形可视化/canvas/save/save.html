@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>save</title>
+</head>
+<body>
+    <canvas id="mc" width="200" height="200" style="border:1px solid black"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById('mc');
+    var ctx = canvas.getContext('2d');
+    ctx.lineWidth = 3;  //设置笔触线条的宽度
+    ctx.translate(100,100); //将原点左边设置到画布的中间
+    ctx.save();  //保存当前画布的状态
+
+    ctx.strokeStyle = 'red';  //设置线条颜色为红色
+    ctx.rotate(Math.PI / 2);  //坐标系统旋转90°
+
+    //画第一条直线
+    ctx.beginPath();
+    ctx.moveTo(-100,0);
+    ctx.lineTo(100,0);
+    ctx.closePath();
+    ctx.stroke();
+
+    //恢复之前保存的绘图状态
+    ctx.restore();
+
+    //再画第二条直线
+    ctx.beginPath();
+    ctx.moveTo(-100,0);
+    ctx.lineTo(100,0);
+    ctx.closePath();
+    ctx.stroke();
+
+    /**
+     * 总结：看代码可知，画两条线的代码是一样的，可视画出来的一条是垂直的红线，一条是水平的黑线；
+     * 调用save()方法时，保存的状态是lineWidth=3，translate（100,100），然后其他那些属性为默认值，
+     * 如默认的lineStyle为黑色。
+     *
+     * 画第一条线时，是将坐标轴旋转了90°，设置了lineStyle='red'，所以画出来的是【垂直的红线】；
+     * 第二条线调用了restore()方法，即恢复为了之前保存的绘图状态，该绘图状态是坐标系统没有经过旋转的，线条颜色
+     * 也是默认的黑色，所以就画出了【水平的黑线】
+     */
+</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多系列混合</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        const chartDom = document.getElementById('chart');
+        const chart = echarts.init(chartDom);  //重要
+        chart.setOption({
+            title: {
+                text:'Echarts 多坐标系案例'
+            },
+            xAxis:{
+                data: ['one season','two season','three season','four season']
+            },
+            yAxis:{
+
+            },
+            //一个series是一个图表
+            series:[
+                {
+                    type:'pie',
+                    center:['50%',60],  //设置饼图的位置
+                    radius: 35,
+                    data:[
+                        {name:'cat1',value:50},
+                        {name:'cat2',value:80},
+                        {name:'cat3',value:70},
+                        {name:'cat4',value:60},
+                    ]
+                },
+                {
+                    type: 'line',
+                    data:[89,10,10,190]
+                },
+                {
+                    type:'bar',
+                    data:[100,120,90,150]
+                }
+            ]
+        })
+    </script>
+</body>
+</html>

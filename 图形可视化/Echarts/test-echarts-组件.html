@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>多系列混合</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        const chartDom = document.getElementById('chart');
+        const chart = echarts.init(chartDom);  //重要
+        chart.setOption({
+            dataset:{
+              source:[
+                  ['one season',10,19,'分类1',10],
+                  ['two season',20,29,'分类2',20],
+                  ['three season',30,39,'分类3',30],
+                  ['four season',40,49,'分类4',40]
+              ]
+            },
+            title: {
+                text:'Echarts 多坐标系案例',
+                subtext:'hhhhhhhhhhhhhhh'
+            },
+            xAxis:{
+                data: ['one season','two season','three season','four season']  // todo 这里要和datasour的一致才行！！！！！
+            },
+            yAxis:{},
+            /**
+             * 图例可以修改样式，看文档
+             */
+            legend:{
+                data:[{name:'分类',icon:'circle'},'折线图','柱状图'],
+                left:300,   //todo list 修改图例位置
+            },
+            /**
+             *https://echarts.apache.org/zh/option.html#toolbox
+             */
+            toolbox:{
+                feature:{
+                    dataZoom:{
+
+                    },
+                    restore:{
+
+                    },
+                    saveAsImage:{
+
+                    },
+                }
+            },
+            //一个series是一个图表
+            series:[
+                {
+                    name:'分类', //todo list 与legend一一对应
+                    type:'pie',
+                    center:['50%',60],  //设置饼图的位置
+                    radius: 35,
+                    encode:{itemName:3,value:4}
+                },
+                {
+                    name:'折线图',
+                    type: 'line',
+                    encode:{ x: 0,y: 1}
+                },
+                {
+                    name:'柱状图',
+                    type:'bar',
+                    encode:{x: 0,y: 2}
+                }
+            ]
+        })
+    </script>
+</body>
+</html>

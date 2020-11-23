@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽列表</title>
+</head>
+<style>
+    .content-ul li{
+        list-style: none;
+        overflow: hidden;
+    }
+    .item{
+        box-sizing: border-box;
+        width: 200px;height:80px;background:#ccc;
+        position:relative;
+        margin-bottom:10px;
+        cursor:pointer;
+    }
+    .container{
+        width:100%;height:100%;
+    }
+    .item:hover{
+        border:2px dashed dodgerblue;
+    }
+    /*.item:hover .action-bar{
+        display: block;
+    }*/
+    .container-dragging{
+        border:2px dashed yellow;
+    }
+    .item-dragover{
+        border:2px solid red;
+    }
+    .action-bar{
+        position:absolute;right:0;top:0;display: none;
+    }
+    .action-bar span{
+        display: inline-block;
+        font-size:12px;text-align: center;
+        width:30px;height:16px;line-height: 16px;border:1px solid grey;border-radius: 4px;margin:5px;
+    }
+</style>
+<body>
+    <ul class="content-ul">
+        <li class="item">
+            <div class="container" draggable="true" >
+                <span>1</span>
+                <div class="action-bar">
+                <span class="upload">上移</span><span class="download">下移</span>
+            </div>
+            </div>
+        </li>
+        <li class="item">
+            <div class="container" draggable="true" >
+                <span>2</span>
+                <div class="action-bar">
+                <span class="upload">上移</span><span class="download">下移</span>
+            </div>
+            </div>
+        </li>
+        <li class="item">
+            <div class="container" draggable="true" >
+                <span>3</span>
+                <div class="action-bar">
+                <span class="upload">上移</span><span class="download">下移</span>
+            </div>
+            </div>
+        </li>
+        <li class="item">
+            <div class="container" draggable="true">
+                <span>4</span>
+                <div class="action-bar">
+                <span class="upload">上移</span><span class="download">下移</span>
+            </div>
+            </div>
+        </li>
+        <li class="item">
+            <div class="container" draggable="true" >
+                <span>5</span>
+                <div class="action-bar">
+                <span class="upload">上移</span><span class="download">下移</span>
+            </div>
+            </div>
+        </li>
+    </ul>
+</body>
+<script>
+    const items = document.querySelectorAll('.item');
+    const containers = document.querySelectorAll('.container');
+
+    //监听item的移动事件
+    for(const constainer of containers){
+        constainer.addEventListener('dragstart',dragStart);
+        constainer.addEventListener('dragend',dragEnd);
+    }
+
+    for(const item of items){
+        item.addEventListener('dragover',dragOver);
+        item.addEventListener('dragleave',dragLeave);
+        item.addEventListener('dragenter',dragEnter);
+        item.addEventListener('drop',dragDrop);
+    }
+
+
+    function dragStart(){
+        this.className += ' container-dragging';
+    }
+
+    function dragEnd() {
+        this.className = 'container';
+    }
+
+    function dragOver(){
+        console.log('dragover');
+    }
+
+    function dragLeave(){
+        console.log('dragleave');
+    }
+
+    function dragEnter(){
+        console.log('dragenter');
+    }
+
+    function dragDrop(){
+        console.log('drop');
+        this.innerHTML = '';
+    }
+
+</script>
+</html>

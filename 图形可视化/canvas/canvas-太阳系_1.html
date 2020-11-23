@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style></style>
+<body>
+    <canvas id="canvas" width="300" height="300"></canvas>
+</body>
+<script>
+    var sun = new Image();
+    var moon = new Image();
+    var earth = new Image();
+    function init(){
+        sun.src = 'https://mdn.mozillademos.org/files/1456/Canvas_sun.png';
+        moon.src = 'https://mdn.mozillademos.org/files/1443/Canvas_moon.png';
+        earth.src = 'https://mdn.mozillademos.org/files/1429/Canvas_earth.png';
+        window.requestAnimationFrame(draw);
+    }
+
+    function draw() {
+        var ctx = document.getElementById('canvas').getContext('2d');
+
+        //在现有的画布内容后面绘制新的图形。
+        ctx.globalCompositeOperation = 'destination-over';
+        //1. 清空画布
+        ctx.clearRect(0,0,300,300); // clear canvas
+
+        ctx.fillStyle = 'rgba(0,0,0,0.4)';
+        ctx.strokeStyle = 'rgba(0,153,255,0.4)';
+        ctx.save();
+        //  将 canvas 按原始 x点的水平方向、原始的 y点垂直方向进行平移变换
+        // 相当于将原点左边设置到画布的中间
+        ctx.translate(150,150);
+
+        //地球
+        var time = new Date();
+        //旋转画布
+        ctx.rotate( ((2*Math.PI)/60)*time.getSeconds() + ((2*Math.PI)/60000)*time.getMilliseconds() );
+        //地球的背面
+        ctx.translate(105,0);  //以ctx.translate(150,150);为基础
+        ctx.fillRect(0,-12,50,20); // Shadow  //这里的阴影是遮住月球的矩形，因为在地球背面，月球是暗的。
+        ctx.drawImage(earth,-12,-12); //画地球图片，距离canvas上x轴，y轴  ？？这里也不明白
+
+        // 月球
+        ctx.save(); //与下面的最近的ctx.resotre();也可以不需要？、？？
+        //rotate ： 角度
+        ctx.rotate( ((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds() );
+        //console.log(((2*Math.PI)/6)*time.getSeconds() + ((2*Math.PI)/6000)*time.getMilliseconds());
+        ctx.translate(0,28.5);
+        ctx.drawImage(moon,-3.5,-3.5);
+        ctx.restore();
+
+        ctx.restore();
+
+        //画地球的轨道
+        ctx.beginPath();
+        ctx.arc(150,150,105,0,Math.PI*2,false); // Earth orbit
+        ctx.stroke();
+
+        //画太阳
+        ctx.drawImage(sun,0,0,300,300);
+
+        window.requestAnimationFrame(draw);
+    }
+
+    init();
+</script>
+</html>

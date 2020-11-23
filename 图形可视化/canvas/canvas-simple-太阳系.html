@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>圆周运动</title>
+    <style type="text/css">
+        canvas{
+            border:1px solid red;
+        }
+    </style>
+</head>
+<body>
+<canvas id="mycanvas" width="400" height="400">
+    您的浏览器不支持canvas
+</canvas>
+</body>
+<script type="text/javascript">
+    /*让canvas的坐标系旋转*/
+    var canvas = document.getElementById("mycanvas");
+    var context = canvas.getContext("2d");
+    //移动坐标系,使旋转中心点位于画布中心
+    context.translate(200,200);
+    //画小球
+    function draw(){
+        context.beginPath();
+        context.fillStyle = "red";
+        context.arc(100,100,10,0,Math.PI*2);
+        context.fill();
+    }
+
+    //让坐标系运动
+    var everyPercent = Math.PI/180;  //每次转一度
+    function act(){
+        context.clearRect(0,0,canvas.width,canvas.height);
+        context.rotate(everyPercent);
+        draw();
+        window.requestAnimationFrame(act);
+    }
+    act();
+</script>
+</html>

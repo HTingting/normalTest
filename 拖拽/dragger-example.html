@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    ul {
+        list-style: none;
+        margin: 200px;
+        font-size: 0;
+    }
+    .ele {
+        font-size: 16px;
+        width: 100px;
+        height: 40px;
+        border: 1px solid #999;
+        background: #D9D9D9;
+        margin: 2px 0;
+        border-radius: 10px;
+        padding-left: 10px;
+        color: white;
+        cursor: move;
+    }
+</style>
+<body>
+    <ul id="container">
+        <li class="ele" draggable="true">1</li>
+        <li class="ele" draggable="true">2</li>
+        <li class="ele" draggable="true">3</li>
+        <li class="ele" draggable="true">4</li>
+        <li class="ele" draggable="true">5</li>
+        <li class="ele" draggable="true">6</li>
+        <li class="ele" draggable="true">7</li>
+        <li class="ele" draggable="true">8</li>
+    </ul>
+</body>
+<script>
+    var node = document.querySelector('#container');
+    var draging = null;
+
+    /**
+     * 由于拖动是实时的，所以没有使用drop而是使用了dropover。
+     * 并且用一个变量来保存拖动的元素。
+     *
+     * 这里使用事件委托，直接使用ul来监听
+     */
+    node.ondragstart = function (event) {
+        event.dataTransfer.setData('te', event.target.innerText);
+        draging = event.target;
+    }
+
+    node.ondragover = function(event){
+        event.preventDefault();
+        var target = event.target;
+
+        //因为dragover会发生在ul上，所以要判断是不是li
+        //如果拖动下标 大于 目标下标，则放在目标的前头,用insertBefore
+        //如果拖动下标 小于 目标下标，则放在目标的后头，用insertAfter，但是没有现成的api
+        if(target.nodeName === 'LI' && target !== draging){
+            if(_index(draging) > _index(target)){
+                target.parentNode.insertBefore(draging,target);
+            }else{
+                target.parentNode.insertBefore(draging,target.nextSibling);
+            }
+        }
+    }
+
+    /**
+     * 处理正在拖动的li。当前li的index大于目标容器li时，就插入在容器的前面
+     * 如何获取当前li的下标。
+     * Node有一个属性previousElementSibling，表示该元素前面的一个元素
+     */
+    function _index(el){
+        var index = 0;
+        if(!el || !el.parentNode) {
+            return -1;
+        }
+        //如果 el 为 true , 把 el.previousElementSibling 赋给 el , 如果el , 还是 为 true , index++
+        //为什么这里是循环，因为不知道从哪里开始，只能从0的下标开始找。
+        while(el && (el = el.previousElementSibling)){
+            console.log('拖拽元素前面的dom是-----',el);
+            index++;
+        }
+        return index;
+    }
+
+</script>
+</html>

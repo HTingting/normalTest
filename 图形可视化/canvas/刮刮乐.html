@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body,html{
+        margin:0;
+        padding:0;
+    }
+    #canvas{
+        position: absolute;
+        top:0;left:0;
+    }
+</style>
+<body>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1604327815762&di=5d79894bc23af41657e4f0fd38fe28ce&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fblog%2F201503%2F02%2F20150302124243_ktP8x.jpeg" alt="">
+    <canvas id="canvas" width="990" height="557"></canvas>
+</body>
+<script>
+    function draw(){
+        var canvas = document.getElementById('canvas');
+
+        if(canvas.getContext) {
+            var ctx = canvas.getContext('2d');
+
+            //1.将图片用灰色盖住
+            ctx.beginPath();
+            ctx.fillStyle = 'grey';
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+
+            ctx.globalCompositeOperation = 'destination-out';  //鼠标划过去跟grey重叠，就清除
+            ctx.lineWidth = 40;
+            ctx.lineCap = 'round';  //画笔形状
+
+            canvas.onmousedown = function(e){
+                var ev = e || window.event;
+                var x = ev.clientX;
+                var y = ev.clientY;
+
+                ctx.moveTo(x,y);
+
+                canvas.onmousemove = function(){
+                    var ev = e || window.event;
+                    var x = ev.clientX;
+                    var y = ev.clientY;
+
+                    ctx.lineTo(x, y);
+                    ctx.stroke();
+                }
+
+                canvas.onmouseup = function(){
+                    canvas.onmousemove = "";
+                }
+
+            }
+
+        }
+    }
+    draw();
+</script>
+
+</html>

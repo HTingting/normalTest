@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>地图动画</title>
+    <style>
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+        #allmap {position: relative;}
+        #tools {position: absolute;left:0;top:0;z-index: 1000;}
+    </style>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=gcKFLOSCLpGLUw4wlcvHPD8d"></script>
+</head>
+<body>
+    <div id="allmap"></div>
+    <div id="tools">
+        <button id="start">播放动画</button>
+        <button id="end">停止播放</button>
+    </div>
+</body>
+
+</html>
+<script>
+    //http://lbsyun.baidu.com/index.php?title=jspopularGL/guide/show
+    //1.初始化地图
+    var map = new BMapGL.Map("allmap");
+    //2.设置中心点
+    var point = new BMapGL.Point(116.404, 39.915);
+    //3. 初始化地图，设置中心点坐标和地图级别
+    map.centerAndZoom(point,12);
+    //4. 开启滚动屏幕可缩放
+    map.setTilt(20);
+
+    var keyFrames = [
+        {
+            center: new BMapGL.Point(116.307092,40.054922),
+            zoom:20,
+            tilt: 50,
+            heading: 0,
+            percentage: 0
+        },
+        {
+            center: new BMapGL.Point(116.307631,40.055391),
+            zoom: 21,
+            tilt: 70,
+            heading: 0,
+            percentage: 0.1
+        },
+        {
+            center: new BMapGL.Point(116.306858,40.057887),
+            zoom:21,
+            tilt: 70,
+            heading: 0,
+            percentage: 0.25
+        },
+        {
+            center: new BMapGL.Point(116.306858,40.057887),
+            zoom:21,
+            tilt: 70,
+            heading: -90,
+            percentage: 0.35
+        },
+        {
+            center: new BMapGL.Point(116.307904,40.058118),
+            zoom: 21,
+            tilt: 70,
+            heading: -90,
+            percentage: 0.45
+        },
+        {
+            center: new BMapGL.Point(116.307904,40.058118),
+            zoom: 21,
+            tilt: 70,
+            heading: -180,
+            percentage: 0.55
+        },
+        {
+            center: new BMapGL.Point(116.308902,40.055954),
+            zoom:21,
+            tilt: 70,
+            heading: -180,
+            percentage: 0.75
+        },
+        {
+            center: new BMapGL.Point(116.308902,40.055954),
+            zoom:21,
+            tilt: 70,
+            heading: -270,
+            percentage: 0.85
+        },
+        {
+            center: new BMapGL.Point(116.307779,40.055754),
+            zoom:21,
+            tilt: 70,
+            heading: -360,
+            percentage: 0.95
+        },
+        {
+            center: new BMapGL.Point(116.307092,40.054922),
+            zoom:20,
+            tilt: 50,
+            heading: -360,
+            percentage: 1
+        },
+    ];
+
+    var opts = {
+      duration: 10000,  //设置每次迭代动画持续时间
+      delay: 3000,      //设置动画延迟开始时间
+      interation: 'INFINITE' //设置动画迭代次数
+    };
+
+    var animation = new BMapGL.ViewAnimation(keyFrames, opts);
+    //监听动画开始
+    animation.addEventListener('animationstart', function(e){
+        console.log('start');
+    });
+    //监听动画当动画循环大于1次时，上一次结束既下一次开始时触发。最后一次循环结束时不触发
+    animation.addEventListener('animationiterations', function(e){
+        console.log('animationiterations');
+    });
+
+    //监听动画结束
+    animation.addEventListener('animationend', function(e){
+        console.log('end');
+    });
+
+    //监听动画取消
+    animation.addEventListener('animationcancel',function(e){
+        console.log('cancel');
+    });
+
+    //开始播放动画 // todo list 要注意，添加div要设置z-index，不然取不到dom对象
+    document.getElementById('start').addEventListener('click', function(){
+        map.startViewAnimation(animation);
+    });
+
+    document.getElementById('end').addEventListener('click', function(){
+        map.cancelViewAnimation(animation);
+    })
+</script>

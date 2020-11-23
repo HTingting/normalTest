@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas" width="1000" height="800"></canvas>
+</body>
+<script>
+    var canvas=document.getElementById("canvas");
+
+    var context=canvas.getContext("2d");
+
+
+
+    //【蓝色- destination】
+    context.fillStyle="rgb(63,169,245)";
+    context.fillRect(50,50,100,100);
+    context.strokeStyle="rgb(63,169,245)";
+    context.strokeRect(50,50,100,100);
+
+    // source-over : 效果，便利贴往上贴
+    context.globalCompositeOperation="source-over";
+
+    //【红色- source 】
+    context.fillStyle="rgb(255,123,172)";
+    context.fillRect(60,60,100,100);
+    context.strokeStyle="rgb(255,123,172)";
+    context.strokeRect(60,60,100,100);
+
+
+</script>
+</html>

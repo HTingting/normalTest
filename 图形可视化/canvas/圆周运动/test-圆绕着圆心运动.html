@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圆周运动-围绕圆心运动</title>
+</head>
+<style>
+    #canvas{
+        border:1px solid red;
+    }
+</style>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    //移动坐标轴使得旋转中心点位于画布中心
+    ctx.translate(200,200);
+
+    //画小球
+    function draw(angle){
+        var R = 100;
+        var x = R * Math.cos(angle);
+        var y = R * Math.sin(angle);
+        ctx.beginPath();
+        ctx.fillStyle = 'red';
+        ctx.arc(x,y,10,0,Math.PI*2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle='green';
+        ctx.arc(0,0,100,0,Math.PI*2);
+        ctx.stroke();
+
+    }
+
+    var angle = 0;
+    function act(){
+        //请问这里为什么这样？？？
+        //我知道了，清楚画布是要对角这样切换。
+        ctx.clearRect(-200,-200,canvas.width,canvas.height);
+        draw(angle);
+        window.requestAnimationFrame(act);
+        angle += Math.PI / 60;
+    }
+    act();
+</script>
+</html>

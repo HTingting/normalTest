@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-echarts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        const chartDom = document.getElementById('chart');
+        const chart = echarts.init(chartDom);  //重要
+        chart.setOption({
+            title: {
+                text:'Echarts 入门案例'
+            },
+            xAxis:{},
+            yAxis:{},
+            dataset:{
+                source:[
+                    [13,12],
+                    [26,44],
+                    [78,67],
+                    [12,55],
+                    [67,90],
+                    [34,56],
+
+                ]
+            },
+            series:[
+                {type:'scatter',encode:{x:0,y:1}}
+            ]
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>G6</title>
+    <script src = 'https://unpkg.com/@antv/l7'></script>
+    <style>
+        html,body{
+            padding:0;
+            margin:0;
+        }
+    </style>
+</head>
+<body>
+    <div id="l7-map"></div>
+</body>
+<script>
+    /**
+     * 查看全球电站的布局,
+     * 1.引入js库
+     * 2.编写渲染容器Dom
+     * 3.初始化地图对象L7.Scene
+     * 4.请求数据
+     * 5.数据清洗
+     * 6.初始化绘图对象（如： L7.PointLayer）
+     * 7.调用L7.Scene.addLayer 方法绘制
+     * @type {{nodes: *[], edges: *[]}}
+     */
+    const data = {
+        nodes:[
+            {
+                id:'node1',
+                x:100,y:200,
+                label:'起始点',
+                size:60,
+                labelCfg:{
+                    position:'top',
+                    style:{fill:'red',fontSize:16}
+                }
+            },
+            {id:'node2',x:300,y:200,label:'目标点1',size:80,labelCfg:{position:'top'}},
+            {id:'node3',x:600,y:200,label:'目标点2',size:100},
+        ],
+        edges:[
+            {source:'node1',target:'node2',label:'连接线1'},
+            {source:'node2',target:'node3',label:'连接线2'}
+        ]
+    }
+
+    const scene = new L7.Scene({
+        container:'l7-map',
+        map: new L7.GaodeMap({
+           style:'dark',
+           center:[],
+           pitch: 0,  //仰角，俯视度数
+           zoom:12,   //放大比例
+           token:'',  //高德地图key---> Ant7->地图->key获取
+        })
+    });
+    scene.on('load',function (){
+        fetch('')
+            .then(res=>res.json())
+            .then(data => {
+                console.log(data);
+                data.features = data.features.filter(item=>{return item.properties.capacity > 100});
+                /**
+                 * shape改变形状
+                 * capacity，电站的容量情况，shape大小
+                 * color
+                 */
+                const pointLayer = new L7.PointLayer({})
+                    .source(data)
+                    .shape('circle')
+                    .size('capacity',[0,16])
+                    .color('capacity',[
+                        'red',
+                        'blue'
+                    ])
+                    .style({
+                        strokeWidth: 0,
+                        opacity:0.1
+                    })
+                    .style({
+                        strokeWidth: 0 ,
+                        opacity: 0.5
+                    })
+                scene.addLayer(pointLayer);
+            })
+    });
+    graph.data(data);  //绑定数据源
+    graph.render();  //绘制矢量图
+</script>
+</html>

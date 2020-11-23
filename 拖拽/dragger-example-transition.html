@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    ul {
+        list-style: none;
+        margin: 200px;
+    }
+
+    .ele {
+        width: 100%;
+        height: 40px;
+        border: 1px solid #999;
+        background: #EA6E59;
+        margin-top: 2px;
+        border-radius: 10px;
+        padding-left: 10px;
+        color: white;
+        cursor: move;
+        position : relative;
+    }
+    .ele:hover{
+        border: 2px dashed dodgerblue;
+    }
+    .ele:hover .action-bar{
+        display:block;
+    }
+    .action-bar{
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+    .action-bar span{
+        display: inline-block;
+        width: 40px;height: 20px;line-height: 20px;
+        text-align: center;
+        margin:5px;
+    }
+
+</style>
+<body>
+<ul id="container">
+    <li class="ele" draggable="true">
+        1
+        <div class="action-bar">
+            <span class="add">增加</span>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </div>
+    </li>
+    <li class="ele" draggable="true">
+        2
+        <div class="action-bar">
+            <span class="add">增加</span>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </div>
+    </li>
+    <li class="ele" draggable="true">
+        3
+        <div class="action-bar">
+            <span class="add">增加</span>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </div>
+    </li>
+    <li class="ele" draggable="true">
+        4
+        <div class="action-bar">
+            <span class="add">增加</span>
+            <span class="up">上移</span>
+            <span class="down">下移</span>
+        </div>
+    </li>
+</ul>
+</body>
+<script>
+    const dataArray = [{id:1,title:1},{id:2,title:2},{id:3,title:3},{id:4,title:4},];
+    var node = document.querySelector("#container");
+    var draging = null;
+    //使用事件委托，将li的事件委托给ul
+    node.ondragstart = function(event) {
+        //firefox设置了setData后元素才能拖动！！！！
+        event.dataTransfer.setData("te", event.target.innerText); //不能使用text，firefox会打开新tab
+        //event.dataTransfer.setData("self", event.target);
+        draging = event.target;
+    }
+    node.ondragover = function(event) {
+        //console.log("onDrop over");
+        event.preventDefault();
+        var target = event.target;
+        //因为dragover会发生在ul上，所以要判断是不是li
+        if (target.nodeName === "LI") {
+            if (target !== draging) {
+                var targetRect = target.getBoundingClientRect();
+                var dragingRect = draging.getBoundingClientRect();
+                if (target) {
+                    if (target.animated) {
+                        return;
+                    }
+                }
+                console.log('parentNode-----',target.parentNode);
+                if (_index(draging) < _index(target)) {
+                    target.parentNode.insertBefore(draging, target.nextSibling);
+                    console.log(_index(target),_index(draging));
+                    //console.log('------',_insertByIndex(dataArray,_index(target),_index(draging)));
+                } else {
+                    target.parentNode.insertBefore(draging, target);
+                    console.log(_index(target),_index(draging));
+                    //console.log('+++++++',_insertByIndex(dataArray,_index(target),_index(draging)));
+                }
+                _animate(dragingRect, draging);
+                _animate(targetRect, target);
+            }
+        }
+    }
+
+    function _insertByIndex(arr,insertTargetIndex,index){
+        let temp = arr[index];
+        //先删除
+        arr.splice(index,1);
+        //然后添加
+        arr.splice(insertTargetIndex, 0, temp);
+        return arr;
+    }
+
+    //获取元素在父元素中的index
+    function _index(el) {
+        var index = 0;
+
+        if (!el || !el.parentNode) {
+            return -1;
+        }
+
+        while (el && (el = el.previousElementSibling)) {
+            index++;
+        }
+
+        return index;
+    }
+    //设置动画
+    function _animate(prevRect, target) {
+        var ms = 300;
+
+        if (ms) {
+            var currentRect = target.getBoundingClientRect();
+
+            if (prevRect.nodeType === 1) {
+                prevRect = prevRect.getBoundingClientRect();
+            }
+
+            _css(target, 'transition', 'none');
+            _css(target, 'transform', 'translate3d(' +
+                (prevRect.left - currentRect.left) + 'px,' +
+                (prevRect.top - currentRect.top) + 'px,0)'
+            );
+
+           // console.log('样式变化1——',target);
+
+            target.offsetWidth; // 触发重绘
+            //放在timeout里面也可以
+            // setTimeout(function() {
+            //     _css(target, 'transition', 'all ' + ms + 'ms');
+            //     _css(target, 'transform', 'translate3d(0,0,0)');
+            // }, 0);
+            _css(target, 'transition', 'all ' + ms + 'ms');
+            _css(target, 'transform', 'translate3d(0,0,0)');
+
+            //console.log('样式变化2——',target);
+
+            clearTimeout(target.animated);
+            target.animated = setTimeout(function() {
+                _css(target, 'transition', '');
+                _css(target, 'transform', '');
+                target.animated = false;
+            }, ms);
+        }
+    }
+    //给元素添加style
+    function _css(el, prop, val) {
+        var style = el && el.style;
+
+        if (style) {
+            if (val === void 0) {
+                if (document.defaultView && document.defaultView.getComputedStyle) {
+                    val = document.defaultView.getComputedStyle(el, '');
+                } else if (el.currentStyle) {
+                    val = el.currentStyle;
+                }
+
+                return prop === void 0 ? val : val[prop];
+            } else {
+                if (!(prop in style)) {
+                    prop = '-webkit-' + prop;
+                }
+
+                style[prop] = val + (typeof val === 'string' ? '' : 'px');
+            }
+        }
+    }
+
+    node.onclick = function(event) {
+        const eventType = event.target.className;
+        switch (eventType) {
+            case 'add':
+                addEvent(event.target);
+                break;
+            case 'up':
+                upEvent(event.target);
+                break;
+            case 'down':
+                downEvent(event.target);
+        }
+    }
+
+    function addEvent(el){
+        const newLi = document.createElement('li');
+        el.parentNode.parentNode.insertBefore(newLi,el);
+
+        let cols = [
+            {name:'字段1',checked:0},
+            {name:'字段3',checked:1}, //勾选
+            {name:'字段2',checked:1}, //勾选
+            {name:'字段4',checked:0}
+        ];
+
+    }
+
+</script>
+</html>

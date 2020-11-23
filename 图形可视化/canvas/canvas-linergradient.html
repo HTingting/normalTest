@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas" width="300" height="500"></canvas>
+</body>
+<script>
+    function draw(){
+        var ctx = document.getElementById('canvas').getContext('2d');
+
+        //创建一个渐变对象
+        var lingrad = ctx.createLinearGradient(0,0,0,150);
+        lingrad.addColorStop(0,'#00ABEB');
+        lingrad.addColorStop(0.5,'#fff');
+        lingrad.addColorStop(0.5, '#26C000');
+        lingrad.addColorStop(1, '#fff');
+
+        var lingrad2 = ctx.createLinearGradient(0,50,0,95);
+        lingrad2.addColorStop(0.5, '#000');
+        lingrad2.addColorStop(1, 'rgba(0,0,0,0)');
+
+        //然后把创建的渐变对象加给 cxt 的 fil，stroke的样式
+        ctx.fillStyle = lingrad;
+        ctx.strokeStyle = lingrad2;
+
+        //画出图形
+        ctx.fillRect(10,10,130,130);
+        ctx.strokeRect(50,50,50,50);
+    }
+    draw();
+</script>
+</html>

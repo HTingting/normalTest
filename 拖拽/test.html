@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+    function insertArray(arr,insertTargetIndex,index){
+        let temp = arr[index];
+        //return temp;
+        /*
+    var arr = ['a','b','c','d'];
+    arr.splice(1,1);
+    console.log(arr);
+    //['a','c','d'];
+
+    */
+        //先删除
+        arr.splice(index,1);
+        //然后添加
+        arr.splice(insertTargetIndex, 0, temp);
+        return arr;
+    }
+
+    console.log(insertArray([1,2,3,4],2,3))
+</script>
+</html>

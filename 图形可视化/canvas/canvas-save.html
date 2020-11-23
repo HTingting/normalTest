@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="tutorial" width="300" height="300">
+
+    </canvas>
+</body>
+<script>
+    function draw(){
+        var canvas = document.getElementById('tutorial');
+        if(!canvas.getContext) return;
+        var ctx = canvas.getContext('2d');
+
+        ctx.fillRect(0,0,150,150);  //使用默认设置绘制一个矩形
+        ctx.save();  //保存默认状态 黑色   黑色-->入栈
+
+        ctx.fillStyle = '#09F';  //在原有配置基础上对颜色做改变
+        ctx.fillRect(15,15,120,120); //使用新的设置绘制一个矩形
+
+        ctx.save();            //保存当前颜色 蓝色---->入栈
+        ctx.fillStyle = '#FFF';
+        ctx.globalAlpha = 0.5;
+
+
+        ctx.fillRect(30,30,90,90);
+
+        ctx.restore();        // 蓝色 --> 出栈
+        ctx.fillRect(45,45,60,60);  //
+
+        ctx.restore();              //黑色 --> 出栈 加载默认颜色设置
+        ctx.fillRect(60,60,30,30);  //使用加载的配置绘制一个矩形
+
+    }
+    draw();
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

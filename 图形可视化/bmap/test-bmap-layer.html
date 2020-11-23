@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body,html,#allmap{
+            width:100%;height:100%;
+            overflow:hidden;margin:0;
+            font-family: "微软雅黑";
+        }
+        /*另外可以通过样式设置隐藏百度地图logo*/
+        /*这个属性会导致左侧的控件没有显示*/
+        .anchorBL,.BMap_cpyCtrl{
+            display:none;
+        }
+    </style>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=gcKFLOSCLpGLUw4wlcvHPD8d"></script>
+</head>
+<body>
+<div id="allmap"></div>
+</body>
+
+</html>
+<script>
+    //http://lbsyun.baidu.com/index.php?title=jspopularGL/guide/show
+    //1.初始化地图
+    var map = new BMapGL.Map("allmap");
+    //2.设置中心点
+    var point = new BMapGL.Point(116.404, 39.915);
+    //3. 初始化地图，设置中心点坐标和地图级别
+    map.centerAndZoom(point,12);
+    //4. 开启滚动屏幕可缩放
+    map.enableScrollWheelZoom(true);
+
+    //5.绘制icon
+    var myIcon = new BMapGL.Icon("https://www.youbaobao.xyz/datav-res/datav/location.png",
+                new BMapGL.Size(60,60),
+                {
+                   anchor: new BMapGL.Size(30,30),
+                   imageOffset: new BMapGL.Size(0,0)
+                });
+    //6.创建标注对象并变价到地图
+    //6.1 创建marker
+    var marker = new BMapGL.Marker(point, {icon: myIcon});
+    //6.2 marker添加点击事件
+    marker.addEventListener('click',function(){
+        //此类表示地图上包含信息的窗口
+        var opts = {
+            width: 200,
+            height: 100,
+            title:'标题',
+        }
+        var infoWindow = new BMapGL.InfoWindow('内容',opts);
+        map.openInfoWindow(infoWindow,point);   //打开信息窗口
+    });
+    //6.3 添加到地图  todo list 覆盖物的抽象基类，所有覆盖物均继承基类的方法。此类不可实例化。
+    map.addOverlay(marker);
+
+    //7.创建线对象
+    var polyline = new BMapGL.Polyline([
+        new BMapGL.Point(116.399, 39.800),
+        new BMapGL.Point(116.405, 39.810),
+        new BMapGL.Point(116.425, 39.820)
+    ], {
+        strokeColor: "blue",  //第三个参数options里面的设置
+        strokeWeight: 10,
+        strokeOpacity: 0.5
+    });
+    map.addOverlay(polyline);
+
+    //8.地图文本标注  //todo list 创建一个文本标注实例。point参数指定了文本标注所在的地理位置
+    var content = '欢迎学习数据可视化体系课';
+    var label = new BMapGL.Label(content,{
+        position: point,
+        offset: new BMapGL.Size(200, 20)
+    });
+    label.setStyle({
+        width: '100px',
+        height: '20px',
+        padding: '20px',
+        color: '#fff',
+        fontSize: '20px',
+        border: '2px solid #1E90FF',
+        background: 'red',
+        whiteSpace: 'wrap',
+        overflow: 'hidden',
+        lineHeight: '20px'
+    })
+    label.addEventListener('click', function(e) {
+        alert(e.target.content);
+    });
+    map.addOverlay(label);                        // 将标注添加到地图中
+</script>

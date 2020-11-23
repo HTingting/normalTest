@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        html,body,#app{
+            width:100%;height:100%;padding:0;margin:0;
+            background: #ebebeb;
+        }
+    </style>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/vue/2.5.2/vue.min.js"></script>
+    <!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+    <script src="http://cdn.jsdelivr.net/npm/sortablejs@1.8.4/Sortable.min.js"></script>
+    <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.20.0/vuedraggable.umd.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <draggable
+                :list="list"
+                :disabled="!enabled"
+                class="list-group"
+                ghost-class="ghost"
+                :move="checkMove"
+                @start="dragging = true"
+                @end="dragging = false"
+        >
+            <div
+                    class="list-group-item"
+                    v-for="element in list"
+                    :key="element.name"
+            >
+                {{ element.name }}
+            </div>
+        </draggable>
+    </div>
+</body>
+<script>
+    Vue.use(draggable);
+    var app = new Vue({
+        el:'#app',
+        data:{
+            message:'Hello',
+            list: [
+                { name: "John", id: 0 },
+                { name: "Joao", id: 1 },
+                { name: "Jean", id: 2 }
+            ],
+            dragging: false
+        }
+    })
+</script>
+</html>

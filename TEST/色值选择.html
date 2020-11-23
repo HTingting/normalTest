@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style=" background: rgb(238, 255, 255);">
+<input  type="color" id="onchange">
+</body>
+<script type="text/javascript">
+    document.getElementById('onchange').onchange = function(){
+        document.getElementById('onchange').click();
+        document.body.style.background = this.value;
+    };
+    var formObject = {
+        act_wheel_id: 0,  //大转盘活动id
+        bg_img_url: '',   //背景图片
+        wheel_img_url: '',//转盘背景图片
+        wheel_draw_img_url: '',  //抽奖按钮图片
+        popup_prize_img_url: '', //没中奖/没次数弹窗图片
+        wheel_prize_color: '', //转盘奖品文字色值
+        wheel_draw_color: '',  //“开始抽奖”文字色值
+        mes_desc: '',  //提示文案
+        draw_times_color: '',  //剩余抽奖次数{draw_times}色值
+        is_open_button: '',  //是否开启事件按钮
+        button_list: [{
+            name: '',
+            button_img_url: '',
+            type: '',  // 1 url跳转，2 微信分享
+            url_content: {
+                orange_app_url: 'orange_app_url',
+                blue_app_url: 'blue_app_url',
+                h5_url: 'h5_url'
+            },
+            share_content: {
+                title: '',
+                content: '',
+                poster_qrcode_url: '',
+                poster_img_url: '',
+            }
+        }, {
+            name: '',
+            button_img_url: '',
+            type: '',  // 1 url跳转，2 微信分享
+            url_content: {
+                orange_app_url: 'orange_app_url',
+                blue_app_url: 'blue_app_url',
+                h5_url: 'h5_url'
+            },
+            share_content: {
+                title: '',
+                content: '',
+                poster_qrcode_url: '',
+                poster_img_url: '',
+            }
+        }]
+    };
+    var path = 'button_list.0.url_content.blue_app_url';
+
+
+    function getPropByPath(obj, path) {
+        let tempObj = obj;
+        path = path.replace(/\[(\w+)\]/g, '.$1');
+        console.log(path);
+        path = path.replace(/^\./, '');
+
+        let keyArr = path.split('.');
+        let i = 0;
+
+        for (let len = keyArr.length; i < len - 1; ++i) {
+            let key = keyArr[i];
+            if (key in tempObj) {
+                tempObj = tempObj[key];
+            } else {
+                throw new Error('[iView warn]: please transfer a valid prop path to form item!');
+            }
+        }
+        return {
+            o: tempObj,
+            k: keyArr[i],
+            v: tempObj[keyArr[i]]
+        };
+    };
+
+    console.log(JSON.stringify(getPropByPath(formObject,path).v));
+    var path2 = 'button_list.0.name';
+    console.log(JSON.stringify(getPropByPath(formObject,path2).v));
+</script>
+</html>

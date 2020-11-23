@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <canvas id="canvas" width="1000" height="800"></canvas>
+</body>
+<script>
+    var canvas=document.getElementById("canvas");
+
+    var context=canvas.getContext("2d");
+
+    // destination-over
+    context.globalCompositeOperation="destination-over";
+
+    //【蓝色- destination】
+    context.fillStyle="rgb(63,169,245)";
+    context.fillRect(50,50,100,100);
+
+    //【红色- source 】
+    context.fillStyle="rgb(255,123,172)";
+    context.fillRect(60,60,100,100);
+
+    //【红色- source】
+    context.fillStyle="rgb(255,218,119)";
+    context.fillRect(70,70,100,100);
+
+</script>
+</html>

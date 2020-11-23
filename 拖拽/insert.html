@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>数组插入设置</title>
+</head>
+<style>
+    .test-btn span{
+        display: inline-block;
+        width:30px;
+        height:16px;
+        line-height: 16px;
+        text-align: center;
+    }
+</style>
+<body>
+    <div class="test-btn">
+        <span>上移动</span>
+        <span>下移一位</span>
+        <span>首位</span>
+        <span>末位</span>
+    </div>
+</body>
+<script>
+    let oSpans = document.getElementsByTagName('span');
+    oSpans.addEventListener('click',clickHandler);
+
+    let array = [1,2,3,4];
+    let testNum = 5;
+
+    //核心是这个
+    /** var array = [1,2,3,4,5];
+      array.splice(1,0,6);
+      console.log(array);
+    * */
+
+
+    function clickHandler(e){
+
+    }
+</script>
+</html>

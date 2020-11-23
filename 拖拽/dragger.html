@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>拖拽初次实验</title>
+</head>
+<style>
+    body {
+        background-color: darksalmon;
+    }
+
+    .draggable {
+        background-image: url('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1600666034781&di=7e7762551bbc2a0d461b2c7ccd4c8e8d&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20170608%2F6dbd4e0cc0994ccda0202e19e6303b5b_th.jpg');
+        background-size: 100% 100%;
+        position: relative;
+        height: 150px;
+        width: 150px;
+        top: 5px;
+        left: 5px;
+        cursor: pointer;
+    }
+
+    .droppable {
+        display: inline-block;
+        height: 160px;
+        width: 160px;
+        margin: 10px;
+        border: 3px salmon solid;
+        background-color: white;
+    }
+
+    .dragging {
+        border: 4px yellow solid;
+    }
+
+    .drag-over {
+        background-color: #f4f4f4;
+        border-style: dashed;
+    }
+
+    .invisible {
+        display: none;
+    }
+</style>
+<body>
+    <!--
+        1.dragging为darggable元素正在被拖动的状态
+        2.drag-over为draggable元素拖动到容器上方时容器的状态，增加灰色虚线border
+        3.最后我们需要通过监听js的draggable和droppable的相关事件
+    -->
+    <div class="droppable">
+        <div class="draggable" draggable="true"></div>
+    </div>
+    <div class="droppable"></div>
+    <div class="droppable"></div>
+    <div class="droppable"></div>
+    <div class="droppable"></div>
+
+</body>
+<script>
+
+    //查询draggable和droppable
+    const draggable = document.querySelector('.draggable');
+    const droppables = document.querySelectorAll('.droppable');
+
+    //监听draggable的相关事件
+    draggable.addEventListener('dragstart',dragStart);
+    draggable.addEventListener('dragend',dragEnd);
+
+    function dragStart(){
+        this.className += ' dragging';
+        setTimeout(() => {
+            this.className = 'invisible';
+        }, 0);
+    }
+
+    function dragEnd(){
+        this.className = 'draggable';
+    }
+
+    //监听droppable的相关事件
+    for(const droppable of droppables){
+        droppable.addEventListener('dragover', dragOver);
+        droppable.addEventListener('dragleave', dragLeave);
+        droppable.addEventListener('dragenter', dragEnter);
+        droppable.addEventListener('drop',dragDrop);
+    }
+
+    function dragOver(e){
+        e.preventDefault();
+    }
+
+    function dragEnter(e){
+        e.preventDefault();
+        this.className += ' drag-over';
+    }
+
+    function dragLeave(e){
+        this.className += 'droppable';
+    }
+
+    function dragDrop(e){
+        this.className = 'droppable';
+        this.append(draggable);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

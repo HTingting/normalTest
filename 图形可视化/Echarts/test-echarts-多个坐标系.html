@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-echarts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart"></div>
+    <script>
+        const chartDom = document.getElementById('chart');
+        const chart = echarts.init(chartDom);  //重要
+        chart.setOption({
+            title: {
+                text:'Echarts 多表格'
+            },
+            xAxis:[
+                {type:'category',gridIndex:0},  //x 轴所在的 grid 的索引，默认位于第一个 grid。
+                {type:'category',gridIndex:1}
+            ],     // todo list
+            yAxis:[
+                {gridIndex: 0},
+                {gridIndex: 1}
+            ],
+            grid:[
+                {bottom: '55%'},
+                {top: '55%'}
+            ],
+            dataset:{
+                source:[
+                    ['product', '2012', '2013', '2014', '2015'],
+                    ['Matcha Latte', 41.1, 30.4, 65.1, 53.3],
+                    ['Milk Tea', 86.5, 92.1, 85.7, 83.1],
+                    ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4]
+                ]
+            },
+            series:[
+                //这几个系列会在第一个直角坐标系中，每个系列对应到dataset的每一行,第一行是什么东西呢呢，怎么处理第一行的呢？
+                {type:'bar',seriesLayoutBy:'row'},
+                {type:'bar',seriesLayoutBy:'row'},
+                {type:'bar',seriesLayoutBy:'row'},
+
+                //这几个系列会在第二个直角坐标系中，每个系列对应到dataset的每一列
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+                {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+            ]
+        })
+    </script>
+</body>
+</html>

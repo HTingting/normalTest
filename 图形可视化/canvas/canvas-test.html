@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        canvas{
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="tutorial" width="300" height="300">
+
+    </canvas>
+</body>
+<script>
+    function draw(){
+        var canvas = document.getElementById('tutorial');
+        if(!canvas.getContext) return;
+        var ctx = canvas.getContext('2d');
+
+        //画背景
+        ctx.fillStyle = '#FD0';
+        ctx.fillRect(0,0,75,75);
+        ctx.fillStyle = '#6C0';
+        ctx.fillRect(75,0,75,75);
+        ctx.fillStyle = '#09F';
+        ctx.fillRect(0,75,75,75);
+        ctx.fillStyle = '#F30';
+        ctx.fillRect(75,75,75,75);
+        //如果这里不写明白是这样的话，最后的圆的渲染颜色就会以红色为主
+        ctx.fillStyle = '#FFF';
+
+        //设置透明度值
+        ctx.globalAlpha = 0.2;
+
+        //画半透明圆
+        for(var i = 0 ; i < 7 ; i ++ ){
+            ctx.beginPath();
+            ctx.arc(75,75,10+10*i, 0, Math.PI*2,true);
+            ctx.fill();
+        }
+    }
+    draw();
+</script>
+</html>
