@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>观察者模式</title>
+</head>
+<body>
+    <div></div>
+    <script>
+        //观察者列表类 集合
+        class ObserverList{
+            //定义一个收集列表
+            constructor(){
+                this.list = [];
+            }
+            //添加观察者
+            add(obj){
+                this.list.push( obj );
+            }
+
+            //移除观察者
+            removeAt(index){
+                this.list.splice( index , 1 );
+            }
+
+            //获取观察者的长度
+            count(){
+                return this.list.length;
+            }
+
+            //获取指定观察者
+            get( index ){
+                if( index < 0 || index >= this.count() ){
+                    return;
+                }
+                return this.list[index];
+            }
+
+            //获取观察者下标
+            indexOf( obj, start = 0 ){
+                let pos = start;
+                while( pos < this.count() ){
+                    if( this.list[pos] === obj ){
+                        return pos;
+                    }
+                    pos++;
+                }
+                return -1;
+            }
+        }
+
+        //观察者类
+        class Observer {
+            constructor(fn){
+                this.update = fn;
+            }
+        }
+
+        //观察目标类
+        class Subject{
+            constructor(){
+                this.observers = new ObserverList();
+            }
+            addObserver(observer) {
+                this.observers.add(observer);
+            }
+            removeObserver(observer) {
+                this.observers.removeAt(
+                    this.observers.indexOf(observer)
+                );
+            }
+            notify(context){
+                const count = this.observers.count();
+                for(let i = 0; i < count; ++i){
+                    this.observers.get(i).update(context);
+                }
+            }
+        }
+
+        /*现在，假设我们需要在数据A变更时，打印A的最新值，则用上述的代码实现如下：*/
+        const observer = new Observer((newVal) => {
+            console.log(`A的最新值是${newVal}`);
+        });
+        const subject = new Subject();
+        subject.addObserver(observer);
+        //现在，做出A最新值改变的通知
+        subject.notify('Hello,world');
+        //控制台输出；
+    </script>
+</body>
+</html>

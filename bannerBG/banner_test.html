@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>banner测试</title>
+    <style>
+        .swiper-container {
+            width: 600px;
+            height: 300px;
+        }
+        .swiper-slide{
+            display:flex;
+            justify-content: center;
+            align-items:center;
+        }
+        img{
+            width: 300px;
+            height: 150px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"> </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.0/color-thief.umd.js"></script>
+</head>
+<body>
+    <div class="outer" style="
+        position: absolute;
+        left: 215px;
+        z-index: 5;
+        width: 600px;
+        height: 150px;
+    "></div>
+    <div class="outer2"  style="
+        position: absolute;
+        left: 215px;
+        z-index: 4;
+        width: 600px;
+        height: 150px;
+    "></div>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide bg">
+                <img  class="img" src="./img/1.jpg" alt="">
+            </div>
+            <div class="swiper-slide bg">
+                <img  class=img src="./img/2.jpg" alt="">
+            </div>
+            <div class="swiper-slide bg">
+                <img class="img" src="./img/3.jpg" alt="">
+            </div>
+            <div class="swiper-slide bg">
+                <img  class=img src="./img/4.jpg" alt="">
+            </div>
+            <div class="swiper-slide bg">
+                <img  class=img src="./img/5.jpg" alt="">
+            </div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+
+        <!-- 如果需要导航按钮 -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+
+        <!-- 如果需要滚动条 -->
+        <div class="swiper-scrollbar"></div>
+    </div>
+
+    <script>
+        var mySwiper = new Swiper ('.swiper-container', {
+            direction: 'horizontal', // 垂直切换选项
+            loop: true, // 循环模式选项
+
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // 如果需要前进后退按钮
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+            // 如果需要滚动条
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+
+            // 实践监听
+            on: {
+                touchMove: function(swiper,event){
+                    let activeIndex = swiper.activeIndex;
+                    //设置outer的透明度
+                    const progress = swiper.progress;
+                    const outer = document.getElementsByClassName('outer');
+                    outer[0].style.opacity = progress.toFixed(2);
+                    outer[0].style.backgroundColor = colorList[activeIndex];
+
+                    //设置outer2的颜色
+                    const outer2 = document.getElementsByClassName('outer2');
+                    outer2[0].style.backgroundColor = colorList[activeIndex+1];
+
+                    //输出
+                    console.log(progress,activeIndex);
+                },
+                touchEnd: function(swiper,event){
+                    let activeIndex = swiper.activeIndex;
+                    const container = document.getElementsByClassName('swiper-container');
+                    //container[0].style.backgroundImage = `linear-gradient(to right,${colorList[activeIndex+1]},${colorList[activeIndex+1]})`;
+                }
+            }
+        })
+
+        const colorThief = new ColorThief();
+        const img = document.getElementsByClassName('img');
+        const colorList= [];
+        // Make sure image is finished loading
+        for(let i = 0; i < img.length ; i ++){
+            if (img[i].complete) {
+                var res = colorThief.getColor(img[i]);
+            } else {
+                img[i].addEventListener('load', function() {
+                    var res = colorThief.getColor(img[i]);
+                });
+            }
+            colorList.push('rgba('+ res[0]+','+ res[1]+',' +res[2] +')');
+        }
+
+        //我的想法是抽一个公共方法，设置两个颜色值之间的颜色过渡，颜色设置在盖着的div上
+        //background-image: linear-gradient(to right, rgb(233, 162, 137) , rgb(249, 212, 215))
+
+        //自动轮播--->如果偏移量 = 图片*n ，背景颜色就用图片自带的；
+        //否则------> 背景颜色就用渐变的
+        initImgColor();
+
+        function initImgColor(){
+
+        }
+
+    </script>
+</body>
+</html>

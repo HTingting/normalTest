@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>函数科里化判断元素标签是否合法</title>
+</head>
+<body>
+<script>
+    let tags = 'div,p,a,img,ul,li'.split(',');
+
+    function makeMap( keys ){
+        let set = {};
+        tags.forEach( key => set[key] = true);
+
+        return function( tagName ){
+            return !!set[ tagName.toLowerCase() ]
+        }
+    }
+
+    let isHTMLTag = makeMap(tags);  //返回的函数
+
+    // 10个标签需要判断，那么还有没有循环存在？？？
+    // 没有！！！！小白高呼，蒋绅老师牛逼！！！！
+</script>
+</body>
+</html>

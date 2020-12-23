@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>likeVue</title>
+</head>
+<body>
+    <div id="root">
+
+    </div>
+    <script>
+        console.log(root);
+
+        let rkuohao = /\{\{(.+?)\}\}/g;   //可能有多个{{}}
+
+        //步骤分析
+        //1.拿到模板
+        //2.拿到数据（data）
+        //3.将数据与模板结合，得到的是HTML元素（DOM元素）
+        //4.放到页面中
+
+        //1.
+        let tempNode = document.querySelector('#root');
+        //2.
+        let data = {
+            name:'Harry Potter',
+            message:'is a handsome boy'
+        };
+        //3.将数据放到模板中
+        // 一般使用递归
+        // 在现在这个案例中，template 是 dom 元素
+        // 在真正的vue源码中是字符串。 DOM -> 字符串模板 -> VNode -> 真正的DOM
+        function compile( template, data ){
+            let childNodes = template.childNodes;  // 取出子元素
+            for(let i= 0; i<childNodes.length; i++){
+                let type = childNodes[i].nodeType;  // 1 表示元素 3 代表文本节点
+                if( type === 3 ){
+                    //文本节点，可以判断里面是否有{{}}差值
+                    let txt = childNodes[i].nodeValue;  //该属性只有文本节点才有意义
+
+                    //判断有没有{{}},
+                    //只要匹配到，就会执行一次;
+                    //函数的第0个参数,表示匹配到的内容
+                    //函数的第n个参数，表示正则中的第n组
+                    txt.replace(rkuohao, function(_,g){
+                        //console.log(_);
+                        let key = g.trim();  // 写在双花括号里面的东西
+                        let value = data[k];
+                        // 将 {{xxx}}用这个值替换
+                        return value;
+                    })
+
+                    // 注意：到这一步为止，txt和dom元素是没有关系的
+                    childNodes[i].nodeValue = txt;
+                }else if( type === 1){
+                    //元素节点，考虑它有没有子元素，是否需要将其子元素进行，判断差值
+                    compile(childNodes[i], data);
+                }
+            }
+        }
+
+        console.log(tempNode);
+        compile(tempNode, data);
+        console.log(tempNode);
+        //我们此时没有生产新的template，所以这里看到的是直接在页面中就更新了数据
+        //因为dom是引用类型。
+        //这样做模板就没有了
+
+        //这个例子还有很大问题，
+        //1.vue使用的是虚拟dom
+        //2.只考虑到了单属性{{name}}，而vue当中大量使用层级{{child.name.firstname}}
+        //3.代码没有整合
+    </script>
+</body>
+</html>

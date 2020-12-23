@@ -7,6 +7,17 @@ const compileUtil = {
         },vm.$data);
     },
 
+    //或者也可以使用这种方法
+    getValuesByPath( obj, path){
+        let paths = path.split('.');  // [xxx,yyy,zzz]
+        let res = obj;
+        let prop;
+        while(prop = paths.shift()){
+            res = res[ prop ];
+        }
+        return res;
+    },
+
     getContentVal(expr, vm){
         return  expr.replace(/\{\{(.+?)\}\}/g,(...args)=>{
             return this.getVal(args[1]);
@@ -20,6 +31,13 @@ const compileUtil = {
         },vm.$data);
     },
 
+    /**
+     * 传进来的参数举例有（node对象，'msg/person.nav',vm对象（里面可以拿到data））
+     * 需要获取person.nav这种格式类型的具体值——getVal('msg/person.nav',vm)
+     * @param node：元素对象
+     * @param expr：属性值
+     * @param vm：  整个vm对象
+     */
     text(node, expr, vm){  // expr: msg  ,person.fav , {{}}
         //const value = vm.$data[expr];
         let value;
@@ -27,10 +45,12 @@ const compileUtil = {
             //{{person.name}}  --- {{person.age}}
             value = expr.replace(/\{\{(.+?)\}\}/g,(...args)=>{
                 //[ {{}}, person.name , 0 ,  {{person.name}} --- {{person.age}}]
+                console.log(args);  //打印出来看看
+
                 new Watcher(vm,args[1],(newVal)=>{  //注意第二个参数不是expr，是要person.age
                     this.updater.textUpdater(node,this.getContentVal(expr,vm));
                 })
-                console.log(args);  //打印出来看看
+
                 return this.getVal(args[1],vm);
             })
         }else{
@@ -64,6 +84,7 @@ const compileUtil = {
     },
     on(node, expr, vm, eventName){
         let fn = vm.$options.methods && vm.$options.methods[expr];
+        //这里的绑定需要把vm传递进去，因为不这么做的话，this就是no函数所在作用域
         node.addEventListener(eventName, fn.bind(vm),false); //注意this的指向
     },
     bind(node,expr,vm, attrName){
@@ -92,12 +113,12 @@ class Compile{
         this.vm = vm;
         //2.获取文档碎片对象，放入内存中会减少页面的回流和重绘
         const fragment = this.node2Fragment(this.el);
-        //console.log(fragment);
+        console.log('获取文档碎片对象----',fragment);
 
         //3. 编译模板
         this.compile(fragment);
 
-        //4.追加子元素到根元素
+        //4.编译好之后，追加子元素到根元素
         this.el.appendChild(fragment);
     }
 
@@ -127,6 +148,14 @@ class Compile{
      * @param node
      *
      * 例如：<div v-text="msg"></div>
+     * 1.先取所有的【属性名，属性值】数组
+     * 2.匹配v-开头的所有属性
+     * 3.以'-'分隔，获取后面的指令类型——比如text,html,model,on:click,for等等
+     * 4.根据不同的指令类型处理node——CompileUtil处理
+     *  · text: 设置textContent
+     *  · html: 设置innerHTML
+     *  · model：处理双向绑定
+     *  · on: 处理事件绑定
      */
     compileElement(node){
         //匹配<>，匹配v- 的语法糖，匹配文本——可调用compileText方法处理；
@@ -193,6 +222,12 @@ class Compile{
         return f;
     }
 
+    /**
+     * Node.ELEMENT_NODE	1	一个 元素 节点，例如 <p> 和 <div>。
+     *  Node.TEXT_NODE	3	Element 或者 Attr 中实际的  文字
+     * @param node
+     * @returns {boolean}
+     */
     isElementNode(node){
         return node.nodeType === 1;
     }
@@ -208,7 +243,7 @@ class MVue{
         //有挂载的元素才进行以下操作。
         if(this.$el){
             //1.实现一个数据观察者Observer
-            //怎么去监控数据做了变化？
+            //因为要观察data的变化，所以处理的data！
             new Observer(this.$data);
 
             //2.实现一个指令解释器

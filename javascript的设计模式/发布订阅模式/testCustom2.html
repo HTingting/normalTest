@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+</head>
+<body>
+<script>
+
+    /**
+     * 【问题】：订阅者收到了发布者发布的两个消息，虽然晓铭只想买88平方米的房子，
+     * 但是发布者吧110平方米的信息也推送给了晓铭，这堆小明来说是不必要的困扰
+     *
+     * 【解决】：通过增加一个标志key，让订阅者只订阅自己感兴趣的消息
+     */
+    var salesOffices = {};  //定义售楼处--（相当于发布者）
+
+    salesOffices.clientList = []; //缓存列表，存放订阅者的回调函数
+
+    salesOffices.listen = function( key,fn ){ //添加订阅者
+        // 如果还没有订阅过此类消息，给该类消息创建一个缓存列表
+        if(!this.clientList[key]){
+            this.clientList[key] = [];
+        }
+        //订阅的消息添加进消息缓存列表
+        this.clientList[key].push(fn);
+    };
+
+    salesOffices.trigger = function() {  //发布消息
+        var key = Array.prototype.shift.call(arguments);  //取出消息类型，第一个参数
+        var fns = this.clientList[key];  //拿到消息列表里的函数
+        //如果没有订阅该消息，则返回
+        if(!fns || fns.length === 0){
+            return false;
+        }
+        /**
+         * 遍历中需要两个遍历变量，一个是i， 一个是fn，且fn是依赖i的
+         * for(var i = 0,fn; fn = fns[i+1];) 可以拆分理解：
+         * - var i = 0,fn; : 声明了变量i赋值为0，声明了变量fn，但没有赋值，为了之后的赋值提前声明避免了undefined
+         * - fn = fns[i++] : 也就是是说fn为每次i作为key时，数组fns取对应的值
+         */
+        for(var i = 0,fn; fn = fns[i++];){
+            console.log(i,fn);
+            fn.apply(this,arguments);  //arguments是发布消息时附送的参数
+        }
+    }
+
+    // 小明订阅消息
+    salesOffices.listen('squareMeter88',function( price ){
+        console.log('价格' + price);
+    });
+
+    //小红订阅消息
+    salesOffices.listen('squareMeter110',function( price ){
+        console.log('价格' + price);
+    });
+
+    //小孙订阅消息
+    salesOffices.listen('squareMeter120',function( price ){
+        console.log('价格' + price);
+    });
+
+    //发布消息
+    salesOffices.trigger('squareMeter88',88);
+    salesOffices.trigger('squareMeter110',110);
+    salesOffices.trigger('squareMeter120',120);
+
+</script>
+</body>
+</html>

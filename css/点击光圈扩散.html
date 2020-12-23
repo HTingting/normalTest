@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>点击光圈扩散</title>
+    <style>
+        #test{
+            width:30px;
+            height: 30px;
+            background:#ccc;
+        }
+        .light{
+            position:absolute;
+            left: 50px;
+            top:40px;
+            width:5px;
+            height: 5px;
+            border-radius: 50%;
+            background:#FF8B00;
+            animation:myfirst 0.2s 1;
+            animation-fill-mode:forwards;
+        }
+        @keyframes myfirst{
+            20% {
+                transform: scale(4);
+                opacity: 0.6;
+            }
+            40% {
+                 transform: scale(6);
+                 opacity: 0.5;
+             }
+            60% {
+                transform: scale(8);
+                opacity: 0.4;
+            }
+            80% {
+                transform: scale(10);
+                opacity: 0.2;
+            }
+            100% {
+                transform: scale(14);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="test">
+        <div id="test-light"></div>
+    </div>
+</body>
+<script>
+    const testDom = document.getElementById('test');
+    const lightDom = document.getElementById('test-light');
+    testDom.addEventListener('click',function(){
+        lightDom.classList.add('light');
+    });
+    setInterval(function(){
+        lightDom.classList.remove('light');
+    },600)
+</script>
+</html>

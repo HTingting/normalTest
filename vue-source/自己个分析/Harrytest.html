@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+       <div class="Harryfriends" style="width:100px;height:100px;">
+           我是harry的朋友们
+       </div>
+    </div>
+
+    <script src="vue.js"></script>
+    <script>
+        let vm = new Vue({
+            el:'#app',
+            data:{
+                person:{
+                    name:'Harry',
+                    age:18,
+                    gender:'male'
+                },
+                msg:'Harry wants to learn sth about Vue MVVM',
+                htmlStr:'<p>harry 最帅</p>',
+            }
+        })
+    </script>
+</body>
+</html>

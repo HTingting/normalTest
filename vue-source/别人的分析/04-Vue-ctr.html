@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="root">
+        <div>
+            <p>{{name}}-{{message}}</p>
+        </div>
+        <p>{{name}}</p>
+        <p>{{message}}</p>
+    </div>
+    <script>
+        let rkuohao = /\{\{(.+?)\}\}/g;
+
+        function compiler( templete, data){
+            let childNodes = templete.childNodes; // 取出子元素
+            for(let i = 0; i < childNodes.length; i++){
+                let type = childNodes[ i ].nodeType; // 获取元素类型；1 是元素节点；3是文本节点
+                if(type === 3){
+                    //文本节点， 可以判断里面是否有 {{}} 插值
+                    let txt = childNodes[i].nodeValue; // 该属性只有文本节点才有意义
+
+                    //有没有双花括号 ？？？
+                    txt = txt.replace( rkuohao , function(_, g){
+                        let key = g.trim();
+                        let value = data[key];
+
+                        //将{{xxxx}} 用这个值替换
+                        return value;
+                    });
+
+                    //注意： txt现在和dom元素是没有关系的；
+                    childNodes[i].nodeValue = txt;
+
+                }else if(type === 1){
+                    //元素，考虑它有没有资源，是否需要将其子元素进行 判断是否要插值
+                    compiler( childNodes[i], data);
+                }
+            }
+        }
+
+        function JGVue( options ){
+            // 习惯： 内部的数据使用下划线开头，只读数据使用 $ 开头
+            this._data = options.data;
+            this._el = options.el;
+
+            // 准备工作（ 准备模板）
+            this._templateDOM = document.querySelector(this._el);
+            this._parent = this._templateDOM.parentNode;
+
+            //渲染工作
+            this.render();
+        }
+
+        /**
+         * 将模板 即 可数据，得到 HTML 加到页面中
+         */
+        JGVue.prototype.render = function(){
+            this.compiler();
+        }
+
+        /**
+         * 编译 将 模板与数据结合，得到真正的dom元素
+         */
+        JGVue.prototype.compiler = function(){
+            let realHTMLDOM = this._templateDOM.cloneNode( true );  // 用模板拷贝得到,可以理解这里的realHTMLDOM是一个引用对象！！所以compi
+            compiler( realHTMLDOM, this._data );
+            this.update( realHTMLDOM );
+        }
+
+        /**
+         * 将 dom 的元素 放到页面中
+         */
+        JGVue.prototype.update = function (real){
+            this._parent.replaceChild( real, document.querySelector('#root'));
+        }
+
+        // 想想怎么用:
+        let app = new JGVue( {
+            el: '#root',
+            data: {
+                name: 'jim'
+                , message: 'info'
+            }
+        } );
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./swiper.min.css">
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .swiper-bg {
+            height: 500px;
+        }
+
+        .swiper-wrapper {
+            position: absolute;
+            top: 0;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+        }
+
+
+        .swiper-container{
+            transition: background ease 1000ms;
+        }
+    </style>
+    <script src="./jquery.min.js"></script>
+    <script src="./swiper.min.js"></script>
+    <script src="./color-thief.min.js"></script>
+</head>
+
+<body>
+    <div class="swiper-container">
+        <div class="swiper-bg" data-swiper-parallax="-5%" data-swiper-parallax-duration="1000"></div>
+        <div class="swiper-wrapper">
+            <div class="swiper-slide"><img src="./../img/1.jpg" /></div>
+            <div class="swiper-slide"><img src="./../img/2.jpg" /></div>
+            <div class="swiper-slide"><img src="./../img/3.jpg" /></div>
+            <div class="swiper-slide"><img src="./../img/4.jpg" /></div>
+        </div>
+        <div class="swiper-button-prev"></div>
+        <!--左箭头。如果放置在swiper-container外面，需要自定义样式。-->
+        <div class="swiper-button-next"></div>
+        <!--右箭头。如果放置在swiper-container外面，需要自定义样式。-->
+        <div class="swiper-pagination"></div>
+        <!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
+    </div>
+    <script>
+         let colorThief = new ColorThief();
+        var mySwiper = new Swiper('.swiper-container', {
+            speed: 300,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: {
+                el: '.swiper-pagination',
+            },
+            loop: true,
+            autoplay: false,
+            clickable: true,
+
+            on: {
+                slideChange: function () {
+                    let that = this ;
+                    let imgs = document.querySelectorAll('.swiper-slide>img');
+                    console.log(imgs[this.activeIndex])
+                    setTimeout(function(){
+                        let rgb = colorThief.getColor(imgs[that.activeIndex]);
+                        let rgba = `${rgb[0]},${rgb[1]},${rgb[2]}`;
+                        document.getElementsByClassName('swiper-container')[0].style.cssText =  `background : rgba(${rgba},1)`
+                    },10)
+                    console.log(this.activeIndex ) ;
+                },
+
+                init: function () {
+                    // setTimeout(function () {
+                    //     let colorThief = new ColorThief();
+                    //     let img = document.querySelectorAll('.swiper-slide>img');
+
+
+                    //     for (let i = 0, len = img.length; i < len; i++) {
+
+
+                    //         let preImgIndex = img[i - 1] ? img[i - 1] :  img[len - 1];
+                    //         let nextImgIndex = img[i + 1] ? img[i + 1] : img[1];
+                    //         console.log(preImgIndex, img[i], nextImgIndex)
+                    //         let rgb = colorThief.getColor(img[i]);
+                    //         let preRgb = colorThief.getColor(preImgIndex);
+                    //         let nextRgb = colorThief.getColor(nextImgIndex);
+
+
+                    //         let rgba = `${rgb[0]},${rgb[1]},${rgb[2]}`;
+                    //         let preRgba = `${preRgb[0]},${preRgb[1]},${preRgb[2]}`;
+                    //         let nextgba = `${nextRgb[0]},${nextRgb[1]},${nextRgb[2]}`;
+
+                    //         let preCenter = colorsBetween(rgb,preRgb,1) ;
+                    //         let nextCenter = colorsBetween(rgb,nextRgb,1) ;
+
+                    //         let background =
+                    //             `background:linear-gradient( 90deg ,rgba(${preCenter.r},${preCenter.g},${preCenter.b}, 1 ),rgba(${rgba},1 ) 5% ,rgba(${rgba},1 ) 95%, rgba(${nextCenter.r},${nextCenter.g},${nextCenter.b}, 1) ) ;`
+                    //         img[i].parentNode.style.cssText = background;
+
+                    //     }
+                    // }, 100)
+                }
+            },
+        })
+        mySwiper.params.pagination.clickable = true;
+        //此外还需要重新初始化pagination
+        mySwiper.pagination.destroy()
+        mySwiper.pagination.init()
+        mySwiper.pagination.bullets.eq(0).addClass('swiper-pagination-bullet-active');
+
+        var Color = function Color(r, g, b) {
+            this.r = Math.abs(r);
+            this.g = Math.abs(g);
+            this.b = Math.abs(b);
+            if (typeof r === "string") {
+                var v = fromHex(r);
+                this.r = v[0];
+                this.g = v[1];
+                this.b = v[2];
+            }
+        };
+        Color.prototype.diff = function (c) {
+            return new Color(this.r - c.r, this.g - c.g, this.b - c.b);
+        };
+        Color.prototype.dividedBy = function (n) {
+            return new Color(this.r / n, this.g / n, this.b / n);
+        };
+        Color.prototype.approach = function (c, c2) {
+            return new Color(this.r > c.r ? this.r - c2.r : this.r + c2.r, this.g > c.g ? this.g - c2.g : this.g +
+                c2.g, this.b > c.b ? this.b - c2.b : this.b + c2.b);
+        };
+        Color.prototype.toHex = function () {
+            return "#" + pad(Math.round(this.r).toString(16)) + pad(Math.round(this.g).toString(16)) + pad(Math
+                .round(this.b).toString(16));
+        };
+
+        function fromHex(str) {
+            return str.substr(1).match(/.{1,2}/g).map(function (n) {
+                return parseInt(n, 16);
+            });
+        }
+
+        function pad(n) {
+            var str = "" + n;
+            var pad = "00";
+            return pad.substring(0, pad.length - str.length) + str;
+        }
+
+        function colorsBetween(c1, c2, n) {
+            c1 = new Color(c1[0],c1[1],c1[2]);
+            c2 = new Color(c2[0],c2[1],c2[2]);
+
+            var diff = c1.diff(c2).dividedBy(n + 1);
+            let centerColor = c1.approach(c2, diff)
+            return centerColor ;
+
+        }
+
+
+    </script>
+    <script>
+
+    </script>
+</body>
+
+</html>

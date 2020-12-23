@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>绑定dom时间</title>
+</head>
+<body>
+<script>
+    document.body.addEventListener('click', function(){
+        console.log('click1');
+    },false);
+
+    document.body.addEventListener('click', function(){
+        console.log('click2');
+    },false);
+    document.body.addEventListener('click', function(){
+        console.log('click3');
+    },false);
+    document.body.addEventListener('click', function(){
+        console.log('click4');
+    },false);
+    document.body.click(); //模拟用户点击
+
+
+</script>
+</body>
+</html>

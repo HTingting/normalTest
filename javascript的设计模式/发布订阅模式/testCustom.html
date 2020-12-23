@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自定义事件</title>
+</head>
+<body>
+<script>
+    var salesOffices = {};  //定义售楼处--（相当于发布者）
+
+    salesOffices.clientList = []; //缓存列表，存放订阅者的回调函数
+
+    salesOffices.listen = function( fn ){ //添加订阅者
+        this.clientList.push( fn );  //订阅的消息添加进缓存列表
+    }
+
+    salesOffices.trigger = function() {  //发布消息
+        for( var i = 0, fn; fn = this.clientList[i++];){
+            fn.apply(this, arguments);  //arguments是发布消息时带上的参数
+        }
+    }
+
+    // 小明订阅消息
+    salesOffices.listen(function( price, squareMeter ){
+        console.log('价格' + price);
+        console.log('面积' + squareMeter);
+    });
+
+    //小红订阅消息
+    salesOffices.listen(function( price, squareMeter){
+        console.log('价格' + price);
+        console.log('面积' + squareMeter);
+    });
+
+    //发布消息
+    salesOffices.trigger(2000000,88);
+    salesOffices.trigger(3000000,110);
+
+    /**
+     * 但是这里还存在一些问题。订阅者收到了发布者发布的两个消息，虽然晓铭只想买88平方米的房子，
+     * 但是发布者吧110平方米的信息也推送给了晓铭，这堆小明来说是不必要的困扰
+     */
+</script>
+</body>
+</html>
