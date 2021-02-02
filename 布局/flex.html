@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FLEX布局</title>
+    <link rel="stylesheet" href="./reset.css">
+</head>
+<style>
+    body{
+        width:100%; height:100%;
+    }
+    /*解决滚动条占据宽度影响布局*/
+    html {
+        overflow-y: scroll;
+    }
+    :root {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    :root body {
+        position: absolute;
+    }
+
+    body {
+        width: 100vw;
+        overflow: hidden;
+    }
+    .frame{
+        width:100%;height:100%;
+        display:flex;flex-direction: row;
+    }
+    .left{
+        height:100vh;width:220px;background: yellow;
+        overflow-y: scroll;
+        /*overflow-y: overlay; */ /*但是这种方法只能是给chrome使用*/
+    }
+    .right{
+        height:100vh;width:200px;background: pink;
+        overflow-y: scroll;
+    }
+    .content{
+        flex:1;
+        background: blue;
+        height:100vh;
+    }
+    /*修改滚动条样式*/
+    div::-webkit-scrollbar{
+        width:10px;
+        height:10px;
+        /**/
+    }
+    .frame>div::-webkit-scrollbar-track{
+        background: rgb(239, 239, 239);
+        border-radius:2px;
+    }
+    .frame>div::-webkit-scrollbar-thumb{
+        background: #bfbfbf;
+        border-radius:10px;
+    }
+    .frame>div::-webkit-scrollbar-thumb:hover{
+        background: #333;
+    }
+    .frame>div::-webkit-scrollbar-corner{
+        background: #179a16;
+    }
+
+    .frame>div{
+        /*三角箭头的颜色*/
+        scrollbar-arrow-color: #c0c4cc;
+        /*滚动条滑块按钮的颜色*/
+        scrollbar-face-color: #A2A2A3;
+        /*滚动条整体颜色*/
+        scrollbar-highlight-color: #A2A2A3;
+        /*滚动条阴影*/
+        scrollbar-shadow-color: #A2A2A3;
+        /*滚动条轨道颜色*/
+        scrollbar-track-color: #f4f4f5;
+        /*滚动条3d亮色阴影边框的外观颜色——左边和上边的阴影色*/
+        scrollbar-3dlight-color: #A2A2A3;
+        /*滚动条3d暗色阴影边框的外观颜色——右边和下边的阴影色*/
+        scrollbar-darkshadow-color: #A2A2A3;
+        /*滚动条基准颜色*/
+        scrollbar-base-color: #f4f4f5;
+    }
+
+    .left{
+        display:flex;
+        flex-wrap: wrap;
+    }
+    .box:nth-child(odd){
+        margin-right: 20px;
+    }
+    .left div{
+        width:90px;
+        height: 50px;
+        margin-bottom:10px;
+        background: greenyellow;
+    }
+</style>
+<body>
+<div class="frame">
+    <div class="left">
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
+        <div class="box">6</div>
+        <div class="box">7</div>
+        <div class="box">8</div>
+        <div class="box">9</div>
+        <div class="box">0</div>
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
+        <div class="box">6</div>
+        <div class="box">7</div>
+        <div class="box">8</div>
+        <div class="box">9</div>
+        <div class="box">0</div>
+    </div>
+    <div class="content">
+        <h1 style="color:white;font-size:28px;">flex布局</h1>
+    </div>
+    <div class="right">
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+        黑龙江疫情防控发布会回应：①春节前，对父母双方均就地过年的农村留守儿童进行集中排查摸底；②确保每名留守儿童都有明确的委托监护人照料；③统筹志愿者、社会工作者对留守儿童进行心理疏导、寒假补课等服务；④帮助务工父母与留守儿童电话视频；⑤充分利用各地已开通的41条24小时未成年人关爱救助热线，畅通申请救助渠道；⑥对留守儿童及其家庭在疫情防控物资等方面确有困难的，及时给予支持。
+    </div>
+</div>
+</body>
+</html>
