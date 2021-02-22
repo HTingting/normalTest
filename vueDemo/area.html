@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>省市区选择</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="./js/area.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--省市联动-->
+        <el-cascader
+                v-model="workarea"
+                :options="options"
+                @change="handleChange"
+        ></el-cascader>
+    </div>
+    <script>
+        new Vue({
+            el: '#app',
+            data: function() {
+                return {
+                    options: areajson,
+                    //自定义 默认值
+                    workarea: ['340000', '340100', '340104'], //此处填写对应的value值
+                }
+            },
+            methods:{
+                handleChange(val){
+                    console.log(val);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

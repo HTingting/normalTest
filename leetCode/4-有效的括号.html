@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。
+    //1.别人的通过堆栈的方式,  堆的数组pop跟for循环的比较i比较
+    // {
+    // }
+    //2.字符串的方式中分进行比较
+    var isValid2 = function(s) {
+        let stack = [];
+        var len = 0;
+        let arr = s.split('');
+
+        for (let i = 0; i < arr.length; i++) {
+            let str = arr[i];
+            switch (str) {
+                case '(':
+                    stack[len] = str;
+                    len++;
+                    break;
+                case '[':
+                    stack[len] = str;
+                    len++;
+                    break;
+                case '{':
+                    stack[len] = str;
+                    len++;
+                    break;
+                case ')':
+                    if (stack[len-1] == '(')
+                        len--;
+                    else
+                        return false;
+                    break;
+                case ']':
+                    if (stack[len-1] == '[')
+                        len--;
+                    else
+                        return false;
+                    break;
+                case '}':
+                    if (stack[len-1] == '{')
+                        len--;
+                    else
+                        return false;
+                    break;
+            }
+        }
+
+        if (len == 0)
+            return true;
+        else
+            return false;
+    };
+
+
+    var isValid = function(s) {
+        var rightSymbols = [];
+        for (var i = 0; i < s.length; i++) {
+            if(s[i] == "("){
+                rightSymbols.push(")");
+            }else if(s[i] == "{"){
+                rightSymbols.push("}");
+            }else if(s[i] == "["){
+                rightSymbols.push("]");
+            }else if(rightSymbols.pop() != s[i] ){
+                return false;
+            }
+        }
+        console.log(rightSymbols.length)
+        return !rightSymbols.length;
+    };
+    console.log(isValid('[]')); // true
+    console.log(isValid('[]{}'));  // true
+    console.log(isValid('[](){}'));  // true
+    console.log(isValid('[{()]}')); //false
+    console.log(isValid('([{}])'));  // true
+</script>
+</body>
+</html>

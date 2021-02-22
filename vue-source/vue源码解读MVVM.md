@@ -250,7 +250,7 @@ class Compile{
                 const [dirName, eventName] = directive.split(':');  // text html model on
                 //更新数据 根据驱动视图
                 compileUtil[dirName](node, value, this.vm, eventName);
-                //删除有指令的表情上的属性
+                //删除有指令的标签上的属性
                 node.removeAttribute('v-' + directive);
             }else if(this.isEventName(name)){   //@click="handleClick"
                 let [, eventName] = name.split('@');
@@ -377,7 +377,7 @@ const compileUtil = {
    + 赋值会被Object.defineProperty()中的get()方法劫持。
    + 对数据修改会被Object.defineProperty()中的set()方法劫持。但是每次修改操作都要重新观察该数据，不然会丢失get，set()方法。
 
-    ```
+    ```js
     class Observer{
         constructor(data){
             this.observe(data);
