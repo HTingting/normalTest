@@ -63,3 +63,27 @@ fs.readFile('./views/index.html',function(err,data){
     res.end(htmlStr);
 })
 ```
+
+## 通过服务器让客户端重定向
+
++ 状态码设置为302 临时重定向 
++ 在响应头中通过location告诉客户端往哪儿重定向
++ 如果客户端发现服务器的相应状态码是302，就会自动取响应头中去找location，所以就能看到客户端自动跳转了
+```js
+res.statusCode = 302;
+res.setHeader('Location','/');
+```
+
+## 总结
+
++ 1. / index.html
+    
++ 2. 开放public目录中的静态资源
+     当请求 /public/xxx的时候，读取相应public目录中的具体资源
+     
++ 3. /post post.html
+    
++ 4. /plugin
+     4.1 接收表单提交数据
+     4.2 存储表单提交的数据
+     4.3 让表单重定向到 /
