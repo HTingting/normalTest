@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <title>列表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <el-input v-model="input" placeholder="请输入内容" @focus="dialogVisible = true"></el-input>
+    <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%">
+        <ul class="infinite-list" v-infinite-scroll="load" style="overflow:auto;height:500px;" @click="ulClick($event)">
+            <li v-for="(i,iIndex) in count" class="infinite-list-item" :dataIndex="iIndex">{{ i }}</li>
+        </ul>
+    </el-dialog>
+
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                input:'',
+                dialogVisible:false,
+                count: 0
+            }
+        },
+        mounted(){
+
+        },
+        methods:{
+            load () {
+                this.count += 2
+            },
+            ulClick(ev){
+                //1.获取当前点击元素的下标
+                let index = ev.target.attributes.dataIndex;
+                //2.根据下标获取到对应元素的元数据
+                localStorage.setItem('checked',data);
+                //3.设置input框的值
+                console.log(this.count);
+            }
+        }
+    })
+</script>
+</body>
+</html>
