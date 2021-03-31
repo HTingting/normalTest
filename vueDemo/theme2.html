@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en"  class="theme-default">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <title>列表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+   <header>头部</header>
+    <div>这种还是只是说切换class而已，不太符合我们的场景</div>
+    <div class="color-list">
+        <div v-for="(colorItem,colorIndex) in colorList" class="color" :class="{active:colorItem.active}" @click="changeTheme(colorItem.theme,colorIndex)">
+            <div class="color-item" :style="colorItem.style"></div>
+        </div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                checked:false,
+                colorList:[
+                    {theme:'theme-default',active:true,style:'background:green;'},
+                    {theme:'theme-second',active:false,style:'background:yellow;'},
+                    {theme:'theme-third',active:false,style:'background:red;'},
+                ]
+            }
+        },
+        methods:{
+            changeTheme:function(theme,index){
+                //设置颜色勾选
+                this.colorList.forEach(function(item){
+                    item.active = false;
+                })
+                this.colorList[index].active = true;
+                document.documentElement.className = theme;
+            }
+        }
+    })
+</script>
+</body>
+</html>
+<style>
+    .color{
+        width:80px;height:80px;
+        border-radius:4px;
+        border:1px solid #ccc;
+        text-align: center;line-height: 80px;
+        margin-bottom:20px;
+    }
+    .active{
+        border:1px dashed red;
+        position:relative;
+    }
+    .active:after{
+        position:absolute;
+        content:'1';
+        top:0;
+        right:0;
+        width:10px;
+        height:10px;
+        border-radius: 50%;
+        background-color: black;
+    }
+    .color:hover{
+        border:1px dashed red;
+    }
+    .color-item{
+        width: 60px;height:60px;
+        margin-left:10px;margin-top:10px;
+    }
+
+    .theme-default {
+        --accent-color: #72f1b8;
+        --font-color: #34294f;
+    }
+
+    .theme-second {
+        --accent-color: #FFBF00;
+        --font-color: #59316B;
+    }
+
+    .theme-third {
+        --accent-color: #d9455f;
+        --font-color: #303960;
+    }
+
+    body {
+        background-color: var(--accent-color);
+        color: var(--font-color);
+    }
+</style>

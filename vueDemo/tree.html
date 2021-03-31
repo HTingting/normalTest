@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <title>列表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="deptTree">
+        <el-button  @click="test" >测试 </el-button>
+        <!--根节点写死\子节点懒加载\手风琴模式-->
+        <el-tree
+                :props="props"
+                :load="loadNode"
+                lazy
+                show-checkbox>
+        </el-tree>
+    </div>
+
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {
+                props: {
+                    label: 'name',
+                    children: 'zones',
+                    isLeaf: 'leaf'
+                },
+            }
+        },
+        mounted(){
+
+        },
+        methods:{
+            loadNode(node, resolve) {
+                if (node.level === 0) {
+                    return resolve([{name: 'region'}]);
+                }
+                if (node.level > 1) return resolve([]);
+
+                setTimeout(() => {
+                    const data = [{
+                        name: 'leaf',
+                        leaf: true
+                    }, {
+                        name: 'zone1',
+                        leaf:true
+                    },{
+                        name: 'zone2',
+                        children:[
+                            {
+                                name:'zone2-1',
+                            }
+                        ]
+                    },{
+                        name: 'zone3'
+                    },{
+                        name: 'zone4'
+                    }];
+
+                    resolve(data);
+                }, 500);
+            },
+            test(){
+
+            }
+        }
+    })
+</script>
+</body>
+</html>

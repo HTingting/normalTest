@@ -73,6 +73,9 @@ class Promise {
 
         //箭头函数，保证this永远指向外层
         let resolve = (value) =>{
+            if(value instanceof Promise){
+                return value.then(resolve,reject);  //递归解析resolve，直到value是个普通值
+            }
             if(this.status === PENDING){
                 this.value = value;
                 this.status = RESOLVED;

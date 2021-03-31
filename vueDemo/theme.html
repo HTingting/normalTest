@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
+    <title>列表</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="app">
+   <header>头部</header>
+    <div class="color-list">
+        <div class="color green" @click="changeTheme('green')"></div>
+        <div class="color black" @click="changeTheme('black')"></div>
+    </div>
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: function() {
+            return {}
+        },
+        mounted(){
+            var link = document.createElement('link');
+            link.type = 'text/css';
+            link.id = "theme";
+            link.rel = 'stylesheet';
+            link.href = './css/black.css';
+            document.getElementsByTagName("head")[0].appendChild(link);
+        },
+        methods:{
+            changeTheme(theme){
+                if(theme == 'black'){
+                    document.getElementById('theme').href="./css/black.css";
+                }else if(theme == 'green'){
+                    document.getElementById('theme').href = './css/green.css';
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>
