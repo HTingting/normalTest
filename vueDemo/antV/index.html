@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>用户统计</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+</head>
+<body>
+<div id="antVpage">
+    <div class="total-list"></div>
+    <div class="panel-list">
+        <el-card v-for="(panel,pIndex) in chartData">
+            <div class="panel-title">组织统计概述</div>
+            <div class="panel-list">
+                <div class="panel-item" v-for="(chartItem,cIndex) in panel">
+                    <div :id="chartItem.id" class="chart-area"></div>
+                    <el-table
+                            :data="tableData"
+                            border
+                            style="width: 100%">
+                        <el-table-column
+                                prop="date"
+                                label="日期"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="name"
+                                label="姓名"
+                                width="180">
+                        </el-table-column>
+                        <el-table-column
+                                prop="address"
+                                label="地址">
+                        </el-table-column>
+                    </el-table>
+                </div>
+            </div>
+        </el-card>
+    </div>
+</div>
+
+<script src="./js/mock.js"></script>
+<script>
+    new Vue({
+        el:'#antVpage',
+        data:function(){
+            return{
+                chartData:[],
+                tableData: [
+                    {
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }],
+                ringOptions:{},  //环图的配置
+                roseRingOptions:{}, // 南丁格尔玫瑰
+                barOptions:{},  //条形图的配置
+                histogramOptions:{},  //柱状图的配置
+            }
+        },
+        mounted(){
+            this.getChartData();
+        },
+        methods:{
+            getChartData:function(){
+                this.chartData = result.content;
+                this.formatData(this.chartData);
+            },
+
+            formatData:function(){
+                var _that = this;
+                var model1 = this.chartData.model1;
+                var model2 = this.chartData.model2;
+                var model3 = this.chartData.model3;
+                var newArray = [model1, model2, model3];
+                for (var i = 0; i < newArray.length; i++){
+                    for (var j in newArray[i]) {
+                        //为每个图表数据添加唯一的id
+                        newArray[i][j].id = 'chart' + i + '-' + j;
+                    }
+                }
+                _that.chartData = newArray;
+                _that.$nextTick(function(){
+                    _that.renderChart();
+                });
+            },
+
+            renderChart:function(){
+                for(var i = 0; i < this.chartData.length; i++){
+                    for(var j in this.chartData[i]){
+                        this.singleChartOptions(this.chartData[i][j]);
+                    }
+                }
+            },
+
+            /**
+             *
+             * @param chartItem: 表格数据的基本配置
+             * @param key： 第一层对象的key值
+             */
+            singleChartOptions(chartItem){
+                var chart = new G2.Chart({
+                    container: chartItem.id,
+                    forceFit: true,
+                    height: '300px'
+                });
+
+
+                var data = chartItem.data;  //获取数据源
+                chart.source(data);  //设置数据源
+
+                //设置坐标轴类型，除了饼状图，柱状图，曲线图不用设置这个
+                //图标的类型: 普通圆环图，玫瑰图，条形图，柱状图
+                var chartTypeOptions = this.getChartType(chartItem);
+                if(chartTypeOptions !== null){
+                    chart.coord(chartTypeOptions.type, chartTypeOptions.options);
+                }else{
+                    chart.coord();
+                }
+
+                //设置x轴，y轴
+                this.getChartAxis(chartItem,chart);
+
+
+                chart.tooltip({
+                    showTitle: false,
+                    itemTpl: '<li><span style="background-color:{color};" class="g2-tooltip-marker"></span>{name}: {value}</li>'
+                });
+                chart.intervalStack().position('percent').color('item').label('percent', {
+                    formatter: function formatter(val, item) {
+                        return item.point.item + ': ' + val;
+                    }
+                }).tooltip('item*percent', function(item, percent) {
+                    percent = percent * 100 + '%';
+                    return {
+                        name: item,
+                        value: percent
+                    };
+                }).style({
+                    lineWidth: 1,
+                    stroke: '#fff'
+                });
+                chart.render();
+            },
+            //获取图表的type
+            getChartType:function(chartItem){
+                var chartTypeOptions = {};
+                //如果是饼状图，分环形还是玫瑰图
+                if(chartItem.type === 'pie'){
+                    if(chartItem.id === 'chart0-orgStatus' || chartItem.id === 'chart1-userSex' ||  chartItem.id === 'chart1-userStatus' || chartItem.id === 'chart2-posStatus'){
+                        chartTypeOptions.chartType = 'theta';
+                        chartTypeOptions.options = {
+                            radius: 0.75,
+                            innerRadius: 0.6
+                        }
+                    }else{
+                        chartTypeOptions.chartType = 'polar';
+                        chartTypeOptions.options = {
+                            innerRadius: 0.2
+                        }
+                    }
+                }
+                return chartTypeOptions;
+            },
+            //获取图表的坐标轴设置
+            getChartAxis:function(chartItem,chart){
+                var axisOptions = null;
+                if(chartItem.type === 'bar'){
+                    //条形图
+                    if(chartItem.id === 'chart0-orgUserNum'){
+                        chart.axis('type', {
+                            label: {
+                                textStyle: {
+                                    fill: '#8d8d8d',
+                                    fontSize: 12
+                                }
+                            },
+                            tickLine: {
+                                alignWithLabel: false,
+                                length: 0
+                            },
+                            line: {
+                                lineWidth: 0
+                            }
+                        });
+                        chart.axis('value', {
+                            label: null,
+                            title: {
+                                offset: 30,
+                                textStyle: {
+                                    fontSize: 12,
+                                    fontWeight: 300
+                                }
+                            }
+                        });
+                    }else{
+                        //设置x轴bar的名称
+                        chart.axis('type', {
+                            label: {
+                                textStyle: {
+                                    fill: 'red'
+                                }
+                            },
+
+                        });
+                        //设置y轴的坐标刻度
+                        chart.axis('value', {
+                            label: {
+                                textStyle: {
+                                    fill: 'yellow'
+                                },
+                                formatter: function formatter(text) {
+                                    return text.replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+                                }
+                            },
+                            title: {
+                                offset: 70
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    })
+</script>
+</body>
+</html>

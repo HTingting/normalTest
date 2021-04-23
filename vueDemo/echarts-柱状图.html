@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-echarts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+<div id="tablePie">
+    <div class="panel" style="display: flex;">
+        <div id="chart"></div>
+    </div>
+</div>
+
+<script>
+    // 指定图表的配置项和数据
+    const option = {
+        legend: {},
+        tooltip: {},
+        dataset: {
+            source: [
+                ['product', '2012', '2013', '2014', '2015'],
+                ['Matcha Latte', 41.1, 30.4, 65.1, 53.3],
+                ['Milk Tea', 86.5, 92.1, 85.7, 83.1],
+                ['Cheese Cocoa', 24.1, 67.2, 79.5, 86.4]
+            ]
+        },
+        xAxis: [
+            {type: 'category', gridIndex: 0},
+            {type: 'category', gridIndex: 1}
+        ],
+        yAxis: [
+            {gridIndex: 0},
+            {gridIndex: 1}
+        ],
+        grid: [
+            {bottom: '55%'},
+            {top: '55%'}
+        ],
+        series: [
+            // These series are in the first grid.
+            {type: 'bar', seriesLayoutBy: 'row'},
+            {type: 'bar', seriesLayoutBy: 'row'},
+            {type: 'bar', seriesLayoutBy: 'row'},
+            // These series are in the second grid.
+            {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+            {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+            {type: 'bar', xAxisIndex: 1, yAxisIndex: 1},
+            {type: 'bar', xAxisIndex: 1, yAxisIndex: 1}
+        ]
+    };
+    new Vue({
+        el: '#tablePie',
+
+        data: function() {
+            return {
+
+            }
+        },
+        mounted(){
+            this.getProject()
+        },
+        methods: {
+            //获取右边的列表和饼状图的数据
+            getProject() {
+                var myChart = echarts.init(document.getElementById('chart'));
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            }
+        }
+    })
+</script>
+</body>
+<style>
+    .all {
+        overflow: auto;
+        height: 100%;
+        background-color: #fff;
+    }
+    #right{
+        width:800px;
+        height:500px;
+    }
+</style>
+</html>

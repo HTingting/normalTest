@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-echarts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+<div id="tablePie">
+    <div class="panel" style="display: flex;">
+        <div id="chart"></div>
+        <el-table
+                :data="tableData"
+                border
+                style="width: 100%">
+            <el-table-column
+                    prop="date"
+                    label="日期"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="姓名"
+                    width="180">
+            </el-table-column>
+            <el-table-column
+                    prop="address"
+                    label="地址">
+            </el-table-column>
+        </el-table>
+    </div>
+
+</div>
+
+<script>
+    Vue.component("blog-post", {
+        props: ["title"],
+        template: "<h3>{{ title }}</h3>",
+    });
+    // 指定图表的配置项和数据
+    const option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: 1048, name: '搜索引擎'},
+                    {value: 735, name: '直接访问'},
+                    {value: 580, name: '邮件营销'},
+                    {value: 484, name: '联盟广告'},
+                    {value: 300, name: '视频广告'}
+                ],
+                color:[
+                    "#5470c6",
+                    "#91cc75",
+                    "#fac858",
+                    "#ee6666",
+                    "#73c0de",
+                    "#3ba272",
+                    "#fc8452",
+                    "#9a60b4",
+                    "#ea7ccc"
+                ],
+                stateAnimation:{
+                    duration:300,
+                    easing:"cubicOut"
+                },
+                animation:'auto',
+                animationDuration:1000,
+                animationDurationUpdate:500,
+                animationEasing:'cubicInOut',
+                animationEasingUpdate:'cubicInOut',
+                itemStyle:{
+                    pieBorderRadius: 10,
+                    borderColor:'#fff',
+                    borderWidth:2,
+                }
+            }
+        ]
+    };
+    new Vue({
+        el: '#tablePie',
+        props:{
+            tableOptions:{
+                type:Object,
+                default:{}
+            },
+            pieOptions:{
+                type:Object,
+                default:{}
+            },
+        },
+        data: function() {
+            return {
+                tableOptions:{},
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }],
+                pieOptions:{},
+            }
+        },
+        mounted(){
+            this.getProject()
+        },
+        methods: {
+            //获取右边的列表和饼状图的数据
+            getProject() {
+                var myChart = echarts.init(document.getElementById('chart'));
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+            }
+        }
+    })
+</script>
+</body>
+<style>
+    .all {
+        overflow: auto;
+        height: 100%;
+        background-color: #fff;
+    }
+    #right{
+        width:800px;
+        height:500px;
+    }
+</style>
+</html>

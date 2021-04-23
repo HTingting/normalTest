@@ -74,6 +74,11 @@ class Promise {
         //箭头函数，保证this永远指向外层
         let resolve = (value) =>{
             if(this.status === PENDING){
+
+                //递归解析resolve中传值是promise的情况,知道value是普通值
+                if(value instanceof Promise){
+                    return value.then(resolve,reject);
+                }
                 this.value = value;
                 this.status = RESOLVED;
                 this.onFulfilled.forEach(fn=>{
@@ -157,6 +162,10 @@ class Promise {
             }
         })
         return promise2;
+    },
+
+    catch(errCallback){
+        return this.then(null,errCallback);
     }
 }
 

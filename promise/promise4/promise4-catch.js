@@ -157,6 +157,10 @@ class Promise {
             }
         })
         return promise2;
+    },
+
+    catch(errCallback){
+        return this.then(null,errCallback);
     }
 }
 

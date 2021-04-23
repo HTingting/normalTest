@@ -5,21 +5,11 @@
  * 3. 错误处理，如果离自己最近的then没有错误处理，会向下找
  * 4. 每次执行完promise.then方法后返回的都是一个薪的promise
  * @type {string}
- *
- *
- * 2.1——then 的参数 onFulfilled 和 onRejected 可以缺省，如果 onFulfilled 或者 onRejected不是函数，将其忽略，且依旧可以在下面的 then 中获取到之前返回的值；「规范 Promise/A+ 2.2.1、2.2.1.1、2.2.1.2」
- * 2.2——promise 可以 then 多次，每次执行完 promise.then 方法后返回的都是一个“新的promise"；「规范 Promise/A+ 2.2.7」
- * 2.3——如果 then 的返回值 x 是一个普通值，那么就会把这个结果作为参数，传递给下一个 then 的成功的回调中；
- * 2.4——如果 then 中抛出了异常，那么就会把这个异常作为参数，传递给下一个 then 的失败的回调中；「规范 Promise/A+ 2.2.7.2」
- * 2.5——如果 then 的返回值 x 是一个 promise，那么会等这个 promise 执行完，promise 如果成功，就走下一个 then 的成功；如果失败，就走下一个 then 的失败；如果抛出异常，就走下一个 then 的失败；「规范 Promise/A+ 2.2.7.3、2.2.7.4」
- * 2.6——如果 then 的返回值 x 和 promise 是同一个引用对象，造成循环引用，则抛出异常，把异常传递给下一个 then 的失败的回调中；「规范 Promise/A+ 2.3.1」
- * 2.7——如果 then 的返回值 x 是一个 promise，且 x 同时调用 resolve 函数和 reject 函数，则第一次调用优先，其他所有调用被忽略；「规范 Promise/A+ 2.3.3.3.3」
  */
 const RESOLVED = 'RESOLVED';
 const REJECTED = 'REJECTED';
 const PENDING = 'PENDING';
 
-//所有的promise都要坚持 bluebird q es6-promise
 const resolvePromise = (promise2, x, resolve, reject) => {
     // 自己等待自己完成是错误的实现，用一个类型错误，结束掉 promise  Promise/A+ 2.3.1
     if (promise2 === x) {
@@ -28,7 +18,6 @@ const resolvePromise = (promise2, x, resolve, reject) => {
     // Promise/A+ 2.3.3.3.3 只能调用一次
     let called;
     // 后续的条件要严格判断 保证代码能和别的库一起使用
-    // 只有对象类型或者函数类型，别人定义的promise可能是个函数；如果不符合，就直接resolve；
     if ((typeof x === 'object' && x != null) || typeof x === 'function') {
         try {
             // 为了判断 resolve 过的就不用再 reject 了（比如 reject 和 resolve 同时调用的时候）  Promise/A+ 2.3.3.1
@@ -99,60 +88,62 @@ class Promise {
     }
     // then 方法因该返回一个promise实例
     // 这个实例可以接受上一个promise的resolve的返回值
+    // 推导过程： p1.resolve(100) => p1.then(data=>{})
+    //           p2.resolve(1)   => p2.then(data=>{})
+    //处理x的所有情况-------
     then(onFulfilled,onRejected){
-        // 2.1——解决onFullfilled,onRejected的参数缺省的问题
-        onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : v=>v ;
-        //因为错误的值要让后面访问到，所以这里也要跑出个错误，不然会在之后 then 的 resolve 中捕获
-        onRejected = typeof onRejected === 'function' ? onRejected : err => { throw err };
-
-
+        //妙啊！
         let promise2 = new Promise((resolve,reject)=>{
             if(this.status === RESOLVED){
-                setTimeout(() => {
+                console.log('ok');
+                //todo list 问题，一定要等promise执行完之后才能把promise2当参数传进去
+                //todo list 另外，外围的try/catch无法捕获到这里面的promise2的异常
+                setTimeout(()=>{
                     try{
-                        let x = onFulfilled(this.value);
-                        resolvePromise(promise2,x,resolve,reject);
-                    }catch(e){
-                        reject(e)
+                        let x = onFulfilled(this.value); //这个x是回调执行后的结果
+                        resolvePromise(promise2,x,resolve,reject);  //怎么把x传递到下一个then的回调用？？使用promise2的resolve。
+                    }catch(err){
+                        reject(err);
                     }
-                },0);
+
+                },0)
+
             }
             if(this.status === REJECTED){
-                setTimeout(() => {
+                setTimeout(()=>{
                     try{
-                        let x = onRejected(this.reason);
-                        resolvePromise(promise2,x,resolve,reject);
-                    }catch(e){
-                        reject(e)
+                        let x = onRejected(this.reason); //同样的处理，这里的x是失败回调后的执行结果
+                        resolvePromise(promise2,x,resolve,reject);//这里是返回一个普通值，也是要返回到resolve里面的
+                    }catch(err){
+                        reject(err);
                     }
                 },0);
-
             }else{
                 console.log('Pending...');
-                // 面向切面
+                // 面向切面！！！！
                 this.onFulfilled.push(()=>{
-                    // todo ....
-                    setTimeout(() => {
-                        try {
-                            let x =  onFulfilled(this.value);
-                            resolvePromise(promise2, x, resolve, reject);
-                        } catch (e) {
-                            reject(e)
+                    setTimeout(()=>{
+                        try{
+                            // todo ....
+                            let x = onFulfilled(this.value);
+                            resolvePromise(promise2,x,resolve,reject);
+                        }catch(err){
+                            reject(err);
                         }
-                    }, 0);
 
+                    },0);
                 });
                 this.onRejected.push(()=>{
-                    // todo ...
-                    setTimeout(() => {
-                        try {
-                            let x = onRejected(this.reason);
-                            resolvePromise(promise2, x, resolve, reject)
-                        } catch (e) {
-                            reject(e)
+                    setTimeout(()=>{
+                        try{
+                            // todo ...
+                            let x =  onRejected(this.reason);
+                            resolvePromise(promise2,x,resolve,reject);
+                        }catch(err){
+                            reject(err);
                         }
-                    }, 0);
 
+                    },0);
                 });
             }
         })

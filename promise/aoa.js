@@ -9,7 +9,7 @@ Function.prototype.before = function(fn){
     //用来保存调用这个函数的引用，如myFunc调用此函数，则_this指向myFunc
     var _this = this;
     //返回一个函数，相当于一个代理函数，也就是说，这里包含了原函数和新函数，原函数指的是myFunc，新函数指的是fn
-    return function(){
+    return function(){ debugger
         //修正this的指向，将this指针指向fn，将myFunc接收的参数传给fn处理。
         fn.apply(this,arguments);
         //执行原函数

@@ -1,0 +1,79 @@
+body{
+
+}
+/*下面的卡片布局*/
+.el-card{
+    margin-bottom:20px;
+}
+.el-card__body{
+    padding:0;
+}
+.el-card__body:after{
+    content:'';
+    clear:both;
+}
+.panel-title{
+    height:48px;
+    line-height: 48px;
+    border-bottom:1px solid #DCDFE6;
+    padding-left:15px;
+}
+.panel-list{
+    display:flex;flex-wrap:wrap;position:relative;
+}
+.pie-area{
+
+    float:left;
+}
+.panel{
+    overflow:hidden;
+    border-bottom:1px solid #DCDFE6;
+    padding:20px;
+    box-sizing: border-box;
+    position:relative;
+
+}
+.panel:nth-child(2n+1){
+    width:39%;
+}
+.panel:nth-child(2n){
+    width: 60%;
+}
+.panel:nth-child(2n+1){
+    padding-right:10px;
+    border-right:1px solid #DCDFE6;
+}
+.panel:last-child{
+    border-right:0px;
+    border-bottom:none;
+}
+.panel:nth-last-child(2){
+    border-bottom:none;
+}
+#orgPosUserNum{
+    position:absolute;
+    bottom:0;
+    left:750px;
+    width:1010px;
+}
+.orgPosUserNum{
+    position:initial !important;
+}
+
+.el-card{
+    width:100%;
+}
+.panel:after{
+    content:'';
+    clear:both;
+}
+.panel .el-table{
+    float:right;
+    margin-top:30px;
+    position: absolute;
+    right: 18px;
+    top:30px;
+}
+.chart-title{
+    width:100%;text-align:center;
+}

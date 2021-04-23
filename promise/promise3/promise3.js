@@ -47,25 +47,32 @@ class Promise {
     }
     // then 方法因该返回一个promise实例
     // 这个实例可以接受上一个promise的resolve的返回值
+    // 推导过程： p1.resolve(100) => p1.then(data=>{})
+    //           p2.resolve(1)   => p2.then(data=>{})
+    //这里目前是针对x是普通值的处理
     then(onFulfilled,onRejected){
+        //妙啊！
         let promise2 = new Promise((resolve,reject)=>{
             if(this.status === RESOLVED){
-                let x = onFulfilled(this.value);
-                resolve(x);
+                console.log('ok');
+                let x = onFulfilled(this.value); //这个x是回调执行后的结果
+                resolve(x);  //怎么把x传递到下一个then的回调用？？使用promise2的resolve。
             }
             if(this.status === REJECTED){
-                let x = onRejected(this.reason);
-                resolve(x);
+                let x = onRejected(this.reason); //同样的处理，这里的x是失败回调后的执行结果
+                resolve(x);//这里是返回一个普通值，也是要返回到resolve里面的
             }else{
                 console.log('Pending...');
-                // 面向切面
+                // 面向切面！！！！
                 this.onFulfilled.push(()=>{
                     // todo ....
-                    onFulfilled(this.value);
+                    let x = onFulfilled(this.value);
+                    resolve(x);
                 });
                 this.onRejected.push(()=>{
                     // todo ...
-                    onRejected(this.reason);
+                   let x =  onRejected(this.reason);
+                   resolve(x);
                 });
             }
         })

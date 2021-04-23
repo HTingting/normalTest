@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-echarts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"></script>
+    <style>
+        #chart{
+            width:800px;
+            height:500px;
+        }
+    </style>
+</head>
+<body>
+<div id="chart"></div>
+<script>
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('chart'));
+
+    // 指定图表的配置项和数据
+    option = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: ['40%', '70%'],
+                avoidLabelOverlap: false,
+                label: {
+                    show: false,
+                    position: 'center'
+                },
+                emphasis: {
+                    label: {
+                        show: true,
+                        fontSize: '40',
+                        fontWeight: 'bold'
+                    }
+                },
+                labelLine: {
+                    show: false
+                },
+                data: [
+                    {value: 1048, name: '搜索引擎'},
+                    {value: 735, name: '直接访问'},
+                    {value: 580, name: '邮件营销'},
+                    {value: 484, name: '联盟广告'},
+                    {value: 300, name: '视频广告'}
+                ],
+                color:[
+                    "#5470c6",
+                    "#91cc75",
+                    "#fac858",
+                    "#ee6666",
+                    "#73c0de",
+                    "#3ba272",
+                    "#fc8452",
+                    "#9a60b4",
+                    "#ea7ccc"
+                ],
+                stateAnimation:{
+                    duration:300,
+                    easing:"cubicOut"
+                },
+                animation:'auto',
+                animationDuration:1000,
+                animationDurationUpdate:500,
+                animationEasing:'cubicInOut',
+                animationEasingUpdate:'cubicInOut',
+                itemStyle:{
+                    pieBorderRadius: 10,
+                    borderColor:'#fff',
+                    borderWidth:2,
+                }
+            }
+        ]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+</script>
+</body>
+</html>

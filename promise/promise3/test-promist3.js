@@ -13,6 +13,6 @@ let promise2 = p1.then((data)=>{
     return 1;
 })
 promise2.then((data)=>{
-    console.log('p2---获取上一个then的返回值----'+data);
+    console.log('p2---获取上一个then的返回值----'+data);  //这个data应该是1
 })
 

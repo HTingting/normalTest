@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test-echarts-散点图</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- <link rel="stylesheet" href="/framework-ui/src/main/resources/static/agcloud/framework/js-lib/element-2/element.css"
+           th:href="@{/agcloud/framework/js-lib/element-2/element.css}">-->
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="./js/chartCommonOptions.js"></script>
+</head>
+<body>
+<div id="piePage">
+    <h3>圆饼图大观园</h3>
+    <div class="total-list">
+        <div class="total-item" v-for="(totalItem,tIndex) in totalArray">
+            <div>
+                <div class="label">{{totalItem.label}}</div>
+                <div class="value">{{totalItem.value}}</div>
+            </div>
+            <img src="" alt="" style="width:54px;height:54px;">
+        </div>
+    </div>
+    <div class="panel-list">
+        <el-card class="box-card">
+            <div class="panel-title">组织统计概况</div>
+            <div class="panel-list">
+                <template v-for="(optionItem,oIndex) in pieArray">
+                    <child :id="optionItem.id" :pie-options="optionItem.pieOptions" :table-Columns="optionItem.tableColumns" :data="optionItem.data">
+
+                    </child>
+                </template>
+            </div>
+        </el-card>
+    </div>
+</div>
+
+<script>
+    // 定义子组件
+    Vue.component("child", {
+        // 接收父组件传递过来的参数
+        props: ["id","pieOptions","tableColumns","data"],
+
+        data() {
+            return {
+
+            }
+        },
+        template: `
+            <div class="panel">
+                <div :id="id" class="pie-area" style="height:350px;width:300px;"></div>
+                <el-table
+                :data="data"
+                border
+                style="width: 40%">
+                    <el-table-column v-if="tableColumns"
+                            v-for="(item, index) in tableColumns"
+                            :prop="item.prop"
+                            :label="item.label"
+                            :key="item.id"
+                            show-overflow-tooltip
+                    >
+                    </el-table-column>
+                </el-table>
+            </div>
+        `,
+
+        mounted(){
+            this.getProject()
+        },
+        methods: {
+            //获取右边的列表和饼状图的数据
+            getProject() {
+                var myChart = echarts.init(document.getElementById(this.id));
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(this.pieOptions);
+            }
+        }
+    });
+
+    // 指定图表的配置项和数据
+    new Vue({
+        el: '#piePage',
+        data: function() {
+           return {
+               totalArray:[
+                   {label:'总组织',value:'1234',img:''},
+                   {label:'行政区划',value:'1234',img:''},
+                   {label:'单位',value:'1234',img:''},
+                   {label:'部门',value:'1234',img:''},
+                   {label:'工作组',value:'1234',img:''},
+                   {label:'总用户数',value:'1234',img:''},
+                   {label:'总岗位数',value:'1234',img:''},
+               ],
+               pieArray:[
+                   {
+                       id:'pie1',
+                       data:[
+                           {value: 1048, name: '搜索引擎1',orgName:'111111',orgId:'1234'},
+                           {value: 735, name: '直接访问2',orgName:'111111',orgId:'1234'},
+                       ],
+                       tableColumns:[
+                           {id:'date',prop:'date',label:'日期'},
+                           {id:'name',prop:'name',label:'姓名'},
+                           {id:'address',prop:'address',label:'地址'}
+                       ],
+                   },
+
+               ]
+           }
+        },
+        computed:{
+
+        },
+        created(){
+            var _that = this;
+            _that.pieArray.forEach(val=>{
+                val.pieOptions = _that.merge(commonOptions,{
+                    title:{text:'自定义标题'},
+                    series:[
+                        {
+                            type:'pie',
+                            data: val.data
+                        }
+                    ]
+                })
+            })
+            console.log(this.pieArray);
+        },
+        methods:{
+            isObject:function(obj) {
+                return Object.prototype.toString.call(obj) === '[object Object]'
+            },
+            isArray:function(arr) {
+                return Array.isArray(arr)
+            },
+            merge:function(target, ...arg) {
+                return arg.reduce((acc, cur) => {
+                    return Object.keys(cur).reduce((subAcc, key) => {
+                        const srcVal = cur[key]
+                        if (this.isObject(srcVal)) {
+                            subAcc[key] = this.merge(subAcc[key] ? subAcc[key] : {}, srcVal)
+                        } else if (this.isArray(srcVal)) {
+                            // series: []，下层数组直接赋值
+                            subAcc[key] = srcVal.map((item, idx) => {
+                                if (this.isObject(item)) {
+                                    const curAccVal = subAcc[key] ? subAcc[key] : []
+                                    return this.merge(curAccVal[idx] ? curAccVal[idx] : {}, item)
+                                } else {
+                                    return item
+                                }
+                            })
+                        } else {
+                            subAcc[key] = srcVal
+                        }
+                        return subAcc
+                    }, acc)
+                }, target)
+            }
+        }
+    })
+</script>
+</body>
+<style>
+    body{
+        width:1721px;
+        background-color: #EFF1F5;
+    }
+    /*总统计*/
+    .total-list{
+        display: flex;
+        margin-bottom:17px;
+    }
+    .total-item{
+        margin-left:15px;
+        width:230px;
+        height:100px;
+        padding:26px;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        box-sizing: border-box;
+    }
+    .total-item .label{
+        color:#575962;
+        font-size:16px;
+    }
+    .total-item .value{
+        color:#575962;
+        font-size:24px;
+    }
+    /*下面的卡片布局*/
+    .el-card{
+        margin-bottom:20px;
+    }
+    .el-card__body{
+       padding:0;
+    }
+    .el-card__body:after{
+        content:'';
+        clear:both;
+    }
+    .panel-title{
+        height:48px;
+        line-height: 48px;
+        border-bottom:1px solid #DCDFE6;
+        padding-left:15px;
+    }
+    .panel-list{
+        display:flex;flex-wrap:wrap;
+    }
+    .pie-area{
+        width:600px;
+        height:500px;
+        float:left;
+    }
+    .panel{
+        overflow:hidden;
+        border-bottom:1px solid #DCDFE6;
+        padding:20px;
+        box-sizing: border-box;
+    }
+    .panel:nth-child(2n+1){
+        width:660px;
+    }
+    .panel:nth-child(2n){
+        flex-grow:1;
+    }
+    .panel:nth-child(2n+1){
+        padding-right:10px;
+        border-right:1px solid #DCDFE6;
+    }
+    .panel:last-child{
+        border-bottom:none;
+    }
+    .panel:nth-last-child(2){
+        border-bottom:none;
+    }
+    .panel:after{
+        content:'';
+        clear:both;
+    }
+    .panel .el-table{
+        float:right;
+    }
+    .no-border-table .el-table__body .el-table__row td{
+        border-bottom:none !important;
+    }
+    .no-border-table .has-gutter th{
+        border-bottom:none !important;
+    }
+    .no-border-table::before{
+        background-color:#fff;
+    }
+</style>
+</html>

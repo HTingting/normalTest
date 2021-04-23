@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>饼图-分割空白</title>
+    <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
+</head>
+<body>
+<div id="mountNode"></div>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
+<style>
+    .g2-legend-marker{
+        width: 24px;
+        height: 16px;
+        background: #F5DD6E;
+        opacity: 1;
+        border-radius: 4px;
+    }
+</style>
+<script>
+    var data = [{
+        type: '分类一',
+        value: 20
+    }, {
+        type: '分类二',
+        value: 18
+    }, {
+        type: '分类三',
+        value: 32
+    }, {
+        type: '分类四',
+        value: 15
+    }, {
+        type: 'Other',
+        value: 15
+    }];
+
+    // 可以通过调整这个数值控制分割空白处的间距，0-1 之间的数值
+    var sliceNumber = 0.01;
+
+    // 自定义 other 的图形，增加两条线
+    G2.Shape.registerShape('interval', 'sliceShape', {
+        draw: function draw(cfg, container) {
+            var points = cfg.points;
+            var path = [];
+            path.push(['M', points[0].x, points[0].y]);
+            path.push(['L', points[1].x, points[1].y - sliceNumber]);
+            path.push(['L', points[2].x, points[2].y - sliceNumber]);
+            path.push(['L', points[3].x, points[3].y]);
+            path.push('Z');
+            path = this.parsePath(path);
+            return container.addShape('path', {
+                attrs: {
+                    fill: cfg.color,
+                    path: path
+                }
+            });
+        }
+    });
+
+    var chart = new G2.Chart({
+        container: 'mountNode',
+        forceFit: true,
+        height: window.innerHeight
+    });
+
+    chart.source(data);
+    chart.coord('theta', {
+        innerRadius: 0.75
+    });
+    chart.tooltip({
+        showTitle: false
+    });
+    chart.legend({
+        position: 'top-left',
+        useHtml:true,
+        itemTpl: '<li class="g2-legend-list-item item-{index} {checked}" data-color="{originColor}" data-value="{originValue}">' +
+            '<i class="g2-legend-marker" style="background-color:{color};width:26px;height:16px;"></i>' +
+            '<span class="g2-legend-text">{value}11111</span></li>'
+    });
+    chart.intervalStack().position('value').color('type').shape('sliceShape');
+
+    chart.render();
+</script>
+
+</body>
+</html>

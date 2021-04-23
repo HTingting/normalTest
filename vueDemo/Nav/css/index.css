@@ -1,0 +1,55 @@
+/*将所有元素的默认间距清除，方便自己设置，并且可以消除ul和li的圆点*/
+* {
+    margin:0px;
+    padding:0px;
+}
+body {
+    font:300 14px "HelveticaNeue-Light","Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    background-color:#999999;
+}
+ul {
+    background:#fff;
+    box-shadow:0 0 10px rgba(0,0,0,0.2);
+    /*x坐标，y坐标，模糊程度，颜色*/
+    white-space:nowrap;
+    /*避免文字换行*/
+}
+ul li {
+    position:relative;
+}
+ul li a {
+    text-decoration:none;
+    padding:10px 20px;
+    display:block;
+    color:#fff;
+}
+ul li a:only-child {
+    background:none;
+}
+ul li:hover {
+   /* background:#777;*/
+}
+ul li:hover > a {
+    color:#fff;
+}
+ul li:hover > ul {
+    display:block;
+    /* 鼠标进入母选单後，显示子选单 */
+}
+nav > ul > li {
+    display:inline-block;
+    /* 使一级选单排成一列 */
+}
+ul ul {
+    position:absolute;
+    top:100%;
+    list-style:none;
+    background:#fff;
+    box-shadow:0 3px 3px rgba(0,0,0,0.2);
+    display:none;
+}
+ul ul ul {
+    position:absolute;
+    left:100%;
+    top:0;
+}

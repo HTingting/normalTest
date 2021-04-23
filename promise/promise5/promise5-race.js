@@ -14,12 +14,13 @@
  * 2.5——如果 then 的返回值 x 是一个 promise，那么会等这个 promise 执行完，promise 如果成功，就走下一个 then 的成功；如果失败，就走下一个 then 的失败；如果抛出异常，就走下一个 then 的失败；「规范 Promise/A+ 2.2.7.3、2.2.7.4」
  * 2.6——如果 then 的返回值 x 和 promise 是同一个引用对象，造成循环引用，则抛出异常，把异常传递给下一个 then 的失败的回调中；「规范 Promise/A+ 2.3.1」
  * 2.7——如果 then 的返回值 x 是一个 promise，且 x 同时调用 resolve 函数和 reject 函数，则第一次调用优先，其他所有调用被忽略；「规范 Promise/A+ 2.3.3.3.3」
+ *
+ * catch，finarry，all，resolved，rejected，
  */
 const RESOLVED = 'RESOLVED';
 const REJECTED = 'REJECTED';
 const PENDING = 'PENDING';
 
-//所有的promise都要坚持 bluebird q es6-promise
 const resolvePromise = (promise2, x, resolve, reject) => {
     // 自己等待自己完成是错误的实现，用一个类型错误，结束掉 promise  Promise/A+ 2.3.1
     if (promise2 === x) {
@@ -28,7 +29,6 @@ const resolvePromise = (promise2, x, resolve, reject) => {
     // Promise/A+ 2.3.3.3.3 只能调用一次
     let called;
     // 后续的条件要严格判断 保证代码能和别的库一起使用
-    // 只有对象类型或者函数类型，别人定义的promise可能是个函数；如果不符合，就直接resolve；
     if ((typeof x === 'object' && x != null) || typeof x === 'function') {
         try {
             // 为了判断 resolve 过的就不用再 reject 了（比如 reject 和 resolve 同时调用的时候）  Promise/A+ 2.3.3.1
@@ -73,6 +73,9 @@ class Promise {
 
         //箭头函数，保证this永远指向外层
         let resolve = (value) =>{
+            if(value instanceof Promise){
+                return value.then(resolve,reject);  //递归解析resolve，直到value是个普通值
+            }
             if(this.status === PENDING){
                 this.value = value;
                 this.status = RESOLVED;
@@ -157,6 +160,79 @@ class Promise {
             }
         })
         return promise2;
+    }
+    // 可以直接catch,catch 其实就是一个then，没有onFullFilled函数
+    catch(errCallback){
+        return this.then(null,errCallback);
+    }
+    //默认产生一个成功的promise
+    static resolve(data){
+        return new Promise((resolve,reject)=>{
+            resolve(data);
+        })
+    }
+    //默认产生一个失败的promise
+    static reject(reason){
+        return new Promise((resolve,reject)=>{
+            reject(reason);
+        })
+    }
+    //finally 表示的不是最终的意思，而是无论如何都会执行的意思。
+    //如果返回一个promise回等待这个promise也执行完毕
+    //如果返回的是成功的promise，会接受上一次的结果。
+    //如果返回的是失败的promise，会接受到这个失败的结果，传回到catch中
+    finally(callback){
+        return this.then((value)=>{
+            return Promise.resolve(callback()).then(()=>value)
+        },(reason)=>{
+            return Promise.resolve(callback()).then(()=>{throw reason});
+        })
+    }
+    //all 是处理并发问题的，多个异步并发获取最后的结果。（如果一个失败则都失败）
+    all(values){
+        //不是数组，返回异常
+        if(!Array.isArray(values)){
+            const type = typeof values;
+            return new TypeError(`TypeError: ${type} ${values} is not iterable`);
+        }
+        //否则，返回promise
+        return new Promise((resolve,reject)=>{
+            let resultArr = [];
+            let orderIndex = 0;
+
+            const processResultByKey = (value, index) =>{
+                resultArr[index] = value;
+                if(++orderIndex === values.length){
+                    resolve(resultArr);
+                }
+            }
+
+            for(let i = 0; i < values.length; i++){
+                let value = values[i];
+                if(value && typeof value.then === 'function'){
+                    value.then((value)=>{
+                        processResultByKey(value,i);
+                    },reject);
+                }else{
+                    processResultByKey(value,i);
+                }
+            }
+        })
+    }
+    //race 用来处理多个请求，采用最快的，（谁先完成用谁的）
+    // 特别需要注意的是：因为Promise 是没有中断方法的，xhr.abort()、ajax 有自己的中断方法，axios 是基于 ajax 实现的；fetch 基于 promise，所以他的请求是无法中断的。
+    // 这也是 promise 存在的缺陷，我们可以使用 race 来自己封装中断方法：
+    race(promises){
+        return new Promise((resolve,reject)=>{
+            for(let i = 0; i< promises.length; i++){
+                let val = promises[i];
+                if(val && typeof val.then === 'function'){
+                    val.then(resolve,reject);
+                }else{
+                    resolve(val)
+                }
+            }
+        })
     }
 }
 
