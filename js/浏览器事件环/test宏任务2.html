@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试宏任务</title>
+</head>
+<body>
+<script>
+    document.body.style.background = 'green';
+    console.log(1);
+    Promise.resolve().then(()=>{
+        console.log(2);
+        document.body.style.background = 'red';
+    });
+    console.log(3);
+    //执行结果是 1 3 2；视图直接是red，没有绿色过度
+    //因为UI渲染是在微任务执行之后，直接就覆盖了。
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试宏任务</title>
+</head>
+<body>
+<script>
+    Promise.resolve().then(()=>{
+        console.log('Promise1');
+        setTimeout(() => {
+            console.log('setTimeout2');
+        },0)
+    })
+    setTimeout(() => {
+        console.log('setTimeout1');
+        Promise.resolve().then(()=>{
+            console.log('Promise2');
+        })
+    },0)
+
+    /**
+     *  1. 微任务 [promise1]
+     *     宏任务 [setTimeout1]
+     *  2. 清空微任务promise1，碰到了新的宏任务
+     *     微任务 []
+     *     宏任务 [setTimeout1,setTimeout2]
+     *  3. 开始执行宏任务setTimeout1，碰到了新的微任务
+     *     微任务 [promise2]
+     *     宏任务 [setTimeout2]
+     *  4. 清空微任务，最后执行剩下的宏任务
+     *  5. 所以最终结果输出
+     *     - promise1,setTimeout1,promise2,setTimeout2
+     */
+</script>
+</body>
+</html>
