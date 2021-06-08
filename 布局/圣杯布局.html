@@ -2,9 +2,71 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>圣杯布局</title>
+    <style>
+        *{
+            margin:0;padding:0;
+        }
+        body,html{
+            width: 100%;
+            height:100%;
+        }
+        .header{
+            width:100%;
+            height:60px;
+            background:black
+        }
+        .footer{
+            width:100%;
+            height:60px;
+            background:orange;
+        }
+        .content-wrapper{
+            width: 100%;
+            padding-left:100px;
+            padding-right:100px;
+            box-sizing: border-box;
+        }
+        .content-wrapper>div{
+            float:left;
+
+        }
+        .clearfix:after{
+            content:'';
+            display: block;
+            height:0;
+            clear:both;
+        }
+        .one,.two,.three{
+            height:80px;
+        }
+        .one{
+            width: 100%;
+            background:yellow;
+        }
+        .two{
+            position: relative;
+            left: -100px;
+            width:100px;
+            background: #00d632;
+            margin-left:-100%;
+        }
+        .three{
+            position: relative;
+            left:100px;
+            width:100px;
+            background: #00c0ff;
+            margin-left: -100px;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <div class="header">头部</div>
+    <div class="content-wrapper clearfix">
+        <div class="one">这个是主面板，为了优先渲染主面板，所以放在第一位，主要原理是利用了margin的负值</div>
+        <div class="two">two</div>
+        <div class="three">three</div>
+    </div>
+    <div class="footer ">footer</div>
 </body>
 </html>

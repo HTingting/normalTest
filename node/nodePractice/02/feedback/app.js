@@ -3,7 +3,7 @@
 // 为了让目录结构保持统一清晰，所以我们约定，把所有的 HTML 文件都放到 views（视图） 目录中
 // 我们为了方便的统一处理这些静态资源，所以我们约定把所有的静态资源都存放在 public 目录中
 // 哪些资源能被用户访问，哪些资源不能被用户访问，我现在可以通过代码来进行非常灵活的控制
-// / index.html
+// / index.vue
 // /public 整个 public 目录中的资源都允许被访问
 // 前后端融会贯通了，为所欲为
 
@@ -43,7 +43,7 @@ var comments = [
 // /pinglun?name=的撒的撒&message=的撒的撒的撒
 // 对于这种表单提交的请求路径，由于其中具有用户动态填写的内容
 // 所以你不可能通过去判断完整的 url 路径来处理这个请求
-// 
+//
 // 结论：对于我们来讲，其实只需要判定，如果你的请求路径是 /pinglun 的时候，那我就认为你提交表单的请求过来了
 
 http
@@ -55,7 +55,7 @@ http
     var pathname = parseObj.pathname
 
     if (pathname === '/') {
-      fs.readFile('./views/index.html', function (err, data) {
+      fs.readFile('./views/index.vue', function (err, data) {
         if (err) {
           return res.end('404 Not Found.')
         }
@@ -135,7 +135,7 @@ http
 
 
 // 晚上写案例照着下面的步骤写：
-// 1. / index.html
+// 1. / index.vue
 // 2. 开放 public 目录中的静态资源
 //    当请求 /public/xxx 的时候，读取响应 public 目录中的具体资源
 // 3. /post post.html

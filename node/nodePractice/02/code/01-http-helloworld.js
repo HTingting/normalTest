@@ -10,22 +10,22 @@ var server = http.createServer()
 //    响应
 //    一个请求对应一个响应，如果在一个请求的过程中，已经结束响应了，则不能重复发送响应。
 //    没有请求就没有响应。
-// 
+//
 // 咱们以前使用过 Apache 服务器软件，这个软件默认有一个 www 目录，所有存放在 www 目录中的资源都可以通过网址来浏览
 // 127.0.0.1:80/a.txt
-// 127.0.0.1:80/index.html
+// 127.0.0.1:80/index.vue
 // 127.0.0.1:80/apple/login.html
 
 var wwwDir = 'D:/Movie/www'
 
 server.on('request', function (req, res) {
   var url = req.url
-  // / index.html
+  // / index.vue
   // /a.txt wwwDir + /a.txt
   // /apple/login.html wwwDir + /apple/login.html
   // /img/ab1.jpg wwwDir + /img/ab1.jpg
   if (url === '/') {
-    fs.readFile(wwwDir + '/index.html', function (err, data) {
+    fs.readFile(wwwDir + '/index.vue', function (err, data) {
       // if (err) {
       //   res.end('404 Not Found.')
       // } else {
@@ -47,8 +47,8 @@ server.on('request', function (req, res) {
       }
       res.end(data)
     })
-  } else if (url === '/index.html') {
-    fs.readFile(wwwDir + '/index.html', function (err, data) {
+  } else if (url === '/index.vue') {
+    fs.readFile(wwwDir + '/index.vue', function (err, data) {
       if (err) {
         return res.end('404 Not Found.')
       }

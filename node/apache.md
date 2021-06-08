@@ -52,7 +52,7 @@ if(url.indexOf('public') !== -1){
 + 在服务端，文件中的路ing不要去写成相对路径因为这个时候所有的资源都是通过url标志来获取的
 
 ```js
-fs.readFile('./views/index.html',function(err,data){
+fs.readFile(index.vue,function(err,data){
     if(err){
         return res.end('404 not found');
     }

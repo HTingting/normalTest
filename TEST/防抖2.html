@@ -11,19 +11,6 @@
             function ajax(content) {
                 console.log('ajax request ' + content)
             }
-            /*function debounce(fun, delay) {
-                return function (args) {
-                    //获取函数的作用域和变量
-                    let that = this
-                    let _args = args
-                    //每次事件被触发，都会清除当前的timeer，然后重写设置超时调用
-                    clearTimeout(fun.id)
-                    fun.id = setTimeout(function () {
-                        fun.call(that, _args)
-                    }, delay)
-                }
-            }*/
-
             /*奇怪，这种方法拿不到arguments参数*/
             function debounce2(fn,delay){
                 clearTimeout(fn.id);
@@ -34,7 +21,6 @@
             }
 
             let inputDebounce = document.getElementById('debounce')
-            //let debounceAjax = debounce(ajax, 500)
             inputDebounce.addEventListener('keyup', function (e) {
                 debounce2(ajax,500)
             })

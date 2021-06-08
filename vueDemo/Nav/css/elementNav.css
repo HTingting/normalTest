@@ -1,0 +1,37 @@
+.el-menu-demo{
+    background:transparent;
+    height: 50px;
+    padding-top: 10px;
+}
+
+.el-menu--horizontal>.el-submenu .el-submenu__title {
+    height: 40px;
+    line-height: 40px;
+    border-bottom: 2px solid transparent;
+    color: #909399;
+    text-align: center;
+    border-radius:4px;
+}
+.oneNav.is-active{
+    background:rgba(0,0,0,.11) !important;
+    color:#ffffff;
+}
+.is-active .el-submenu__title{
+    border-bottom-color:transparent !important;
+}
+.twoNav .el-submenu__title{
+    color: rgba(87, 89, 98, 1);
+}
+.twoNav{
+    color:#575962 !important;
+}
+
+.twoNav.is-active{
+    background:rgba(22, 143, 255, .1) !important;
+}
+.threeNav .el-submenu__title{
+    color: rgba(87, 89, 98, 1);
+}
+.threeNav.is-active{
+    background:rgba(22, 143, 255, .1) !important;
+}

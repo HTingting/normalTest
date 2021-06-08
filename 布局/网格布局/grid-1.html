@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>grid网格布局</title>
+</head>
+<body>
+    <!--
+        网格布局的基本信息:
+        【基本概念】
+        1.外层的是容器，内层的是项目
+        2.水平row,垂直是column
+        3.行和列交叉是cell
+        4.网格线n行有n+1根水平线，n列有n+1垂直线
+        【容器属性】
+        1.display:grid
+        2.默认情况下，容器是块级元素，也可设置为行内元素——display:inline-grid;
+        3.grid-template-columns  定义每一列列宽
+          grid-template-rows     定义每一行行高
+          也可使用百分比
+          grid-template-columns: 100px 100px 100px
+          grid-template-rows:    100px 100px 100px
+        4.对于grid-template-columns,grid-template-rows的值的设置，也可使用repeat函数简写
+          grid-template-columns: repeat(3,100px);
+          grid-template-rows:    repeat(3,33.33%)
+        5.auto-fill关键字
+            //表示每列宽度100px,然后自动填充，知道容器不能放置更多的列
+            .container{
+                display:grid;
+                grid-template-columns: repeat(auto-fill, 100px);
+            }
+        6.fr关键字
+        7.minmax() 长度范围
+        8.auto关键字
+            //浏览器自己决定长度
+            grid-template-columns:100px auto 200px;
+        9.grid-row-gap     //设置行与行的间距
+          grid-column-gap  //设置列与列的间距
+          grid-gap         //合并语法
+        10.grid-auto-flow:column / row;  //表示先行后列，或者先列后行
+        11.设置单元格内容的水平，垂直内容的位置
+           justify-items,align-items,
+           place-items: 是两者的合并简写
+        12.设置整个内容区域在容器的水平位置（左中右）
+        【项目属性】
+        1.grid-column-start // 左边框所在的垂直网格线
+          grid-column-end   // 有边框所在的垂直网格线
+          grid-row-start    // 上边框所在的水平网格线
+          grid-row-end      // 下边框所在的水平网格线
+          //项目位置的指定，可以指定项目的四个边框，分别定位在哪根网格线上。
+          // 这四个属性的值还可以使用span关键字，表示"跨越"，即左右边框（上下边框）之间跨越多少个网格。
+        2. grid-column属性，grid-row属性
+          grid-column 是grid-column-start,grid-column-end 的合并简写形式
+          grid-row 是grid-row-start,grid-row-end 合并简写形式
+            .item-1 {
+              background: #b03532;
+              grid-column: 1 / 3;
+              grid-row: 1 / 3;
+            }
+            /* 等同于 */
+            .item-1 {
+              background: #b03532;
+              grid-column: 1 / span 2;
+              grid-row: 1 / span 2;
+            }
+        3. grid-area属性还可用作grid-row-start、grid-column-start、grid-row-end、grid-column-end的合并简写形式，直接指定项目的位置。
+            .item {
+              grid-area: <row-start> / <column-start> / <row-end> / <column-end>;
+            }
+    -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

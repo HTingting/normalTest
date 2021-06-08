@@ -6,15 +6,17 @@
 </head>
 <style>
     .Article {
-       display:flex;
+       display:table;
+        table-layout: fixed;
     }
 
     .Article>li {
-        flex:1;
+        display: table-cell;
         border-left: solid 5px currentColor;
         border-right: solid 5px currentColor;
         color: #fff;
         background: #4577dc;
+        width:33%;
     }
 
     .Article>li>p {

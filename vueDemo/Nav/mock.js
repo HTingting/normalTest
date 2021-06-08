@@ -9,7 +9,7 @@ var schemeInfos = {
             "tmnId":"1",
             "homepageCode":"LEFT-CENTER",
             "homepageTitle":"左边栏-工作区",
-            "homepagePath":"agcloud/extendableUi/homepage/pc-web-gonggai-template2-0316/index.html",
+            "homepagePath":"agcloud/extendableUi/homepage/pc-web-gonggai-template2-0316/index.vue",
             "homepageMenuMax":3,
             "homepageMemo":"",
             "creater":"admin",
@@ -389,6 +389,6 @@ var schemeInfos = {
             "previewIcon":null,
             "previewIconMini":null
     },
-    "homepagePath":"agcloud/extendableUi/homepage/pc-web-gonggai-template2-0316/index.html"
+    "homepagePath":"agcloud/extendableUi/homepage/pc-web-gonggai-template2-0316/index.vue"
 }
 }

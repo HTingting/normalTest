@@ -1,17 +1,20 @@
-let fs = require('fs');
-let school = {};
+//process.nextTick并不属于事件环的一部分，再本轮代码执行后执行
+setTimeout(()=>{
+    console.log(1);
+    Promise.resolve().the(()=>{
+        console.log('then');
+    })
+    process.nextTick(()=>{
+        console.log('nextTick');
+    })
+},0);
+setTimeout(()=>{
+    console.log(2);
+},0);
 
-let index = 0;
-const cb = () =>{
-    if(++index === 2){
-        console.log(school);
-    }
-}
-fs.readFile('./name.txt','utf8',function(err,data){
-    school.name = data;
-    cb();
-})
-fs.readFile('./age.txt','utf8',function(err,data){
-    school.age = data;
-    cb();
+setTimeout(()=>{
+    console.log(1);
+},0);
+setImmediate(()=>{
+    console.log('setImmediate');
 })

@@ -8,13 +8,13 @@
 <script>
     document.body.style.background = 'green';
     console.log(1);
-    Promise.resolve().then(()=>{
+    setTimeout(()=>{
         console.log(2);
         document.body.style.background = 'red';
-    });
+    },0);
     console.log(3);
-    //执行结果是 1 3 2；视图直接是red，没有绿色过度
-    //因为UI渲染是在微任务执行之后，直接就覆盖了。
+    //执行结果是 1 3 2；视图绿色变红色
+    //因为宏任务在ui渲染后执行
 </script>
 </body>
 </html>

@@ -7,13 +7,13 @@ var wwwDir = 'D:/Movie/www'
 
 server.on('request', function (req, res) {
   var url = req.url
-  // / index.html
+  // / index.vue
   // /a.txt wwwDir + /a.txt
   // /apple/login.html wwwDir + /apple/login.html
   // /img/ab1.jpg wwwDir + /img/ab1.jpg
-  
 
-  var filePath = '/index.html'
+
+  var filePath = '/index.vue'
   if (url !== '/') {
     filePath = url
   }

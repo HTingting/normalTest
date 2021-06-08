@@ -2,9 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="./index.css">
 </head>
+<style>
+    .page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .page p {
+        font-size: 66px;
+    }
+
+    .page:nth-child(1) {
+        background: lightpink no-repeat center/cover;
+    }
+
+    .page:nth-child(2) {
+        background: lightgreen no-repeat center/cover;
+    }
+
+    .page:nth-child(3) {
+        background: lightskyblue no-repeat center/cover;
+    }
+</style>
 <body>
-$END$
+    <div id="pureFullPage">
+        <div class="page">
+            <p>Page 1</p>
+        </div>
+        <div class="page">
+            <p>Page 2</p>
+        </div>
+        <!--<div class="page">
+            <p>Page 3</p>
+        </div>-->
+    </div>
 </body>
+<script src="./utils.js"></script>
+<script src="./PureFullPage.js"></script>
+<script>
+    new PureFullPage();
+</script>
 </html>

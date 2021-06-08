@@ -11,7 +11,7 @@ server.on('request', function (req, res) {
   var url = req.url
   // 1. 如果是文件，直接读取响应
   // 2. 如果是目录，读取渲染目录列表
-  // 3. 如果目录并且有该目录中有 index.html 则直接渲染目录中的 index.html
+  // 3. 如果目录并且有该目录中有 index.vue 则直接渲染目录中的 index.vue
 
   var urlPath = path.join(wwwDir, url)
 
@@ -31,9 +31,9 @@ server.on('request', function (req, res) {
       var files = fs.readdirSync(urlPath)
       // var data = files.map(function (item) {
       //   return {
-      //     url: 
-      //     name: 
-      //     type: 
+      //     url:
+      //     name:
+      //     type:
       //   }
       // })
       var htmlStr = template.render(templateStr, {

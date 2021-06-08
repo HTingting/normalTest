@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta charset="utf-8" >
+    <title>test storage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
-$END$
+    <input id="tInput" type="text" />
+    <button onclick="addItem()">add</button>
+    <button onclick="getItem()">get</button>
+    <br>
+    <p>页面修改 storage</p>
+    <span>修改的key</span>
+    <input id="changeInputKey" type="text" />
+    <span>修改的value</span>
+    <input id="changeInputValue" type="text" />
+    <button onclick="changeItem()">change</button>
+    <br>
+    <p id="changeResult"></p>
+    <script>
+        let originStorage = localStorage;
+        let sto = {
+            setItem: function (key, value) {
+                let setItemEvent = new Event('setItemEvent');
+                setItemEvent.key = key;
+                window.dispatchEvent(setItemEvent);
+                originStorage.setItem(key, value);
+            },
+            getItem: function (key) {
+                return originStorage.getItem(key);
+            }
+        }
+        window.addEventListener('setItemEvent', function (e) {
+            // console.log(e);
+        });
+        window.addEventListener('storage', function (e) {
+            let p = document.getElementById('changeResult');
+            p.innerHTML = `oldValue: ${e.oldValue}<br>newValue: ${e.newValue}<br>from: ${e.url}`;
+        }, false);
+        function addItem () {
+            let value = document.getElementById('tInput').value;
+            sto.setItem(value, value);
+        }
+        function getItem () {
+            let v = document.getElementById('tInput').value;
+            console.log(sto.getItem(v), 'getItem');
+        }
+        function changeItem () {
+            let k = document.getElementById('changeInputKey').value;
+            let v = document.getElementById('changeInputValue').value;
+            let p = document.getElementById('changeResult');
+            // localStorage.setItem(k, v);
+            p.innerHTML = `oldValue: ${sto.getItem(k)}<br>newValue: ${v}<br>from: this's page`;
+            sto.setItem(k, v);
+        }
+    </script>
 </body>
 </html>

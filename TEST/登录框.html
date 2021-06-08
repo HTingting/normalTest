@@ -2,9 +2,112 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+        }
+        .user-info{
+            width:336px;box-sizing: border-box;background-color: #ffffff;box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.08);
+            border-radius:4px;
+            overflow: hidden;
+        }
+        .user-info .login-info-header{
+            height:56px;padding:10px 24px;background:#3699FF;box-sizing: border-box;
+            display: flex;align-items: center;
+        }
+        .login-info-header .user-photo{
+            width:36px;height:36px;overflow: hidden;border-radius: 50%;margin-right:12px;
+        }
+        .user-base-info{
+            color:#ffffff;font-size:14px;
+        }
+        .title2{
+            font-size:12px;
+        }
+        .user-org-list{
+            height:56px;margin:0 24px;
+        }
+        .uo-urow{
+            display: flex;align-items: center;height:100%;
+            border-bottom: 1px solid #EBEDF2;
+        }
+        .uo-urow .uo-bmt{
+            width: 44px;
+            height: 24px;
+            background: #F2F3F8;
+            opacity: 1;
+            border-radius: 4px;
+        }
+        .uo-urow .uo-bmn{
+            font-size: 14px;
+            font-family: Microsoft YaHei;
+            color: #575962;
+        }
+        /*按钮*/
+        .uope-box{
+
+            height:100px;margin:0 24px;border-bottom: 1px solid #EBEDF2;
+        }
+        /*系统强提醒*/
+        .sys-hint-box{
+            display: flex;height:48px; line-height: 48px;
+        }
+        .fl{
+            float:left;
+        }
+
+
+    </style>
 </head>
 <body>
-$END$
+<div class="user-info">
+    <transition name="el-zoom-in-top">
+        <div class="login-info" style="display: block;">
+            <div class="login-info-header" :style="{background: themeColor}">
+                <div class="fl user-photo">
+                    <img v-if="userSex==0"
+                         src="/framework-ui/src/main/resources/static/agcloud/framework/ui-schemes/default/images/user_man.jpg"
+                         th:src="@{/agcloud/framework/ui-schemes/default/images/user_man.jpg}" class="user-img fl">
+                    <img v-else
+                         src="/framework-ui/src/main/resources/static/agcloud/framework/ui-schemes/default/images/user_woman.jpg"
+                         th:src="@{/agcloud/framework/ui-schemes/default/images/user_woman.jpg}" class="user-img fl">
+                </div>
+                <div>
+                    <p class="user-base-info">111111</p>
+                    <p class="user-base-info title2">22222</p>
+                </div>
+
+            </div>
+            <div class="user-org-list" v-if="orgList&&orgList.length">
+                <div v-for="u in orgList" class="uo-urow clearfix">
+                    <div class="uo-bmt">部门</div>
+                    <div class="uo-bmn" :title="u.orgName">{{u.orgName}}</div>
+                </div>
+            </div>
+            <div class="uope-box clearfix">
+                <div class="uope-boxu" @click="userInfoFlag=true">
+                    <div class="icon"><i class="ag ag-user"></i></div>
+                    <div>个人信息</div>
+                </div>
+                <div class="uope-boxu" @click="editPasswordFlag=true">
+                    <div class="icon"><i class="ag ag-Start"></i></div>
+                    <div>修改密码</div>
+                </div>
+            </div>
+            <div class="logout-btn">
+                <div class="sys-hint-box c-f" @click.stop="emptyFunc">
+                    <div class="l" style="color:#575962;">系统消息强提醒</div>
+                    <div class="r">
+                        <el-switch @change="changeForceHint" v-model="forceHint"
+                                   active-color="#13ce66"></el-switch>
+                    </div>
+                </div>
+                <el-button @click="logout($event)" :style="{background: themeColor}">退出登录</el-button>
+            </div>
+        </div>
+    </transition>
+</div>
 </body>
 </html>

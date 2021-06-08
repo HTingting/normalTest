@@ -3,62 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,height=device-height">
-    <title>2018 年第一季度短视频用户性别分布</title>
+    <title>多色南丁格尔玫瑰图</title>
     <style>::-webkit-scrollbar{display:none;}html,body{overflow:hidden;height:100%;margin:0;}</style>
 </head>
 <body>
-<div id="c3"></div>
+<div id="mountNode"></div>
 <script>/*Fixing iframe window.innerHeight 0 issue in Safari*/document.body.clientHeight;</script>
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
 <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
-<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
-<style>
-    .g2-guide-html {
-        width: 50px;
-        height: 50px;
-        vertical-align: middle;
-        text-align: center;
-        line-height: 0.1
-    }
-
-    .g2-guide-html .title {
-        font-size: 12px;
-        color: #8c8c8c;
-        font-weight: 300;
-    }
-
-    .g2-guide-html .value {
-        font-size: 18px;
-        color: #000;
-        font-weight: bold;
-    }
-</style>
 <script>
-    const data = [
-        { month: '一月', tem: 7, city: "tokyo" },
-        { month: '二月', tem: 6.9, city: "tokyo" },
-        { month: '三月', tem: 9.5, city: "tokyo" },
-        { month: '四月', tem: 14.5, city: "tokyo" },
-        { month: '五月', tem: 18.2, city: "tokyo" },
-        { month: '六月', tem: 21.5, city: "tokyo" },
-        { month: '七月', tem: 25.2, city: "tokyo" },
-        { month: '八月', tem: 26.5, city: "tokyo" },
-        { month: '九月' , tem: 23.3, city: "tokyo" },
-        { month: '十月', tem: 18.3, city: "tokyo" },
-        { month: '十一月', tem: 13.9, city: "tokyo" }
-    ];
-    const chart = new G2.Chart({
-        container: 'c3',
+    var data = [{
+        year: '2001',
+        population: 41.8
+    }, {
+        year: '2002',
+        population: 38
+    }, {
+        year: '2003',
+        population: 33.7
+    }, {
+        year: '2004',
+        population: 30.7
+    }, {
+        year: '2005',
+        population: 25.8
+    }, {
+        year: '2006',
+        population: 31.7
+    }, {
+        year: '2007',
+        population: 33
+    }, {
+        year: '2008',
+        population: 46
+    }, {
+        year: '2009',
+        population: 38.3
+    }, {
+        year: '2010',
+        population: 28
+    }, {
+        year: '2011',
+        population: 42.5
+    }, {
+        year: '2012',
+        population: 30.3
+    }];
+
+    var chart = new G2.Chart({
+        container: 'mountNode',
         forceFit: true,
-        height: 300
+        height: window.innerHeight
     });
     chart.source(data);
+    chart.legend({
+        position: 'right',
+        offsetY: -window.innerHeight / 2 + 180,
+        offsetX: -140
+    });
+    chart.axis(false);
     chart.tooltip({
-        containerTpl: '<div class="g2-tooltip">'
-            + '<p class="g2-tooltip-title"></p>'
+            containerTpl: '<div class="g2-tooltip">'
+            + '<p class="g2-tooltip-title"><span>写死也不可以？？？</span></p>'
             + '<table class="g2-tooltip-list"></table>'
             + '</div>', // tooltip的外层模板
-        itemTpl: '<tr class="g2-tooltip-list-item"><td style="color:{color}">{name}</td><td>{value}</td></tr>', // 支持的字段 index,color,name,value
+        itemTpl: '<tr class="g2-tooltip-list-item"><td style="color:{color}">{name}</td><td>{value}</td><td>{color}</td></tr>', // 支持的字段 index,color,name,value
         offset: 50,
         'g2-tooltip': {
             position: 'absolute',
@@ -74,7 +83,10 @@
             margin: '10px'
         }
     });
-    chart.line().position('month*tem');
+    chart.interval().position('year*population').color('year', G2.Global.colors_pie_16).style({
+        lineWidth: 1,
+        stroke: '#fff'
+    });
     chart.render();
 </script>
 </body>

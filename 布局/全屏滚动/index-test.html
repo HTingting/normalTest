@@ -2,9 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
+<style>
+    body{
+        height:900px;
+        overflow:hidden;
+    }
+    .page{
+        height: 900px;
+        width:100%;
+        background:yellowgreen;
+        border:1px solid black;
+        margin-bottom:10px;
+        color:white;
+        font-size:24px;
+    }
+</style>
 <body>
-$END$
+    <div id="pureFullPageContainer">
+        <div class="page">1</div>
+        <div class="page">2</div>
+        <div class="page">3</div>
+    </div>
 </body>
+<script>
+    var container = document.getElementById('pureFullPageContainer');
+    window.addEventListener('scroll',function(ev){
+        console.log(container.offsetTop);
+    })
+</script>
 </html>

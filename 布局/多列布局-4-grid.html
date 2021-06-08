@@ -6,17 +6,18 @@
 </head>
 <style>
     .Article {
-       display:table;
-        table-layout: fixed;
+        display:grid;
+        grid-auto-flow:column;
+        /*划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，
+        即先填满第一行，再开始放入第二行，即下图数字的顺序。*/
+        grid-gap:20px;
     }
 
     .Article>li {
-        display: table-cell;
         border-left: solid 5px currentColor;
         border-right: solid 5px currentColor;
         color: #fff;
         background: #4577dc;
-        width:33%;
     }
 
     .Article>li>p {

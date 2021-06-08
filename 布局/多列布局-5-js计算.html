@@ -5,18 +5,12 @@
     <title>Title</title>
 </head>
 <style>
-    .Article {
-        display:grid;
-        grid-auto-flow:column;
-        /*划分网格以后，容器的子元素会按照顺序，自动放置在每一个网格。默认的放置顺序是"先行后列"，
-        即先填满第一行，再开始放入第二行，即下图数字的顺序。*/
-        grid-gap:20px;
-    }
-
     .Article>li {
-        border-left: solid 5px currentColor;
-        border-right: solid 5px currentColor;
+        float: left;
+        border: solid 5px #fff;
+        width: 33%;
         color: #fff;
+        font-size: 16px;
         background: #4577dc;
     }
 
@@ -42,5 +36,24 @@
             <p>一家将客户利益置于首位的经纪商</p>
         </li>
     </ul>
+    <script src="./../购物车/js/jquery-1.11.1.min.js"></script>
+    <script>
+        $( document ).ready(function() {
+            setEqualheight();
+        });
+
+        $(window).resize(function() {
+            $('.js-article-item').css('height','auto');
+            setEqualheight();
+        });
+
+        function setEqualheight() {
+            var height = $(".js-article-item").map(function() {
+                return $(this).height();
+            }).get();
+
+            jQuery(".js-article-item").height( Math.max.apply(null, height) );
+        }
+    </script>
 </body>
 </html>

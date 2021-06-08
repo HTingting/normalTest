@@ -1,10 +1,183 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+
+    <!--在IE浏览器的最新版本下进行渲染-->
+
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+
+    <title>淘宝选择栏</title>
+
+    <style type="text/css">
+
+        body{font: 12px/1.5 tahoma,arial,sans-serif;}
+
+        .searchbox{position:absolute;top:200px;left:300px;}
+
+        .search-choose{float:left;position:relative;left:1px;width:55px;height:41px;overflow:hidden;background:#FFF;border-left:1px solid #F6F6F6;border-right:1px solid #e5e5e5;}
+
+        ul{list-style:none;display:block;}
+
+        ul,li{margin:0;padding:0}
+
+        .search-choose li{display:block;height:41px;line-height:41px;overflow:hidden;text-align:center;}
+
+        .search-choose li a{text-decoration: none;color:#6c6c6c;}
+
+        .search-choose .search-selected{background:#f6f6f6;display:block;}
+
+        .trigger-hover{height:auto;}
+
+        .trigger-hover li{display:block;}
+
+    </style>
+
 </head>
+
+
+
 <body>
-$END$
+
+<div class='searchbox'>
+
+    <div class='search-choose' id='search_choose'>
+
+        <ul>
+
+            <li id='search_1' class='search-selected'><a href='#'>宝贝</a></li>
+
+            <li id='search_2'><a href='#'>店铺</a></li>
+
+        </ul>
+
+    </div>
+
+</div>
+
+<!--搜索框模块-->
+
+
+
+<!--※2搜索引擎选择模块-->
+<script src="./../../TEST/jquery-1.11.1.min.js"></script>
+<script>
+
+    var flag1=true,flag=true;
+
+    var getDOM=function(id){
+
+        return document.getElementById(id);
+
+    }
+
+    var addEvent=function(id,event,fn){
+
+        var el=getDOM(id);
+
+        if(el.addEventListener){
+
+            el.addEventListener(event,fn,false);
+
+        }else if(el.attachEvent){
+
+            el.attachEvent('on'+event,fn);
+
+        }
+
+    }
+
+    addEvent('search_choose','mouseover',function(){
+
+        if(flag1){
+
+            this.className +=' trigger-hover';
+
+        }
+
+        flag1 = true;
+
+    });
+
+    addEvent('search_choose','mouseout',function(){
+
+        this.className ='search-choose';
+
+    });
+
+    addEvent('search_1','mouseover',function(){
+
+        if(this.className.indexOf('search-selected')<0){
+
+            this.className +=' search-selected';
+
+            getDOM('search_2').className='';
+
+        }flag = true;
+
+    });
+
+    addEvent('search_1','mouseout',function(){
+
+        if(flag){
+
+            this.className ='';
+
+        }
+
+    });
+
+    addEvent('search_1','click',function(){
+
+        getDOM('search_choose').className = 'search-choose';
+
+        flag1 = false;
+
+        flag = false;
+
+    });
+
+    addEvent('search_2','mouseover',function(){
+
+        if(this.className.indexOf('search-selected')<0){
+
+            this.className +=' search-selected';
+
+            getDOM('search_1').className='';
+
+        }
+
+        flag = true;
+
+    });
+
+    addEvent('search_2','mouseout',function(){
+
+        if(flag){
+
+            this.className ='';
+
+        }
+
+    });
+
+    addEvent('search_2','click',function(){
+
+        var tab = getDOM('search_1').innerHTML;
+
+        getDOM('search_1').innerHTML=getDOM('search_2').innerHTML;
+
+        getDOM('search_2').innerHTML = tab;
+
+        getDOM('search_choose').className = 'search-choose';
+
+        flag = false;
+
+    });
+
+</script>
+
 </body>
+
 </html>

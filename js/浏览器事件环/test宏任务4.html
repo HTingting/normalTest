@@ -5,32 +5,51 @@
     <title>测试宏任务</title>
 </head>
 <body>
+    <button id="button"></button>
 <script>
-    Promise.resolve().then(()=>{
-        console.log('Promise1');
-        setTimeout(() => {
-            console.log('setTimeout2');
-        },0)
+    let oButton = document.getElementById('button');
+    oButton.addEventListener('click',function(){
+        console.log('click1');
+        Promise.resolve().then(()=>{
+            console.log('Promise1');
+        })
     })
-    setTimeout(() => {
-        console.log('setTimeout1');
+    oButton.addEventListener('click',function(){
+        console.log('click2');
         Promise.resolve().then(()=>{
             console.log('Promise2');
         })
-    },0)
+    })
+    oButton.click();
+    //
+    const a = () =>{
+        console.log('1');
+        Promise.resolve().then(()=>{
+            console.log('Promise1');
+        })
+    }
+    const b = () =>{
+        console.log('2');
+        Promise.resolve().then(()=>{
+            console.log('Promise2');
+        })
+    }
+    a();
+    b();
 
     /**
-     *  1. 微任务 [promise1]
-     *     宏任务 [setTimeout1]
-     *  2. 清空微任务promise1，碰到了新的宏任务
-     *     微任务 []
-     *     宏任务 [setTimeout1,setTimeout2]
-     *  3. 开始执行宏任务setTimeout1，碰到了新的微任务
-     *     微任务 [promise2]
-     *     宏任务 [setTimeout2]
-     *  4. 清空微任务，最后执行剩下的宏任务
-     *  5. 所以最终结果输出
-     *     - promise1,setTimeout1,promise2,setTimeout2
+     * 自动执行click事件---直接出发相当于同步！！！！！
+     * 相当于分别两次调用click函数
+     * 1.首先执行同步代码click1,click2
+     * 2.微任务 [promise1,promise2]
+     * 3.执行所有微任务
+     * 4.最终结果 click1,click2,promise1,promise2;
+     *
+     *
+     * 手动点击不一样
+     * 1.如果是手动点击，
+     * 宏任务 [click1,click2];
+     * 2.最终结果 click1,promise1,click2,promise2
      */
 </script>
 </body>

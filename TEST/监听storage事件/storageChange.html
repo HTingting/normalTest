@@ -1,10 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
+    <meta charset="utf-8">
+    <title>changeStorage</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 </head>
 <body>
-$END$
+    <span>key：</span>
+    <input id="changeInputKey" type="text"/>
+    <span>value：</span>
+    <input id="changeInputValue" type="text"/>
+    <button onclick="changeItem()">change</button>
+<script>
+    function changeItem() {
+        let k = document.getElementById('changeInputKey').value;
+        let v = document.getElementById('changeInputValue').value;
+        localStorage[k] = v;
+    }
+</script>
 </body>
 </html>

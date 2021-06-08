@@ -2,9 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>判断是否能支持图片webp格式</title>
+    <style>
+        img{
+            width:100px;height:100px;
+        }
+    </style>
 </head>
 <body>
-$END$
+    <div id="pics">
+        <img src="" alt="" pic-src="./images/蓝色.png" webppic-src="./images/蓝色.webp">
+        <img src="" alt="" pic-src="./images/蓝色.png" webppic-src="./images/蓝色.webp">
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script>
+        //公共方法，操作放原图还是放webp图
+        var isWebP = false;
+        var img = new Image();
+        img.onload = function(){
+            isWebP = !!(img.height>0 && img.width>0);
+            checkPic(isWebP);
+        };
+        img.onerror = function(){
+            isWebP = false;
+            checkPic(isWebP);
+        };
+        img.src = './images/蓝色.png';
+        var checkPic = function(isWebP){
+            $("#pics>img").each(function(i,v){
+                var src = isWebP?$(v).attr('webppic-src'):$(v).attr('pic-src');
+                $(v).attr('src',src);
+            })
+        }
+
+        /*// 第二种方法
+        var checkWebp = function(){
+            try{
+                return (document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') == 0);
+            }catch(err) {
+                return  false;
+            }
+        }
+        checkPic(checkWebp());*/
+    </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
