@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,height=device-height">
+    <title>全球恐怖袭击致死人数趋势分析</title>
+    <style>::-webkit-scrollbar {
+        display: none;
+    }
+
+    html, body {
+        overflow: hidden;
+        height: 100%;
+        margin: 0;
+    }</style>
+</head>
+<body>
+<script>/*Fixing iframe window.innerHeight 0 issue in Safari*/
+document.body.clientHeight;</script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g2-3.5.1/dist/g2.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.data-set-0.10.1/dist/data-set.min.js"></script>
+<script src="https://gw.alipayobjects.com/os/antv/assets/lib/jquery-3.2.1.min.js"></script>
+<div id="appearance"></div>
+　　　　　　　　
+<script>
+    var data = [
+        {year: '1991', value: 3},
+        {year: '1992', value: 4},
+        {year: '1993', value: 3.5},
+        {year: '1994', value: 5},
+        {year: '1995', value: 4.9},
+        {year: '1996', value: 6},
+        {year: '1997',value: 7},
+        {year: '1998', value: 9},
+        {year: '1999', value: 13}
+    ];
+    var chart = new G2.Chart({
+        container: 'appearance', // 指定 图表容器ID
+        forceFit: true,    // 是否自动缩放
+        height: 500,  // 图表的高度
+    });
+    chart.source(data);   // 载入数据源
+    chart.scale('value', {    // 度量
+        min: 0  // Y轴显示的最小值
+    });
+    chart.scale('year', {  // 度量
+        range: [0, 1]      // 数值范围区间
+    });
+    chart.tooltip({ // 提示信息
+        crosshairs: {
+            type: 'line' // 提示信息类型
+        }
+    });
+    chart.line().position('year*value');   // 几何标记类型   线，  position:二维坐标系内设至 x轴 y轴
+    chart.point().position('year*value').size(4).shape('circle').style({  // 几何标记类型   点，  二维坐标系内设置 x轴 y轴    大小   图形形状
+        stroke: '#fff',
+        lineWidth: 1
+    });
+    chart.render();  // 渲染
+</script>
+
+</body>
+</html>
+
