@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>自己写下grid布局</title>
+    <style>
+        #container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .left {
+            width: 260px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100vh;
+        }
+        .center {
+            height: 100vh;
+            width: auto;
+            margin: 0 350px 0 260px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: grid; /*网格布局*/
+            grid-template-columns: repeat(24,1fr);/*表示分成24等分*/
+            grid-auto-flow: row;  /*表示先行后列*/
+        }
+        .right {
+            width: 350px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            padding-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div class="left"></div>
+        <div class="center">
+
+        </div>
+        <div class="right"></div>
+    </div>
+</body>
+<script src="./../../COMMON/js/vue.js"></script>
+<script>
+    const vm = new Vue({
+        el:'#container',
+        data(){
+            return {
+                layout:[
+                    {}
+                ]
+            }
+        },
+        methods:{
+
+        },
+    })
+</script>
+</html>

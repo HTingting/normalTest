@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>可拖拽</title>
+    <link rel="stylesheet" href="./../../COMMON/css/element.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div id="container">
+        <ul>
+            <li v-for="listItem in list">{{listItem.name}}---{{listItem.hobby.join(',')}}</li>
+        </ul>
+        <hobby-add :active-item="activeItem"></hobby-add>
+    </div>
+</body>
+<!--https://www.cnblogs.com/whoani/p/11377793.html-->
+<script src="./../../COMMON/js/vue.js"></script>
+<script>
+    Vue.component('hobby-add',{
+        props:['activeItem'],
+        template:`
+            <div>
+            <h1>{{activeItem.name}}</h1>
+            <ul>
+                <li v-for="hobbyItem in activeItem.hobby">{{hobbyItem}}</li>
+            </ul>
+            <input type="button" @click="addHobby">
+            <ul>
+                <li v-for="lover in activeItem.config.family">
+                    {{lover.role}} ----- {{lover.name}}
+</li>
+<input type="button" @click="addFamily">
+</ul>
+</div>
+
+        `,
+        methods:{
+            addHobby:function(){
+                this.activeItem.hobby.push('eeeeeeeeat');
+            },
+            addFamily:function(){
+                this.activeItem.config.family.push({'role':'professer',name:'Dumblidor'})
+            }
+        }
+    })
+    const vm = new Vue({
+        el:'#container',
+        data(){
+            return {
+                list:[
+                    {
+                        id:1,
+                        name:'Harry',
+                        hobby:['play','fly'],
+                        config:{
+                            family:[
+                                {'role':'mother',name:'Lily'},
+                                {'role':'father',name:'James Potter'},
+                                {'role':'teacher',name:'Snap'}
+                            ]
+                        }
+                    },
+                    {id:2,name:'Hamani',hobby:['read'],},
+                    {id:3,name:'royn',hobby:['eat'],}
+                ],
+                activeItem: {},
+            }
+        },
+        created(){
+            this.activeItem = this.list[0];
+        },
+        watch:{
+            list:{
+                handler(val){
+                    console.log('update---list');
+                },
+                deep:true
+            }
+        }
+    })
+</script>
+</html>

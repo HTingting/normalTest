@@ -3214,7 +3214,7 @@
     context,
     children,
     tag
-  ) { debugger
+  ) {
     if (isUndef(Ctor)) {
       return
     }
@@ -3620,7 +3620,6 @@
 
       // set parent
       vnode.parent = _parentVnode;
-      console.log(vnode);
       return vnode
     };
   }
@@ -9532,7 +9531,6 @@
      */
     function handleStartTag (match) {
       var tagName = match.tagName;
-      console.log('开始标签:',match.tagName);
       var unarySlash = match.unarySlash;
 
       if (expectHTML) {
@@ -9575,7 +9573,6 @@
     }
 
     function parseEndTag (tagName, start, end) {
-      console.log('结束标签：',tagName);
       var pos, lowerCasedTagName;
       if (start == null) { start = index; }
       if (end == null) { end = index; }
@@ -9923,7 +9920,6 @@
       },
 
       chars: function chars (text, start, end) {
-        console.log('文本内容：'+text);
         if (!currentParent) {
           {
             if (text === template) {

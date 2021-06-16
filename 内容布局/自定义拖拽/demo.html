@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>可拖拽</title>
+    <link rel="stylesheet" href="./../../COMMON/css/element.css">
+    <link rel="stylesheet" href="./css/index.css">
+</head>
+<body>
+    <div id="container">
+        <div class="left-board">
+            <div class="droppable-element" v-for="(leftItem,leftIndex) in leftData"
+                 :key="leftIndex"
+                 @drag="drag"
+                 @dragend="dragend"
+                 draggable="true"
+                 unselectable="on"
+                 @click="addComponent(leftItem)">
+                {{leftItem.text}}
+            </div>
+        </div>
+        <div class="center-board" id="content">
+            <!--
+            :col-num="12"——     表示网格有多少列 数字，默认12
+            row-height="30"——   表示网格中最大行数 数字
+            maxRows="20"——      表示网格中最大行数 数字
+            is-draggable——      表示网格项数是否可以拖动 Boolean
+            is-resizable——      表示网格是否可以改变带大小 Boolean
+            is-mirrored——       RTL/LTR 的转换 Boolean
+             autoSize——         容器是否适应内部变化 Boolean
+             vertical-compact   垂直方向上 是否应该紧凑布局 Boolean 非必填 默认为true
+
+            -->
+            <grid-layout
+                    ref="gridlayout"
+                    :layout.sync="layout"
+                    :col-num="12"
+                    :row-height="30"
+                    :is-draggable="true"
+                    :is-resizable="true"
+                    :responsive="true"
+                    :is-mirrored="false"
+                    :vertical-compact="true"
+                    :margin="[10, 10]"
+                    :use-css-transforms="true"
+            >
+                <!--
+                    x: 横向距离
+                    y: 纵向距离
+                    w: 宽度
+                    h: 高度
+                    i: 唯一值
+                -->
+                <grid-item v-for="item in layout"
+                           :x="item.x"
+                           :y="item.y"
+                           :w="item.w"
+                           :h="item.h"
+                           :i="item.i"
+                           :key="item.i"
+                           :class="{'item-active': currentIndex == item.i}">
+                    <grid-item-render :item="item"></grid-item-render>
+                </grid-item>
+            </grid-layout>
+        </div>
+        <right-board :current-item="currentItem"></right-board>
+    </div>
+</body>
+<!--https://www.cnblogs.com/whoani/p/11377793.html-->
+<script src="./../../COMMON/js/vue.js"></script>
+<script src="./../../COMMON/js/element.2.4.js"></script>
+<!--引入拖拽组件-->
+<script src="./../../COMMON/js/vue-grid-layout.umd.min.js"></script>
+<script src="./components/right-board.js"></script>
+<script src="./components/test-table-component.js"></script>
+<script src="./components/test-panel-component.js"></script>
+<script src="./js/demo.js"></script>
+<script src="./components/render.js"></script>
+</html>
