@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>可拖拽</title>
+    <link rel="stylesheet" href="./../../COMMON/css/element.css">
+    <link rel="stylesheet" href="./css/draggable.css">
+</head>
+<body>
+    <div id="container">
+        <div class="row">
+            <div class="col-3">
+                <h3>Draggable 1</h3>
+                <draggable
+                        class="dragArea list-group"
+                        :list="list1"
+                        :group="{ name: 'people', pull: 'clone', put: false }"
+                        @change="log">
+                    <div
+                            class="list-group-item"
+                            v-for="element in list1"
+                            :key="element.name"
+                    >
+                        {{ element.name }}
+                    </div>
+                </draggable>
+            </div>
+
+            <div class="col-3 second">
+                <h3>Draggable 2</h3>
+                <draggable
+                        class="dragArea list-group"
+                        :list="list2"
+                        group="people"
+                        @change="log">
+                    <div
+                            class="list-group-item"
+                            v-for="element in list2"
+                            :key="element.name">
+                           <div>{{element.name}}</div>
+                    </div>
+                </draggable>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./../../COMMON/js/vue.js"></script>
+<script src="./../../COMMON/js/element.2.4.js"></script>
+<script src="http://www.itxst.com/package/sortable/Sortable.min.js"></script>
+<script src="http://www.itxst.com/package/vuedraggable/vuedraggable.umd.min.js"></script>
+<script src="./js/draggable.js"></script>
+</html>

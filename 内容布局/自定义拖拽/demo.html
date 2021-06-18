@@ -58,7 +58,8 @@
                            :h="item.h"
                            :i="item.i"
                            :key="item.i"
-                           :class="{'item-active': currentIndex == item.i}">
+                           :class="{'item-active': currentIndex == item.i}"
+                           @move="moveEvent">
                     <grid-item-render :item="item"></grid-item-render>
                 </grid-item>
             </grid-layout>

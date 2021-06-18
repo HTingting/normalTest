@@ -1,0 +1,50 @@
+
+#container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.left-board {
+    width: 260px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+}
+.droppable-element {
+    width: 150px;
+    text-align: center;
+    background: #fdd;
+    border: 1px solid black;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+
+.center-board {
+    height: 100vh;
+    width: auto;
+    margin: 0 350px 0 260px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.right-board {
+    width: 350px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 3px;
+}
+
+.row>div{
+    float:left;
+}
+.second .list-group-item{
+    width: 200px;
+    height: 100px;
+    border: 1px solid black;
+    margin-bottom: 10px;
+}
+
+

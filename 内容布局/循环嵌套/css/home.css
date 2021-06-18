@@ -1,0 +1,37 @@
+#home {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.left-board {
+    width: 260px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    background:yellowgreen;
+}
+.content-board {
+    height: 100vh;
+    width: auto;
+    margin: 0 350px 0 260px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: #2e6da4;
+}
+.content-board>div{
+    width:100%;height:100%;
+}
+.content-board>div>span{
+    display: inline-block;
+    width:100%;height:100%;
+}
+.right-board {
+    width: 350px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding-top: 3px;
+    background: #cccccc;
+}

@@ -242,6 +242,20 @@ const vm = new Vue({
             console.log('currentItem----',this.currentItem);
             // Increment the counter to ensure key is always unique.
             this.index++;
-        }
+        },
+
+        // 移动事件监听，重新绑定当前activeItem对象
+        moveEvent(i, newX, newY){
+            const msg = "MOVE i=" + i + ", X=" + newX + ", Y=" + newY;
+            if(i !== this.currentIndex){
+                this.currentIndex = i;
+                this.currentItem = this.layout.filter(val=>{
+                    return val.i === i;
+                });
+                console.log(this.currentIndex,this.currentItem);
+            }
+
+            console.log(msg);
+        },
     }
 })

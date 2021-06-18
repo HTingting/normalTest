@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>循环嵌套首页</title>
+    <link rel="stylesheet" href="./../../COMMON/css/element.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/home.css">
+</head>
+<body>
+    <div id="home">
+        <div class="left-board">
+            <div class="components-list">
+                <draggable v-model="layoutArray" :options="{group:{name: 'site',pull:'clone'},sort: true}" animation="300" dragClass="dragClass" ghostClass="ghostClass" chosenClass="chosenClass">
+                    <transition-group>
+                        <div class="item" v-for="item in layoutArray" :key="item.key">{{item.label}}</div>
+                    </transition-group>
+                </draggable>
+            </div>
+        </div>
+        <div class="content-board">
+            <draggable v-model="data.list" group="site" animation="100"
+                       dragClass="dragClass" ghostClass="ghostClass"
+                       chosenClass="chosenClass"
+                       @add="deepClone">
+                <transition-group>
+                    <!--<div class="item" v-for="item in data.list" :key="item.key">{{item.label}}</div>-->
+                    <layout-item   v-for="(record,recordIndex) in data.list" :record="record" :key="record.key"></layout-item>
+                </transition-group>
+            </draggable>
+        </div>
+        <div class="right-board">
+            右边
+        </div>
+    </div>
+</body>
+<script src="./../../COMMON/js/vue.js"></script>
+<script src="./../../COMMON/js/element.2.4.js"></script>
+<script src="http://www.itxst.com/package/sortable/Sortable.min.js"></script>
+<script src="http://www.itxst.com/package/vuedraggable/vuedraggable.umd.min.js"></script>
+<script src="./js/home.js"></script>
+</html>
