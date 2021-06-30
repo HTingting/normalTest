@@ -12,12 +12,14 @@ Vue.component('portal-panel',{
     template: `
             <div class="portal-panel">
                 <div class="portal-title">{{config.title}}</div>
+                <!--ul布局-->
                 <ul>
                     <li v-for="panelItem in config.dataSource">
                         <p>{{panelItem.text}}</p>
                         <p class="count">{{panelItem.num}}</p>
                     </li>
                 </ul>
+                <p></p>
             </div>
         `
 })

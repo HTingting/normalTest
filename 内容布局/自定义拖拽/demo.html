@@ -11,8 +11,8 @@
         <div class="left-board">
             <div class="droppable-element" v-for="(leftItem,leftIndex) in leftData"
                  :key="leftIndex"
-                 @drag="drag"
-                 @dragend="dragend"
+                 @drag="drag(leftItem,$event)"
+                 @dragend="dragend(leftItem,$event)"
                  draggable="true"
                  unselectable="on"
                  @click="addComponent(leftItem)">
@@ -78,3 +78,4 @@
 <script src="./js/demo.js"></script>
 <script src="./components/render.js"></script>
 </html>
+

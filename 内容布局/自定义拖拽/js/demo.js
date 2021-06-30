@@ -6,6 +6,7 @@ Vue.component('grid-item-render', {
     watch: {
         item: {
             handler(val) {
+                //console.log('watch---',item);
                 this.renderData = val;
             },
             deep:true,
@@ -49,7 +50,8 @@ const vm = new Vue({
                             {prop:'date',label:'日期',width:'180'},
                             {prop:'name',label:'姓名',width:'180'},
                             {prop:'address',label:'地址',width:'180'}
-                        ]
+                        ],
+
                     }
                 },
                 {
@@ -63,14 +65,15 @@ const vm = new Vue({
                             {id:'a',text:'带续费项',num:5},
                             {id:'b',text:'待支付订单',num:10},
                             {id:'c',text:'代办工单',num:9},
-                        ]
+                        ],
+
                     }
                 }
             ],
             layout: defaultLayout,
             index: 0,
             currentIndex:0,
-            currentItem:{},
+            currentItem:defaultLayout[0],
             saveLayoutDebounce: this.debounce(340,this.saveLayout)
         }
     },
@@ -78,7 +81,6 @@ const vm = new Vue({
         //这里又不能监听，因为这个位置变化也涉及多层监听
         layout: {
             handler(val) {
-                //console.log('layout-----更新监听',val)
                 //this.saveLayoutDebounce(val)
             },
             deep: true
@@ -118,7 +120,8 @@ const vm = new Vue({
         getLayout:function(val){
             localStorage.getItem('LAYOUT_LIST');
         },
-        drag: function (e) {
+        drag: function (item,e) {
+            const cloneItem = JSON.parse(JSON.stringify((item)));
             //用于获取某个元素相对于视窗的位置集合。集合中有top, right, bottom, left等属性
             let parentRect = document.getElementById('content').getBoundingClientRect();
             let mouseInGrid = false;
@@ -131,9 +134,11 @@ const vm = new Vue({
                 this.layout.push({
                     x: (this.layout.length * 2) % (this.colNum || 12),
                     y: this.layout.length + (this.colNum || 12), // puts it at the bottom
-                    w: 1,
-                    h: 1,
+                    w: 4,
+                    h: 4,
                     i: 'drop',
+                    tag: cloneItem.tag,
+                    config: cloneItem.config
                 });
             }
             let index = this.layout.findIndex(item => item.i === 'drop');
@@ -191,35 +196,40 @@ const vm = new Vue({
             return colWidth;
         },
 
-        dragend: function (e) {
+        dragend: function (item,e) {
+            const cloneItem = JSON.parse(JSON.stringify((item)));
             let parentRect = document.getElementById('content').getBoundingClientRect();
             let mouseInGrid = false;
             if (((mouseXY.x > parentRect.left) && (mouseXY.x < parentRect.right)) && ((mouseXY.y > parentRect.top) && (mouseXY.y < parentRect.bottom))) {
                 mouseInGrid = true;
             }
             if (mouseInGrid === true) {
-                alert(`Dropped element props:\n${JSON.stringify(DragPos, ['x', 'y', 'w', 'h'], 2)}`);
+                //alert(`Dropped element props:\n${JSON.stringify(DragPos, ['x', 'y', 'w', 'h'], 2)}`);
                 this.$refs.gridlayout.dragEvent('dragend', 'drop', DragPos.x, DragPos.y, 1, 1);
                 this.layout = this.layout.filter(obj => obj.i !== 'drop');
                 // UNCOMMENT below if you want to add a grid-item
                 this.layout.push({
                     x: DragPos.x,
                     y: DragPos.y,
-                    w: 1,
-                    h: 1,
+                    w: 4,
+                    h: 4,
                     i: DragPos.i,
-                    tag: 'table',
+                    tag: cloneItem.tag,
+                    config: cloneItem.config
                 });
-                /*this.$refs.gridLayout.dragEvent('dragend', DragPos.i, DragPos.x, DragPos.y, 1, 1);
+                this.$refs.gridlayout.dragEvent('dragend', DragPos.i, DragPos.x, DragPos.y, 1, 1);
                 try {
-                    this.$refs.gridLayout.$children[this.layout.length].$refs.item.style.display = "block";
+                    this.$refs.gridlayout.$children[this.layout.length].$refs.item.style.display = "block";
                 } catch {
-                }*/
+                }
+                this.currentItem = cloneItem;
                 this.currentIndex = DragPos.i;
+                console.log(DragPos.i);
             }
         },
 
         addComponent(item){
+            //todo list 这里需要根据item的类型不同，创建不同大小的可拖动块
             //todo list 这里需要克隆一个新节点
             const cloneItem = JSON.parse(JSON.stringify((item)));
             console.log(cloneItem);
@@ -227,15 +237,13 @@ const vm = new Vue({
             this.layout.push({
                 x: (this.layout.length * 2) % (this.colNum || 12),
                 y: this.layout.length + (this.colNum || 12), // puts it at the bottom
-                w: 2,
-                h: 2,
+                w: 4,
+                h: 4,
                 i: this.index,
                 tag: cloneItem.tag,
                 config: cloneItem.config
             });
             console.log(this.layout);
-
-            // 克隆一份组件
 
             this.currentIndex = this.index;
             this.currentItem = cloneItem;
@@ -245,17 +253,23 @@ const vm = new Vue({
         },
 
         // 移动事件监听，重新绑定当前activeItem对象
-        moveEvent(i, newX, newY){
+        // 不过这样赋值好像不行，通过i去filter
+        // 只能改原有框架吗？
+        moveEvent(testItem,i, newX, newY){
+            console.log(testItem);
             const msg = "MOVE i=" + i + ", X=" + newX + ", Y=" + newY;
             if(i !== this.currentIndex){
                 this.currentIndex = i;
-                this.currentItem = this.layout.filter(val=>{
+                var current = this.layout.filter(val=>{
                     return val.i === i;
-                });
+                })[0];
+                this.currentItem = JSON.parse(JSON.stringify(current))
                 console.log(this.currentIndex,this.currentItem);
             }
-
-            console.log(msg);
         },
+        //他这个好像没有点击事件监听……
+        clickEvent() {
+            console.log('点击事件');
+        }
     }
 })

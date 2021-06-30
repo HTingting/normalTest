@@ -32,8 +32,8 @@ Vue.component('right-board', {
               <ul>
                 <li v-for="dataItem in currentItem.config.dataSource">
                     <el-input v-model="dataItem.num" placeholder="请输入内容"></el-input>
-</li>
-</ul>
+                </li>
+              </ul>
             </div>
   `
 })
